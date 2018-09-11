@@ -79,13 +79,17 @@ namespace GoogleARCore.Examples.HelloAR
         /// </summary>
         private bool m_IsQuitting = false;
 
-        [SerializeField] private GameObject LightBeam;
+        public GameObject LightBeam;
 
         public void Start()
         {
-           // var cameraTrans = FirstPersonCamera.transform;
-            //var 
-           // Instantiate(LightBeam, cameraTrans.position, cameraTrans.rotation);
+            var cameraTrans = FirstPersonCamera.transform;
+            //ar mirrorObject = Instantiate(prefab, cameraTrans.position, cameraTrans.rotation);// hit.Pose.rotation);
+
+            var zeroRotation = new Vector3(0.0f, 0.0f, 0.0f);
+
+            var laserBeamTrans = new Vector3(FirstPersonCamera.transform.position.x, FirstPersonCamera.transform.position.y, FirstPersonCamera.transform.position.z);
+            Instantiate(LightBeam, laserBeamTrans, cameraTrans.transform.rotation);
         }
 
         /// <summary>
