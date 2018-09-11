@@ -134,8 +134,8 @@ namespace GoogleARCore.Examples.HelloAR
 
                     // Instantiate Mirror model at the hit pose.
                     //var MirrorObject = Instantiate(prefab, hit.Pose.position, hit.Pose.rotation);
-                    var cameraPos = FirstPersonCamera.transform.position;
-                    var MirrorObject = Instantiate(prefab, cameraPos, hit.Pose.rotation);
+                    var cameraTrans = FirstPersonCamera.transform;
+                    var MirrorObject = Instantiate(prefab, cameraPos.transform, cameraTrans.rotation);
 
                     // Compensate for the hitPose rotation facing away from the raycast (i.e. camera).
                     MirrorObject.transform.Rotate(0, k_ModelRotation, 0, Space.Self);
