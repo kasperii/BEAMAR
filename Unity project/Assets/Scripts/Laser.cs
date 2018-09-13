@@ -9,6 +9,7 @@ public class Laser : MonoBehaviour
     public int laserDistance;
     //public string bounceTag;
     [SerializeField] private string mirrorTag;
+    [SerializeField] private string detectedPlaneTag;
     public string splitTag;
     public string spawnedBeam;
     public int maxBounce;
@@ -85,11 +86,12 @@ public class Laser : MonoBehaviour
         while (loopActive)
         {
             //Debug.Log("Physics.Raycast(" + lastLaserPosition + ", " + laserDirection + ", out hit , " + laserDistance + ")");
-            if (Physics.Raycast(lastLaserPosition, laserDirection, out hit, laserDistance) && ((hit.transform.gameObject.tag == mirrorTag) || (hit.transform.gameObject.tag == splitTag)))
+            if (Physics.Raycast(lastLaserPosition, laserDirection, out hit, laserDistance) && ((hit.transform.gameObject.tag == detectedPlaneTag) || (hit.transform.gameObject.tag == splitTag) || (hit.transform.gameObject.tag == mirrorTag)))
             {
                 //Debug.Log("Bounce");
+                //If the tag is a mirror or a plane, bounce it. 
                 laserReflected++;
-                vertexCounter += 3;
+                vertexCounter += 3; 
                 mLineRenderer.SetVertexCount(vertexCounter);
                 mLineRenderer.SetPosition(vertexCounter - 3, Vector3.MoveTowards(hit.point, lastLaserPosition, 0.01f));
                 mLineRenderer.SetPosition(vertexCounter - 2, hit.point);
@@ -101,6 +103,11 @@ public class Laser : MonoBehaviour
                 Vector3 prevDirection = laserDirection;
                 laserDirection = Vector3.Reflect(laserDirection, hit.normal);
 
+                if (hit.transform.gameObject.tag == detectedPlaneTag)
+                {
+                    laserReflected = maxBounce + 1; //Ugly code, don't use 
+                }
+                //When using prisms, we also want to split the beam. 
                 if (hit.transform.gameObject.tag == splitTag)
                 {
                     //Debug.Log("Split");
