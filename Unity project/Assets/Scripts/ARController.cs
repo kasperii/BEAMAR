@@ -148,6 +148,8 @@ namespace GoogleARCore.Examples.HelloAR
                     */
                     // Instantiate Andy model at the hit pose.
                     //var mirrorObject = Instantiate(prefab, hit.Pose.position, hit.Pose.rotation);
+
+                    //Let's the user place the mirror prefab anywhere on the screen, at the camera position and rotation
                     var cameraTrans = FirstPersonCamera.transform;
                     var mirrorObject = Instantiate(MirrorPointPrefab, cameraTrans.position, cameraTrans.rotation);// hit.Pose.rotation);
 
