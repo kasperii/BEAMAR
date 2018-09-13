@@ -36,8 +36,6 @@ namespace GoogleARCore.Examples.HelloAR
     public class ARController : MonoBehaviour
     {
 
-        //[SerializeField] private Camera mainCamera;
-
         /// <summary>
         /// The first-person camera being used to render the passthrough camera image (i.e. AR background).
         /// </summary>
@@ -121,7 +119,7 @@ namespace GoogleARCore.Examples.HelloAR
             }
 
             // Raycast against the location the player touched to search for planes.
-            TrackableHit hit;
+            /*TrackableHit hit;
             TrackableHitFlags raycastFilter = TrackableHitFlags.PlaneWithinPolygon |
                 TrackableHitFlags.FeaturePointWithSurfaceNormal;
 
@@ -147,24 +145,24 @@ namespace GoogleARCore.Examples.HelloAR
                     {
                         prefab = MirrorPlanePrefab;
                     }
-
+                    */
                     // Instantiate Andy model at the hit pose.
                     //var mirrorObject = Instantiate(prefab, hit.Pose.position, hit.Pose.rotation);
                     var cameraTrans = FirstPersonCamera.transform;
-                    var mirrorObject = Instantiate(prefab, cameraTrans.position, cameraTrans.rotation);// hit.Pose.rotation);
+                    var mirrorObject = Instantiate(MirrorPointPrefab, cameraTrans.position, cameraTrans.rotation);// hit.Pose.rotation);
 
                     // Compensate for the hitPose rotation facing away from the raycast (i.e. camera).
                     mirrorObject.transform.Rotate(0, k_ModelRotation, 0, Space.Self);
 
                     // Create an anchor to allow ARCore to track the hitpoint as understanding of the physical
                     // world evolves.
-                    var anchor = hit.Trackable.CreateAnchor(hit.Pose);
+                    //var anchor = hit.Trackable.CreateAnchor(hit.Pose);
 
                     // Make Andy model a child of the anchor.
-                    mirrorObject.transform.parent = anchor.transform;
-                    mirrorObject.transform.parent = anchor.transform;
-                }
-            }
+                    //mirrorObject.transform.parent = anchor.transform;
+                    //mirrorObject.transform.parent = anchor.transform;
+           //     }
+           // }
         }
 
         /// <summary>

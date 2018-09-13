@@ -379,7 +379,7 @@ GameObject:
   - component: {fileID: 1133631543}
   - component: {fileID: 1133631542}
   m_Layer: 5
-  m_Name: SnackBar
+  m_Name: SearchingForPlane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
