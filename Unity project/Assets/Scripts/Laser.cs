@@ -48,6 +48,15 @@ public class Laser : MonoBehaviour
         }
     }
 
+    public float GetDistance(Vector3 rayOrigin, Vector3 rayDir)
+    {
+        Vector3 point = GameObject.FindGameObjectWithTag("FirstPersonCamera").transform.position;
+        float distance = Vector3.Distance(rayOrigin, point);
+        float angle = Vector3.Angle(rayDir, point - rayOrigin);
+        return (distance * Mathf.Sin(angle * Mathf.Deg2Rad));
+    }
+
+
     public static float Proximity(Vector3 lineStart, Vector3 lineEnd)
     {
         Vector3 point = GameObject.FindGameObjectWithTag("FirstPersonCamera").transform.position;
@@ -116,7 +125,8 @@ public class Laser : MonoBehaviour
                 vertexCounter++;
                 mLineRenderer.SetVertexCount(vertexCounter);
                 Vector3 lastPos = lastLaserPosition + (laserDirection.normalized * laserDistance);
-                proximityValue = Proximity(lastLaserPosition, lastPos);
+                //proximityValue = Proximity(lastLaserPosition, lastPos);
+                proximityValue = GetDistance(lastLaserPosition, laserDirection);
                 //Debug.Log("InitialPos " + lastLaserPosition + " Last Pos" + lastPos);
                 mLineRenderer.SetPosition(vertexCounter - 1, lastLaserPosition + (laserDirection.normalized * laserDistance));
 
