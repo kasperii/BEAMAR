@@ -5,7 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/BeamAR_Hello_World.unity
     guid: 39fed70280256a54ab21156872096898
+  - enabled: 1
+    path: Assets/Scenes/vibrations_test.unity
+    guid: 59e894153701065419bc6a49ba7af1ed
   m_configObjects: {}
