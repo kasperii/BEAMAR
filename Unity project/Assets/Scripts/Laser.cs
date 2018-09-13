@@ -13,6 +13,7 @@ public class Laser : MonoBehaviour
     public string spawnedBeam;
     public int maxBounce;
     public int maxSplit;
+    public int[] laserPoints;
     private float timer = 0;
     private LineRenderer mLineRenderer;
 
@@ -47,8 +48,18 @@ public class Laser : MonoBehaviour
         }
     }
 
+    public static float Proximity(Vector3 lineStart, Vector3 lineEnd)
+    {
+        Vector3 point = GameObject.FindGameObjectWithTag("FirstPersonCamera").transform.position;
+        if (0.2>(DistancePointLine(Vector3 point, Vector3 lineStart, Vector3 lineEnd))){
+            Handheld.Vibrate();
+        }
+        return DistancePointLine(Vector3 point, Vector3 lineStart, Vector3 lineEnd);
+    }
+
     IEnumerator RedrawLaser()
     {
+
         //Debug.Log("Running");
         int laserSplit = 1; //How many times it got split
         int laserReflected = 1; //How many times it got reflected
@@ -75,7 +86,9 @@ public class Laser : MonoBehaviour
                 mLineRenderer.SetPosition(vertexCounter - 2, hit.point);
                 mLineRenderer.SetPosition(vertexCounter - 1, hit.point);
                 mLineRenderer.SetWidth(.01f, .01f);
+                proximityValue = Proximity(lastLaserPosition, hit.point);
                 lastLaserPosition = hit.point;
+
                 Vector3 prevDirection = laserDirection;
                 laserDirection = Vector3.Reflect(laserDirection, hit.normal);
 
@@ -103,6 +116,7 @@ public class Laser : MonoBehaviour
                 vertexCounter++;
                 mLineRenderer.SetVertexCount(vertexCounter);
                 Vector3 lastPos = lastLaserPosition + (laserDirection.normalized * laserDistance);
+                proximityValue = Proximity(lastLaserPosition, lastPos);
                 //Debug.Log("InitialPos " + lastLaserPosition + " Last Pos" + lastPos);
                 mLineRenderer.SetPosition(vertexCounter - 1, lastLaserPosition + (laserDirection.normalized * laserDistance));
 
