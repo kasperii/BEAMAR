@@ -79,15 +79,20 @@ namespace GoogleARCore.Examples.HelloAR
 
         public GameObject LightBeam;
 
+        public GameObject Goal;
+
         public void Start()
         {
             var cameraTrans = FirstPersonCamera.transform;
             //ar mirrorObject = Instantiate(prefab, cameraTrans.position, cameraTrans.rotation);// hit.Pose.rotation);
 
-            var zeroRotation = new Vector3(0.0f, 0.0f, 0.0f);
+            var randomVector = new Vector3(Random.Range(-2.0f, 2.0f), Random.Range(0.0f, 1.0f), Random.Range(-2.0f, 2.0f));
 
             var laserBeamTrans = new Vector3(FirstPersonCamera.transform.position.x, FirstPersonCamera.transform.position.y, FirstPersonCamera.transform.position.z);
             Instantiate(LightBeam, laserBeamTrans, cameraTrans.transform.rotation);
+
+            Instantiate(Goal, randomVector, cameraTrans.transform.rotation);
+
         }
 
         /// <summary>

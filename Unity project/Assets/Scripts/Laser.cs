@@ -9,6 +9,7 @@ public class Laser : MonoBehaviour
     public int laserDistance;
     [SerializeField] private string mirrorTag;
     [SerializeField] private string detectedPlaneTag;
+    [SerializeField] private string ObstacleTag;
     public string splitTag;
     public string spawnedBeam;
     public int maxBounce;
@@ -56,16 +57,6 @@ public class Laser : MonoBehaviour
         return (distance * Mathf.Sin(angle * Mathf.Deg2Rad));
     }
 
-
-    /*public static float Proximity(Vector3 lineStart, Vector3 lineEnd)
-    {
-        Vector3 point = GameObject.FindGameObjectWithTag("FirstPersonCamera").transform.position;
-        if (0.2>(DistancePointLine(Vector3 point, Vector3 lineStart, Vector3 lineEnd))){
-            Handheld.Vibrate();
-        }
-        return DistancePointLine(Vector3 point, Vector3 lineStart, Vector3 lineEnd);
-    }*/
-
     IEnumerator RedrawLaser()
     {
         //Debug.Log("Running");
@@ -95,18 +86,20 @@ public class Laser : MonoBehaviour
                 mLineRenderer.SetPosition(vertexCounter - 2, hit.point);
                 mLineRenderer.SetPosition(vertexCounter - 1, hit.point);
                 mLineRenderer.SetWidth(.01f, .01f);
-                //proximityValue = Proximity(lastLaserPosition, hit.point);
                 lastLaserPosition = hit.point;
 
                 Vector3 prevDirection = laserDirection;
                 laserDirection = Vector3.Reflect(laserDirection, hit.normal);
 
+                //When hitting a plane, do stuff
                 if (hit.transform.gameObject.tag == detectedPlaneTag)
                 {
                     laserReflected = maxBounce + 1; //Ugly code, don't use 
                 }
-                //When using prisms, we also want to split the beam. 
-                if (hit.transform.gameObject.tag == splitTag)
+
+
+                    //When using prisms, we also want to split the beam. 
+                    if (hit.transform.gameObject.tag == splitTag)
                 {
                     //Debug.Log("Split");
                     if (laserSplit >= maxSplit)
@@ -123,6 +116,19 @@ public class Laser : MonoBehaviour
                     }
                 }
             }
+            /*else if (Physics.Raycast(lastLaserPosition, laserDirection, out hit, laserDistance) && (hit.transform.gameObject.tag == ObstacleTag))
+            {
+                //When hitting obstacles
+                if (hit.transform.gameObject.tag == ObstacleTag)
+                 {
+                     if (hit.transform.gameObject.name == "Goal")
+                     {
+                         Renderer rend = hit.transform.gameObject.GetComponent<Renderer>();
+                         rend.material.shader = Shader.Find("_Color");
+                         rend.material.SetColor("_Color", Color.green);
+                     }
+                 }
+            }*/
             else
             {
                 //Debug.Log("No Bounce");
@@ -130,8 +136,6 @@ public class Laser : MonoBehaviour
                 vertexCounter++;
                 mLineRenderer.SetVertexCount(vertexCounter);
                 Vector3 lastPos = lastLaserPosition + (laserDirection.normalized * laserDistance);
-                //proximityValue = Proximity(lastLaserPosition, lastPos);
-                //proximityValue = GetDistance(lastLaserPosition, laserDirection);
                 //Debug.Log("InitialPos " + lastLaserPosition + " Last Pos" + lastPos);
                 mLineRenderer.SetPosition(vertexCounter - 1, lastLaserPosition + (laserDirection.normalized * laserDistance));
 
