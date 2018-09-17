@@ -11,7 +11,7 @@ public class Laser : MonoBehaviour
     [SerializeField] private string detectedPlaneTag;
     [SerializeField] private string ObstacleTag;
 
-    [SerializeField] private GameObject Goal;
+    //[SerializeField] private GameObject Goal;
 
     public string splitTag;
     public string spawnedBeam;
@@ -21,11 +21,15 @@ public class Laser : MonoBehaviour
     private float timer = 0;
     private LineRenderer mLineRenderer;
 
+    public AudioSource goalSound;
+
     private string GoalName = "Goal";
 
     // Use this for initialization
     void Start()
     {
+        goalSound = GetComponent<AudioSource>();
+
         timer = 0;
         mLineRenderer = gameObject.GetComponent<LineRenderer>();
         StartCoroutine(RedrawLaser());
@@ -117,10 +121,22 @@ public class Laser : MonoBehaviour
                     }
                 }
 
-
                 //When hitting the goal
                 else if (hit.transform.gameObject.tag == ObstacleTag)
                 {
+                    laserReflected = maxBounce + 1;
+                    vertexCounter += 3;
+                    mLineRenderer.SetVertexCount(vertexCounter);
+                    mLineRenderer.SetPosition(vertexCounter - 3, Vector3.MoveTowards(hit.point, lastLaserPosition, 0.01f));
+                    mLineRenderer.SetPosition(vertexCounter - 2, hit.point);
+                    mLineRenderer.SetPosition(vertexCounter - 1, hit.point);
+                    mLineRenderer.SetWidth(.01f, .01f);
+                    lastLaserPosition = hit.point;
+
+                    Vector3 prevDirection = laserDirection;
+                    laserDirection = Vector3.Reflect(laserDirection, hit.normal);
+
+                    //goalSound.Play();
                     Handheld.Vibrate();
                     if (hit.collider.GetComponent<ChangeColorOnGoal>() != null)
                     {
@@ -140,7 +156,6 @@ public class Laser : MonoBehaviour
                     //TODO Burn hole animation
                     loopActive = false;
                 }
-
               
                 else
                 {
@@ -149,7 +164,6 @@ public class Laser : MonoBehaviour
                     loopActive = false;
                 }
 
-                   
             }
             else
             {
