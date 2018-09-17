@@ -64,6 +64,11 @@ namespace GoogleARCore.Examples.HelloAR
         /// <summary>
         /// The rotation in degrees need to apply to model when the Andy model is placed.
         /// </summary>
+        public AudioSource placeMirror;
+
+        /// <summary>
+        /// Sound when placing mirror
+        /// </summary>
         private const float k_ModelRotation = 180.0f;
 
         /// <summary>
@@ -153,7 +158,7 @@ namespace GoogleARCore.Examples.HelloAR
                     */
                     // Instantiate Andy model at the hit pose.
                     //var mirrorObject = Instantiate(prefab, hit.Pose.position, hit.Pose.rotation);
-
+                    placeMirror.Play();
                     //Let's the user place the mirror prefab anywhere on the screen, at the camera position and rotation
                     var cameraTrans = FirstPersonCamera.transform;
                     var mirrorObject = Instantiate(MirrorPointPrefab, cameraTrans.position, cameraTrans.rotation);// hit.Pose.rotation);
