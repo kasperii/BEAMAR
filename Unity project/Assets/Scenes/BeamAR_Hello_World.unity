@@ -176,7 +176,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4334758742444036, guid: 04e811e13c2aa8e4c92320197cb8fca8, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 0.075
+      value: 0.069
       objectReference: {fileID: 0}
     - target: {fileID: 4334758742444036, guid: 04e811e13c2aa8e4c92320197cb8fca8, type: 2}
       propertyPath: m_LocalRotation.x
@@ -198,6 +198,15 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4334758742444036, guid: 04e811e13c2aa8e4c92320197cb8fca8, type: 2}
+      propertyPath: m_LocalScale.z
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 23730673928667404, guid: 04e811e13c2aa8e4c92320197cb8fca8,
+        type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3ecf48d278e58634991c065722b284b8, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 04e811e13c2aa8e4c92320197cb8fca8, type: 2}
   m_IsPrefabAsset: 0
@@ -316,7 +325,7 @@ MonoBehaviour:
     type: 2}
   SearchingForPlaneUI: {fileID: 1133631540}
   LightBeam: {fileID: 1808227196837734, guid: 53ec9417812447a4581a6cebeb45ddf7, type: 2}
-  Goal: {fileID: 1071235909269188, guid: 956b97df26e22e54b8601d328133ce89, type: 2}
+  Goal: {fileID: 1584829727098158, guid: b400995b69c162842848a2ca147de24c, type: 2}
 --- !u!4 &639245643 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4497055787654456, guid: c10877f7cd5764de18d46d7b777d1faa,

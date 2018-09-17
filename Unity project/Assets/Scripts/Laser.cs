@@ -10,6 +10,9 @@ public class Laser : MonoBehaviour
     [SerializeField] private string mirrorTag;
     [SerializeField] private string detectedPlaneTag;
     [SerializeField] private string ObstacleTag;
+
+    [SerializeField] private GameObject Goal;
+
     public string splitTag;
     public string spawnedBeam;
     public int maxBounce;
@@ -17,6 +20,8 @@ public class Laser : MonoBehaviour
     public int[] laserPoints;
     private float timer = 0;
     private LineRenderer mLineRenderer;
+
+    private string GoalName = "Goal";
 
     // Use this for initialization
     void Start()
@@ -75,60 +80,77 @@ public class Laser : MonoBehaviour
         while (loopActive)
         {
             //Debug.Log("Physics.Raycast(" + lastLaserPosition + ", " + laserDirection + ", out hit , " + laserDistance + ")");
-            if (Physics.Raycast(lastLaserPosition, laserDirection, out hit, laserDistance) && ((hit.transform.gameObject.tag == detectedPlaneTag) || (hit.transform.gameObject.tag == splitTag) || (hit.transform.gameObject.tag == mirrorTag)))
+            if (Physics.Raycast(lastLaserPosition, laserDirection, out hit, laserDistance))// && ((hit.transform.gameObject.tag == detectedPlaneTag) || (hit.transform.gameObject.tag == splitTag) || (hit.transform.gameObject.tag == mirrorTag))) // || (hit.transform.gameObject.tag == ObstacleTag)))
             {
                 //Debug.Log("Bounce");
-                //If the tag is a mirror or a plane, bounce it. 
-                laserReflected++;
-                vertexCounter += 3; 
-                mLineRenderer.SetVertexCount(vertexCounter);
-                mLineRenderer.SetPosition(vertexCounter - 3, Vector3.MoveTowards(hit.point, lastLaserPosition, 0.01f));
-                mLineRenderer.SetPosition(vertexCounter - 2, hit.point);
-                mLineRenderer.SetPosition(vertexCounter - 1, hit.point);
-                mLineRenderer.SetWidth(.01f, .01f);
-                lastLaserPosition = hit.point;
-
-                Vector3 prevDirection = laserDirection;
-                laserDirection = Vector3.Reflect(laserDirection, hit.normal);
-
-                //When hitting a plane, do stuff
-                if (hit.transform.gameObject.tag == detectedPlaneTag)
+                //If the tag is a mirror, bounce it. 
+                if ((hit.transform.gameObject.tag == mirrorTag) || (hit.transform.gameObject.tag == splitTag)) //(hit.transform.gameObject != Goal) &&
                 {
-                    laserReflected = maxBounce + 1; //Ugly code, don't use 
-                }
+                    laserReflected++;
+                    vertexCounter += 3;
+                    mLineRenderer.SetVertexCount(vertexCounter);
+                    mLineRenderer.SetPosition(vertexCounter - 3, Vector3.MoveTowards(hit.point, lastLaserPosition, 0.01f));
+                    mLineRenderer.SetPosition(vertexCounter - 2, hit.point);
+                    mLineRenderer.SetPosition(vertexCounter - 1, hit.point);
+                    mLineRenderer.SetWidth(.01f, .01f);
+                    lastLaserPosition = hit.point;
 
+                    Vector3 prevDirection = laserDirection;
+                    laserDirection = Vector3.Reflect(laserDirection, hit.normal);
 
                     //When using prisms, we also want to split the beam. 
                     if (hit.transform.gameObject.tag == splitTag)
-                {
-                    //Debug.Log("Split");
-                    if (laserSplit >= maxSplit)
                     {
-                        Debug.Log("Max split reached.");
+                        //Debug.Log("Split");
+                        if (laserSplit >= maxSplit)
+                        {
+                            Debug.Log("Max split reached.");
+                        }
+                        else
+                        {
+                            //Debug.Log("Splitting...");
+                            laserSplit++;
+                            Object go = Instantiate(gameObject, hit.point, Quaternion.LookRotation(prevDirection));
+                            go.name = spawnedBeam;
+                            ((GameObject)go).tag = spawnedBeam;
+                        }
+                    }
+                }
+
+
+                //When hitting the goal
+                else if (hit.transform.gameObject.tag == ObstacleTag)
+                {
+                    Handheld.Vibrate();
+                    if (hit.collider.GetComponent<ChangeColorOnGoal>() != null)
+                    {
+                        hit.collider.GetComponent<ChangeColorOnGoal>().materialChange(hit.collider.GetComponent<Renderer>());
                     }
                     else
                     {
-                        //Debug.Log("Splitting...");
-                        laserSplit++;
-                        Object go = Instantiate(gameObject, hit.point, Quaternion.LookRotation(prevDirection));
-                        go.name = spawnedBeam;
-                        ((GameObject)go).tag = spawnedBeam;
+                        Debug.Log("Need to attach a script ChangeColorOnGoal to object");
                     }
+                    loopActive = false;
                 }
+
+                //When hitting a plane, do stuff
+                else if (hit.transform.gameObject.tag == detectedPlaneTag)
+                {
+                    laserReflected = maxBounce + 1; //Ugly code, don't use 
+                    //TODO Burn hole animation
+                    loopActive = false;
+                }
+
+              
+                else
+                {
+                    Handheld.Vibrate();
+                    print("Do nothing I guess");
+                    loopActive = false;
+                }
+
+                   
             }
-            /*else if (Physics.Raycast(lastLaserPosition, laserDirection, out hit, laserDistance) && (hit.transform.gameObject.tag == ObstacleTag))
-            {
-                //When hitting obstacles
-                if (hit.transform.gameObject.tag == ObstacleTag)
-                 {
-                     if (hit.transform.gameObject.name == "Goal")
-                     {
-                         Renderer rend = hit.transform.gameObject.GetComponent<Renderer>();
-                         rend.material.shader = Shader.Find("_Color");
-                         rend.material.SetColor("_Color", Color.green);
-                     }
-                 }
-            }*/
             else
             {
                 //Debug.Log("No Bounce");

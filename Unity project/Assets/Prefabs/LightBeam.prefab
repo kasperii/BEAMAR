@@ -55,10 +55,14 @@ MonoBehaviour:
   updateFrequency: 0.1
   laserDistance: 10
   mirrorTag: Mirror
+  detectedPlaneTag: detectedPlane
+  ObstacleTag: Obstacle
+  Goal: {fileID: 1584829727098158, guid: b400995b69c162842848a2ca147de24c, type: 2}
   splitTag: 
   spawnedBeam: spawnedBeam
   maxBounce: 5
   maxSplit: 0
+  laserPoints: 
 --- !u!120 &120687336979874650
 LineRenderer:
   m_ObjectHideFlags: 1
