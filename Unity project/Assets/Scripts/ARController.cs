@@ -85,8 +85,8 @@ namespace GoogleARCore.Examples.HelloAR
 
         public void Start()
         {
-            var cameraTrans = FirstPersonCamera.transform;
-            //ar mirrorObject = Instantiate(prefab, cameraTrans.position, cameraTrans.rotation);// hit.Pose.rotation);
+             /*var cameraTrans = FirstPersonCamera.transform;
+            //var mirrorObject = Instantiate(prefab, cameraTrans.position, cameraTrans.rotation);// hit.Pose.rotation);
 
             var randomVector = new Vector3(Random.Range(-2.0f, 2.0f), Random.Range(0.0f, 1.0f), Random.Range(-2.0f, 2.0f));
 
@@ -94,7 +94,7 @@ namespace GoogleARCore.Examples.HelloAR
             Instantiate(LightBeam, laserBeamTrans, cameraTrans.transform.rotation);
 
             Instantiate(Goal, randomVector, cameraTrans.transform.rotation);
-
+            */
         }
 
         /// <summary>
@@ -115,6 +115,23 @@ namespace GoogleARCore.Examples.HelloAR
                     break;
                 }
             }
+
+            //Show laser when plane is present
+            var cameraTrans = FirstPersonCamera.transform;
+            if (showSearchingUI == false)
+            {
+                //Handheld.Vibrate();
+                if (GameObject.FindWithTag("Obstacle") == null)
+                {
+                    var randomVector = new Vector3(Random.Range(-2.0f, 2.0f), Random.Range(0.0f, 1.0f), Random.Range(-2.0f, 2.0f));
+
+                    var laserBeamTrans = new Vector3(FirstPersonCamera.transform.position.x, FirstPersonCamera.transform.position.y, FirstPersonCamera.transform.position.z);
+                    Instantiate(LightBeam, laserBeamTrans, Quaternion.identity);
+
+                    Instantiate(Goal, randomVector, Quaternion.identity);
+                }
+            }
+
 
             SearchingForPlaneUI.SetActive(showSearchingUI);
 
@@ -153,11 +170,14 @@ namespace GoogleARCore.Examples.HelloAR
                         prefab = MirrorPlanePrefab;
                     }
                     */
-                    // Instantiate Andy model at the hit pose.
-                    //var mirrorObject = Instantiate(prefab, hit.Pose.position, hit.Pose.rotation);
-                    placeMirror.Play();
+
+            
+
+            // Instantiate Andy model at the hit pose.
+            //var mirrorObject = Instantiate(prefab, hit.Pose.position, hit.Pose.rotation);
+            placeMirror.Play();
                     //Let's the user place the mirror prefab anywhere on the screen, at the camera position and rotation
-                    var cameraTrans = FirstPersonCamera.transform;
+                   // var cameraTrans = FirstPersonCamera.transform;
                     var mirrorObject = Instantiate(MirrorPointPrefab, cameraTrans.position, cameraTrans.rotation);// hit.Pose.rotation);
 
                     // Compensate for the hitPose rotation facing away from the raycast (i.e. camera).

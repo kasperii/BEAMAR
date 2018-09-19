@@ -152,6 +152,7 @@ public class Laser : MonoBehaviour
                 //When hitting a plane, do stuff
                 else if (hit.transform.gameObject.tag == detectedPlaneTag)
                 {
+                    Handheld.Vibrate();
                     laserReflected = maxBounce + 1; //Ugly code, don't use 
                     //TODO Burn hole animation
                     loopActive = false;
@@ -159,7 +160,7 @@ public class Laser : MonoBehaviour
               
                 else
                 {
-                    Handheld.Vibrate();
+                    //Handheld.Vibrate();
                     print("Do nothing I guess");
                     loopActive = false;
                 }
