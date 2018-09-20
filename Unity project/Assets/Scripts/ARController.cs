@@ -61,7 +61,7 @@ namespace GoogleARCore.Examples.HelloAR
         /// </summary>
         public GameObject SearchingForPlaneUI;
 
-        public AudioSource placeMirror;
+        public AudioSource placeMirrorSound;
 
         /// <summary>
         /// The rotation in degrees need to apply to model when the Andy model is placed.
@@ -72,7 +72,8 @@ namespace GoogleARCore.Examples.HelloAR
         /// A list to hold all planes ARCore is tracking in the current frame. This object is used across
         /// the application to avoid per-frame allocations.
         /// </summary>
-        private List<DetectedPlane> m_AllPlanes = new List<DetectedPlane>();
+        //private List<DetectedPlane> m_AllPlanes = new List<DetectedPlane>();
+        public List<DetectedPlane> m_AllPlanes = new List<DetectedPlane>();
 
         /// <summary>
         /// True if the app is in the process of quitting due to an ARCore connection error, otherwise false.
@@ -143,7 +144,7 @@ namespace GoogleARCore.Examples.HelloAR
             }
 
             // Raycast against the location the player touched to search for planes.
-            /*TrackableHit hit;
+           /* TrackableHit hit;
             TrackableHitFlags raycastFilter = TrackableHitFlags.PlaneWithinPolygon |
                 TrackableHitFlags.FeaturePointWithSurfaceNormal;
 
@@ -172,7 +173,7 @@ namespace GoogleARCore.Examples.HelloAR
                     */
                     // Instantiate Andy model at the hit pose.
                     //var mirrorObject = Instantiate(prefab, hit.Pose.position, hit.Pose.rotation);
-                    placeMirror.Play();
+                    placeMirrorSound.Play();
                     //Let's the user place the mirror prefab anywhere on the screen, at the camera position and rotation
                     //var cameraTrans = FirstPersonCamera.transform;
                     var mirrorObject = Instantiate(MirrorPointPrefab, cameraTrans.position, cameraTrans.rotation);// hit.Pose.rotation);
