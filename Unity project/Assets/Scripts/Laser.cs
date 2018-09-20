@@ -1,18 +1,17 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-
-namespace GoogleARCore.Examples.HelloAR
-{
+﻿//namespace GoogleARCore.Examples.HelloAR
+//{
     using System.Collections.Generic;
     using GoogleARCore;
     using GoogleARCore.Examples.Common;
     using UnityEngine;
+    using System.Collections;
 
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
     // Set up touch input propagation while using Instant Preview in the editor.
-    using Input = InstantPreviewInput;
-#endif
+//    using Input = InstantPreviewInput;
+//#endif
+
+    // using UnityEngine;
 
 
     [RequireComponent(typeof(LineRenderer))]
@@ -38,7 +37,7 @@ namespace GoogleARCore.Examples.HelloAR
 
         private string GoalName = "Goal";
 
-        ARController m_AllPlanes;
+        //ARController m_AllPlanes;
 
         // Use this for initialization
         void Start()
@@ -94,47 +93,61 @@ namespace GoogleARCore.Examples.HelloAR
 
             mLineRenderer.SetVertexCount(1);
             mLineRenderer.SetPosition(0, transform.position);
-            RaycastHit hit;
-
-            TrackableHit TrackHit;
-            TrackableHitFlags raycastFilter = TrackableHitFlags.PlaneWithinPolygon |
-                TrackableHitFlags.FeaturePointWithSurfaceNormal;
-
-            /*if (Frame.Raycast(touch.position.x, touch.position.y, raycastFilter, out TrackHit))
-            {
-                // Use hit pose and camera pose to check if hittest is from the
-                // back of the plane, if it is, no need to create the anchor.
-                if ((TrackHit.Trackable is DetectedPlane) &&
-                    Vector3.Dot(FirstPersonCamera.transform.position - hit.Pose.position,
-                        hit.Pose.rotation * Vector3.up) < 0)
-                {
-                }
-            }*/
-
+            RaycastHit outHit;
 
             while (loopActive)
             {
                 //Debug.Log("Physics.Raycast(" + lastLaserPosition + ", " + laserDirection + ", out hit , " + laserDistance + ")");
-                if (Physics.Raycast(lastLaserPosition, laserDirection, out hit, laserDistance))// && ((hit.transform.gameObject.tag == detectedPlaneTag) || (hit.transform.gameObject.tag == splitTag) || (hit.transform.gameObject.tag == mirrorTag))) // || (hit.transform.gameObject.tag == ObstacleTag)))
+                if (Physics.Raycast(lastLaserPosition, laserDirection, out outHit, laserDistance))// && ((hit.transform.gameObject.tag == detectedPlaneTag) || (hit.transform.gameObject.tag == splitTag) || (hit.transform.gameObject.tag == mirrorTag))) // || (hit.transform.gameObject.tag == ObstacleTag)))
                 {
-                    //Debug.Log("Bounce");
-                    //If the tag is a mirror, bounce it. 
-                    if ((hit.transform.gameObject.tag == mirrorTag) || (hit.transform.gameObject.tag == splitTag)) //(hit.transform.gameObject != Goal) &&
+
+                    if (outHit.transform.gameObject.tag == detectedPlaneTag)
+                    {
+                    /* TrackableHit trackHit;
+                     TrackableHitFlags raycastFilter = TrackableHitFlags.PlaneWithinPolygon |
+                     TrackableHitFlags.FeaturePointWithSurfaceNormal;
+                     if (Frame.Raycast(lastLaserPosition.x, lastLaserPosition.y, raycastFilter, out trackHit))
+                     {
+                        // if (trackHit.Trackable is DetectedPlane)
+                         //{
+                             Handheld.Vibrate();
+                             laserReflected = maxBounce + 1;
+                             vertexCounter += 3;
+                             mLineRenderer.SetVertexCount(vertexCounter);
+                             mLineRenderer.SetPosition(vertexCounter - 3, Vector3.MoveTowards(outHit.point, lastLaserPosition, 0.01f));
+                             mLineRenderer.SetPosition(vertexCounter - 2, outHit.point);
+                             mLineRenderer.SetPosition(vertexCounter - 1, outHit.point);
+                             mLineRenderer.SetWidth(.01f, .01f);
+                             lastLaserPosition = outHit.point;
+
+                             Vector3 prevDirection = laserDirection;
+                             laserDirection = Vector3.Reflect(laserDirection, outHit.normal);
+
+                             loopActive = false;
+                         //}
+                     }*/
+                    loopActive = false;
+                    }
+
+
+                //Debug.Log("Bounce");
+                //If the tag is a mirror, bounce it. 
+                if ((outHit.transform.gameObject.tag == mirrorTag) || (outHit.transform.gameObject.tag == splitTag)) //(hit.transform.gameObject != Goal) &&
                     {
                         laserReflected++;
                         vertexCounter += 3;
                         mLineRenderer.SetVertexCount(vertexCounter);
-                        mLineRenderer.SetPosition(vertexCounter - 3, Vector3.MoveTowards(hit.point, lastLaserPosition, 0.01f));
-                        mLineRenderer.SetPosition(vertexCounter - 2, hit.point);
-                        mLineRenderer.SetPosition(vertexCounter - 1, hit.point);
+                        mLineRenderer.SetPosition(vertexCounter - 3, Vector3.MoveTowards(outHit.point, lastLaserPosition, 0.01f));
+                        mLineRenderer.SetPosition(vertexCounter - 2, outHit.point);
+                        mLineRenderer.SetPosition(vertexCounter - 1, outHit.point);
                         mLineRenderer.SetWidth(.01f, .01f);
-                        lastLaserPosition = hit.point;
+                        lastLaserPosition = outHit.point;
 
                         Vector3 prevDirection = laserDirection;
-                        laserDirection = Vector3.Reflect(laserDirection, hit.normal);
+                        laserDirection = Vector3.Reflect(laserDirection, outHit.normal);
 
                         //When using prisms, we also want to split the beam. 
-                        if (hit.transform.gameObject.tag == splitTag)
+                        if (outHit.transform.gameObject.tag == splitTag)
                         {
                             //Debug.Log("Split");
                             if (laserSplit >= maxSplit)
@@ -145,7 +158,7 @@ namespace GoogleARCore.Examples.HelloAR
                             {
                                 //Debug.Log("Splitting...");
                                 laserSplit++;
-                                Object go = Instantiate(gameObject, hit.point, Quaternion.LookRotation(prevDirection));
+                                Object go = Instantiate(gameObject, outHit.point, Quaternion.LookRotation(prevDirection));
                                 go.name = spawnedBeam;
                                 ((GameObject)go).tag = spawnedBeam;
                             }
@@ -153,25 +166,25 @@ namespace GoogleARCore.Examples.HelloAR
                     }
 
                     //When hitting the goal
-                    else if (hit.transform.gameObject.tag == ObstacleTag)
+                    else if (outHit.transform.gameObject.tag == ObstacleTag)
                     {
                         laserReflected = maxBounce + 1;
                         vertexCounter += 3;
                         mLineRenderer.SetVertexCount(vertexCounter);
-                        mLineRenderer.SetPosition(vertexCounter - 3, Vector3.MoveTowards(hit.point, lastLaserPosition, 0.01f));
-                        mLineRenderer.SetPosition(vertexCounter - 2, hit.point);
-                        mLineRenderer.SetPosition(vertexCounter - 1, hit.point);
+                        mLineRenderer.SetPosition(vertexCounter - 3, Vector3.MoveTowards(outHit.point, lastLaserPosition, 0.01f));
+                        mLineRenderer.SetPosition(vertexCounter - 2, outHit.point);
+                        mLineRenderer.SetPosition(vertexCounter - 1, outHit.point);
                         mLineRenderer.SetWidth(.01f, .01f);
-                        lastLaserPosition = hit.point;
+                        lastLaserPosition = outHit.point;
 
                         Vector3 prevDirection = laserDirection;
-                        laserDirection = Vector3.Reflect(laserDirection, hit.normal);
+                        laserDirection = Vector3.Reflect(laserDirection, outHit.normal);
 
                         //goalSound.Play();
                         Handheld.Vibrate();
-                        if (hit.collider.GetComponent<ChangeColorOnGoal>() != null)
+                        if (outHit.collider.GetComponent<ChangeColorOnGoal>() != null)
                         {
-                            hit.collider.GetComponent<ChangeColorOnGoal>().materialChange(hit.collider.GetComponent<Renderer>());
+                            outHit.collider.GetComponent<ChangeColorOnGoal>().materialChange(outHit.collider.GetComponent<Renderer>());
                         }
                         else
                         {
@@ -181,7 +194,7 @@ namespace GoogleARCore.Examples.HelloAR
                     }
 
                     //When hitting a plane, do stuff
-                    else if (hit.transform.gameObject.tag == detectedPlaneTag)
+                    else if (outHit.transform.gameObject.tag == detectedPlaneTag)
                     {
                         Handheld.Vibrate();
                         laserReflected = maxBounce + 1; //Ugly code, don't use 
@@ -212,7 +225,8 @@ namespace GoogleARCore.Examples.HelloAR
                 if (laserReflected > maxBounce)
                     loopActive = false;
             }
+
             yield return new WaitForEndOfFrame();
         }
     }
-}
+//}
