@@ -160,7 +160,7 @@ public class Laser : MonoBehaviour
               
                 else
                 {
-                    //Handheld.Vibrate();
+                    Handheld.Vibrate();
                     print("Do nothing I guess");
                     loopActive = false;
                 }
