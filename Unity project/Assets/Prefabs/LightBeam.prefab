@@ -161,8 +161,7 @@ MonoBehaviour:
   mirrorTag: Mirror
   detectedPlaneTag: detectedPlane
   ObstacleTag: Obstacle
-  Goal: {fileID: 1584829727098158, guid: b400995b69c162842848a2ca147de24c, type: 2}
-  splitTag: 
+  splitTag: Prism
   spawnedBeam: spawnedBeam
   maxBounce: 5
   maxSplit: 0

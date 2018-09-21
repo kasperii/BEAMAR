@@ -7,18 +7,20 @@ public class ChangeColorOnGoal : MonoBehaviour
     public Material[] material;
     [HideInInspector] public Renderer rend;
 
+    private int index = 0;
+
     // Use this for initialization
     void Start()
     {
         rend = GetComponent<Renderer>();
         rend.enabled = true;
-        rend.material = material[0];
+        rend.material = material[index];
     }
 
     // Update is called once per frame
     public void materialChange(Renderer render)
     {
-        render.material = material[1];
+        render.material = material[index + 1];
     }
 }
 

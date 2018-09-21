@@ -8,6 +8,7 @@ TagManager:
   - Obstacle
   - spawnedBeam
   - detectedPlane
+  - Prism
   layers:
   - Default
   - TransparentFX
