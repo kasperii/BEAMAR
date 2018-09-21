@@ -525,6 +525,10 @@ Prefab:
       propertyPath: activeAudioListener
       value: 
       objectReference: {fileID: 627916105}
+    - target: {fileID: 8220594, guid: 346621c899765424db03ff4e90379781, type: 2}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 346621c899765424db03ff4e90379781, type: 2}
   m_IsPrefabAsset: 0
@@ -1104,7 +1108,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SplineAudioEvent:
-    Events: []
+    Events:
+    - Event: {fileID: 0}
+      PostAt: 0
+    - Event: {fileID: 114050764480070912, guid: 884fb3c52c522a9419aaa11e2721aceb,
+        type: 2}
+      PostAt: 0
   Nodes:
   - {fileID: 197075538}
   - {fileID: 1613816639}

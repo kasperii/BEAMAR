@@ -23,7 +23,7 @@ namespace InAudioSystem.InAudioEditor
 
         public void Find(Func<InAudioNode, bool> filter)
         {
-            
+
             audioCreatorGUI.FindAudio(filter);
         }
 
@@ -69,7 +69,7 @@ namespace InAudioSystem.InAudioEditor
             CheckForClose();
 
             //int nextControlID = GUIUtility.GetControlID(FocusType.Passive) + 1;
-            //Debug.Log(nextControlID);  
+            //Debug.Log(nextControlID);
             if (!HandleMissingData())
             {
                 return;

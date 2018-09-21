@@ -1,0 +1,133 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1900491717361888}
+  m_IsPrefabAsset: 1
+--- !u!1 &1900491717361888
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4120974869814672}
+  - component: {fileID: 114943158506559900}
+  - component: {fileID: 114670462252586894}
+  - component: {fileID: 114989439479040624}
+  - component: {fileID: 114129544428695328}
+  m_Layer: 0
+  m_Name: InAudio EventSave
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4120974869814672
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1900491717361888}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114129544428695328
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1900491717361888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a512d6d4125cef14881f432b3a65959c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _guid: 594129493
+  _type: 1
+  Name: Event Folder 2
+  _parent: {fileID: 114943158506559900}
+  Delay: 0
+  _children: []
+  _actionList: []
+  FoldedOut: 0
+  Filtered: 0
+  PlacedExternaly: 0
+--- !u!114 &114670462252586894
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1900491717361888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a512d6d4125cef14881f432b3a65959c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _guid: 519615312
+  _type: 1
+  Name: Event Folder 0
+  _parent: {fileID: 114943158506559900}
+  Delay: 0
+  _children:
+  - {fileID: 114584516773021530, guid: 884fb3c52c522a9419aaa11e2721aceb, type: 2}
+  _actionList: []
+  FoldedOut: 1
+  Filtered: 0
+  PlacedExternaly: 0
+--- !u!114 &114943158506559900
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1900491717361888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a512d6d4125cef14881f432b3a65959c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _guid: 283654190
+  _type: 0
+  Name: Event Root
+  _parent: {fileID: 0}
+  Delay: 0
+  _children:
+  - {fileID: 114670462252586894}
+  - {fileID: 114989439479040624}
+  - {fileID: 114129544428695328}
+  _actionList: []
+  FoldedOut: 1
+  Filtered: 0
+  PlacedExternaly: 0
+--- !u!114 &114989439479040624
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1900491717361888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a512d6d4125cef14881f432b3a65959c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _guid: 757701267
+  _type: 1
+  Name: Event Folder 1
+  _parent: {fileID: 114943158506559900}
+  Delay: 0
+  _children: []
+  _actionList: []
+  FoldedOut: 1
+  Filtered: 0
+  PlacedExternaly: 0

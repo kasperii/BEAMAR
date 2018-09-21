@@ -23,6 +23,9 @@ GameObject:
   - component: {fileID: 114453357773631662}
   - component: {fileID: 81554587539171282}
   - component: {fileID: 82753695412075322}
+  - component: {fileID: 114584516773021530}
+  - component: {fileID: 114050764480070912}
+  - component: {fileID: 114238479364488582}
   m_Layer: 0
   m_Name: LightBeam
   m_TagString: spawnedBeam
@@ -145,6 +148,44 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &114050764480070912
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1891073906479316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a512d6d4125cef14881f432b3a65959c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _guid: 2144522683
+  _type: 3
+  Name: Event Folder 0 Child (External) Child
+  _parent: {fileID: 114584516773021530}
+  Delay: 0
+  _children: []
+  _actionList:
+  - {fileID: 114238479364488582}
+  FoldedOut: 1
+  Filtered: 0
+  PlacedExternaly: 0
+--- !u!114 &114238479364488582
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1891073906479316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6887394428e7c84195fcfc84974e9b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 0
+  _eventActionType: 1
+  Node: {fileID: 0}
+  Fadetime: 0
+  TweenType: 1
 --- !u!114 &114453357773631662
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -167,6 +208,28 @@ MonoBehaviour:
   maxSplit: 0
   laserPoints: 
   goalSound: {fileID: 82753695412075322}
+--- !u!114 &114584516773021530
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1891073906479316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a512d6d4125cef14881f432b3a65959c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _guid: 128829485
+  _type: 1
+  Name: Event Folder 0 Child (External)
+  _parent: {fileID: 114670462252586894, guid: e60d0b6a4e3871948a4eda64f3d337e5, type: 2}
+  Delay: 0
+  _children:
+  - {fileID: 114050764480070912}
+  _actionList: []
+  FoldedOut: 1
+  Filtered: 0
+  PlacedExternaly: 1
 --- !u!120 &120687336979874650
 LineRenderer:
   m_ObjectHideFlags: 1
