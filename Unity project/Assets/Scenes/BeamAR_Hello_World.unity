@@ -248,7 +248,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4792685903082454, guid: 884fb3c52c522a9419aaa11e2721aceb, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 0.385
+      value: 22.41
       objectReference: {fileID: 0}
     - target: {fileID: 4792685903082454, guid: 884fb3c52c522a9419aaa11e2721aceb, type: 2}
       propertyPath: m_LocalRotation.x
@@ -535,6 +535,38 @@ Camera:
   m_CorrespondingSourceObject: {fileID: 20155940112608238, guid: c10877f7cd5764de18d46d7b777d1faa,
     type: 2}
   m_PrefabInternal: {fileID: 97747990}
+--- !u!1 &906615391 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1891073906479316, guid: 884fb3c52c522a9419aaa11e2721aceb,
+    type: 2}
+  m_PrefabInternal: {fileID: 454269697}
+--- !u!64 &906615392
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 906615391}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 0}
+--- !u!114 &906615393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 906615391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82be74b0914919d44a257ee9f23f9828, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  location: {x: 0, y: 0, z: 0}
+  clip: {fileID: 8300000, guid: fb6b3b6146d21a5469b6958bca574026, type: 3}
 --- !u!4 &1094988943 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4334758742444036, guid: 04e811e13c2aa8e4c92320197cb8fca8,
