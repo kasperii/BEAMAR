@@ -48,6 +48,9 @@ namespace GoogleARCore.Examples.CloudAnchors
         /// </summary>
         public CloudAnchorUIController UIController;
 
+        /// Prefab of the light beam
+        public GameObject LightBeam;
+
         [Header("ARCore")]
 
         /// <summary>
@@ -56,10 +59,15 @@ namespace GoogleARCore.Examples.CloudAnchors
         public GameObject ARCoreRoot;
 
         /// <summary>
+        /// The first-person camera being used to render the passthrough camera image (i.e. AR background).
+        /// </summary>
+        public Camera FirstPersonCamera;
+
+        /// <summary>
         /// An Andy Android model to visually represent anchors in the scene; this uses ARCore
         /// lighting estimation shaders.
         /// </summary>
-        public GameObject ARCoreAndyAndroidPrefab;
+        public GameObject ARCoreMirrorPrefab;
 
         [Header("ARKit")]
 
@@ -129,6 +137,9 @@ namespace GoogleARCore.Examples.CloudAnchors
             Resolving,
         }
 
+        /// Boolean to check if game world has been instatiated
+        private bool worldIsInstatiated = false;
+
         /// <summary>
         /// The Unity Start() method.
         /// </summary>
@@ -155,11 +166,22 @@ namespace GoogleARCore.Examples.CloudAnchors
         {
             _UpdateApplicationLifecycle();
 
-            // If we are not in hosting mode or the user has already placed an anchor then the update
+            // If we are not in resolving (joining) or hosting mode then the update
             // is complete.
-            if (m_CurrentMode != ApplicationMode.Hosting || m_LastPlacedAnchor != null)
+            if (m_CurrentMode == ApplicationMode.Ready)
             {
                 return;
+            }
+
+            // Instatiates the game world
+            // Runs only once
+            if (!worldIsInstatiated)
+            {
+                var laserBeamTrans = new Vector3(FirstPersonCamera.transform.position.x, FirstPersonCamera.transform.position.y, FirstPersonCamera.transform.position.z);
+                Instantiate(LightBeam, laserBeamTrans, FirstPersonCamera.transform.rotation);
+                worldIsInstatiated = true;
+                Handheld.Vibrate();
+                UIController.Debugger("I have entered the if!");
             }
 
             // If the player has not touched the screen then the update is complete.
@@ -190,15 +212,17 @@ namespace GoogleARCore.Examples.CloudAnchors
 
             if (m_LastPlacedAnchor != null)
             {
-                // Instantiate Andy model at the hit pose.
-                var andyObject = Instantiate(_GetAndyPrefab(), m_LastPlacedAnchor.transform.position,
-                    m_LastPlacedAnchor.transform.rotation);
+                //float dist = Vector3.Distance(m_LastPlacedAnchor.transform.position, FirstPersonCamera.transform.position);
+
+                // Instantiate mirror model at the hit pose.
+                var mirrorObject = Instantiate(_GetMirrorPrefab(), FirstPersonCamera.transform.position,
+                    FirstPersonCamera.transform.rotation);
 
                 // Compensate for the hitPose rotation facing away from the raycast (i.e. camera).
-                andyObject.transform.Rotate(0, k_ModelRotation, 0, Space.Self);
+                mirrorObject.transform.Rotate(0, k_ModelRotation, 0, Space.Self);
 
-                // Make Andy model a child of the anchor.
-                andyObject.transform.parent = m_LastPlacedAnchor.transform;
+                // Make mirror model a child of the anchor.
+                mirrorObject.transform.parent = m_LastPlacedAnchor.transform;
 
                 // Save cloud anchor.
                 _HostLastPlacedAnchor();
@@ -316,7 +340,7 @@ namespace GoogleARCore.Examples.CloudAnchors
                 }
 
                 m_LastResolvedAnchor = result.Anchor;
-                Instantiate(_GetAndyPrefab(), result.Anchor.transform);
+                Instantiate(_GetMirrorPrefab(), result.Anchor.transform);
                 UIController.ShowResolvingModeSuccess();
             }));
         }
@@ -347,10 +371,10 @@ namespace GoogleARCore.Examples.CloudAnchors
         /// Gets the platform-specific Andy the android prefab.
         /// </summary>
         /// <returns>The platform-specific Andy the android prefab.</returns>
-        private GameObject _GetAndyPrefab()
+        private GameObject _GetMirrorPrefab()
         {
             return Application.platform != RuntimePlatform.IPhonePlayer ?
-                ARCoreAndyAndroidPrefab : ARKitAndyAndroidPrefab;
+                ARCoreMirrorPrefab : ARKitAndyAndroidPrefab;
         }
 
         /// <summary>

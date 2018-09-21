@@ -256,5 +256,10 @@ namespace GoogleARCore.Examples.CloudAnchors
 #endif
             return ipAddress;
         }
+
+        public void Debugger(string newText)
+        {
+            SnackbarText.text = newText;
+        }
     }
 }

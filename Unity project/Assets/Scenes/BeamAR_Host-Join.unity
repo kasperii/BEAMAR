@@ -1281,6 +1281,11 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 658625920}
   m_CullTransparentMesh: 0
+--- !u!20 &703252658 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 20155940112608238, guid: c10877f7cd5764de18d46d7b777d1faa,
+    type: 2}
+  m_PrefabInternal: {fileID: 323652142}
 --- !u!1 &825697766
 GameObject:
   m_ObjectHideFlags: 0
@@ -2900,12 +2905,14 @@ MonoBehaviour:
   RoomSharingServer: {fileID: 2059206172}
   UIController: {fileID: 1988339045}
   ARCoreRoot: {fileID: 522519881}
-  ARCoreAndyAndroidPrefab: {fileID: 1190091649889860, guid: 242a320930b81430ba610f94f9b760c8,
+  FirstPersonCamera: {fileID: 703252658}
+  ARCoreMirrorPrefab: {fileID: 1584829727098158, guid: 04e811e13c2aa8e4c92320197cb8fca8,
     type: 2}
   ARKitRoot: {fileID: 1300542894}
   ARKitFirstPersonCamera: {fileID: 987659096}
   ARKitAndyAndroidPrefab: {fileID: 1190091649889860, guid: 63e9325810cb14b9e8e0590d57d87afb,
     type: 2}
+  LightBeam: {fileID: 1891073906479316, guid: 884fb3c52c522a9419aaa11e2721aceb, type: 2}
 --- !u!114 &2059206172
 MonoBehaviour:
   m_ObjectHideFlags: 0
