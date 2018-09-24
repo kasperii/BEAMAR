@@ -64,6 +64,11 @@ namespace GoogleARCore.Examples.HelloAR
         /// <summary>
         /// The rotation in degrees need to apply to model when the Andy model is placed.
         /// </summary>
+        public AudioSource placeMirror;
+
+        /// <summary>
+        /// Sound when placing mirror
+        /// </summary>
         private const float k_ModelRotation = 180.0f;
 
         /// <summary>
@@ -79,15 +84,20 @@ namespace GoogleARCore.Examples.HelloAR
 
         public GameObject LightBeam;
 
+        public GameObject Goal;
+
         public void Start()
         {
             var cameraTrans = FirstPersonCamera.transform;
             //ar mirrorObject = Instantiate(prefab, cameraTrans.position, cameraTrans.rotation);// hit.Pose.rotation);
 
-            var zeroRotation = new Vector3(0.0f, 0.0f, 0.0f);
+            var randomVector = new Vector3(Random.Range(-2.0f, 2.0f), Random.Range(0.0f, 1.0f), Random.Range(-2.0f, 2.0f));
 
             var laserBeamTrans = new Vector3(FirstPersonCamera.transform.position.x, FirstPersonCamera.transform.position.y, FirstPersonCamera.transform.position.z);
             Instantiate(LightBeam, laserBeamTrans, cameraTrans.transform.rotation);
+
+            Instantiate(Goal, randomVector, cameraTrans.transform.rotation);
+
         }
 
         /// <summary>
@@ -148,7 +158,7 @@ namespace GoogleARCore.Examples.HelloAR
                     */
                     // Instantiate Andy model at the hit pose.
                     //var mirrorObject = Instantiate(prefab, hit.Pose.position, hit.Pose.rotation);
-
+                    placeMirror.Play();
                     //Let's the user place the mirror prefab anywhere on the screen, at the camera position and rotation
                     var cameraTrans = FirstPersonCamera.transform;
                     var mirrorObject = Instantiate(MirrorPointPrefab, cameraTrans.position, cameraTrans.rotation);// hit.Pose.rotation);
