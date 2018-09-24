@@ -168,21 +168,21 @@ namespace GoogleARCore.Examples.CloudAnchors
 
             // If we are not in resolving (joining) or hosting mode then the update
             // is complete.
-            if (m_CurrentMode == ApplicationMode.Ready)
+            if (m_CurrentMode != ApplicationMode.Hosting || m_LastPlacedAnchor != null)
             {
                 return;
             }
 
-            // Instatiates the game world
+            // Instatiates the game world if you are hosting
             // Runs only once
-            if (!worldIsInstatiated)
-            {
-                var laserBeamTrans = new Vector3(FirstPersonCamera.transform.position.x, FirstPersonCamera.transform.position.y, FirstPersonCamera.transform.position.z);
-                Instantiate(LightBeam, laserBeamTrans, FirstPersonCamera.transform.rotation);
-                worldIsInstatiated = true;
-                Handheld.Vibrate();
-                UIController.Debugger("I have entered the if!");
-            }
+            // if (!worldIsInstatiated)
+            // {
+            //     var laserBeamTrans = new Vector3(FirstPersonCamera.transform.position.x, FirstPersonCamera.transform.position.y, FirstPersonCamera.transform.position.z);
+            //     Instantiate(LightBeam, laserBeamTrans, FirstPersonCamera.transform.rotation);
+            //     worldIsInstatiated = true;
+            //     Handheld.Vibrate();
+            //     UIController.Debugger("I have entered the if!");
+            // }
 
             // If the player has not touched the screen then the update is complete.
             Touch touch;
@@ -198,7 +198,7 @@ namespace GoogleARCore.Examples.CloudAnchors
                 if (Frame.Raycast(touch.position.x, touch.position.y,
                         TrackableHitFlags.PlaneWithinPolygon, out hit))
                 {
-                    m_LastPlacedAnchor = hit.Trackable.CreateAnchor(hit.Pose);
+                    m_LastPlacedAnchor = hit.Trackable.CreateAnchor(Frame.Pose);
                 }
             }
             else
@@ -215,8 +215,8 @@ namespace GoogleARCore.Examples.CloudAnchors
                 //float dist = Vector3.Distance(m_LastPlacedAnchor.transform.position, FirstPersonCamera.transform.position);
 
                 // Instantiate mirror model at the hit pose.
-                var mirrorObject = Instantiate(_GetMirrorPrefab(), FirstPersonCamera.transform.position,
-                    FirstPersonCamera.transform.rotation);
+                var mirrorObject = Instantiate(_GetMirrorPrefab(), m_LastPlacedAnchor.transform.position,
+                    m_LastPlacedAnchor.transform.rotation);
 
                 // Compensate for the hitPose rotation facing away from the raycast (i.e. camera).
                 mirrorObject.transform.Rotate(0, k_ModelRotation, 0, Space.Self);
@@ -326,7 +326,7 @@ namespace GoogleARCore.Examples.CloudAnchors
         }
 
         /// <summary>
-        /// Resolves an anchor id and instantiates an Andy prefab on it.
+        /// Resolves an anchor id and instantiates an mirror prefab on it.
         /// </summary>
         /// <param name="cloudAnchorId">Cloud anchor id to be resolved.</param>
         private void _ResolveAnchorFromId(string cloudAnchorId)

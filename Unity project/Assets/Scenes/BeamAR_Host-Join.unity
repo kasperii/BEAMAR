@@ -2904,6 +2904,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RoomSharingServer: {fileID: 2059206172}
   UIController: {fileID: 1988339045}
+  LightBeam: {fileID: 1891073906479316, guid: 884fb3c52c522a9419aaa11e2721aceb, type: 2}
   ARCoreRoot: {fileID: 522519881}
   FirstPersonCamera: {fileID: 703252658}
   ARCoreMirrorPrefab: {fileID: 1584829727098158, guid: 04e811e13c2aa8e4c92320197cb8fca8,
@@ -2912,7 +2913,6 @@ MonoBehaviour:
   ARKitFirstPersonCamera: {fileID: 987659096}
   ARKitAndyAndroidPrefab: {fileID: 1190091649889860, guid: 63e9325810cb14b9e8e0590d57d87afb,
     type: 2}
-  LightBeam: {fileID: 1891073906479316, guid: 884fb3c52c522a9419aaa11e2721aceb, type: 2}
 --- !u!114 &2059206172
 MonoBehaviour:
   m_ObjectHideFlags: 0

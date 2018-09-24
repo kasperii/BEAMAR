@@ -5,7 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/BeamAR_Hello_World.unity
     guid: 39fed70280256a54ab21156872096898
+  - enabled: 1
+    path: Assets/Scenes/BeamAR_Host-Join.unity
+    guid: 6d6cdfd37fc6ca4458b6537a9bfe2e46
   m_configObjects: {}
