@@ -84,6 +84,8 @@ namespace GoogleARCore.Examples.HelloAR
 
         public GameObject Goal;
 
+       
+
         public void Start()
         {
             /*
@@ -174,23 +176,30 @@ namespace GoogleARCore.Examples.HelloAR
                     */
                     // Instantiate Andy model at the hit pose.
                     //var mirrorObject = Instantiate(prefab, hit.Pose.position, hit.Pose.rotation);
-                    placeMirrorSound.Play();
-                    //Let's the user place the mirror prefab anywhere on the screen, at the camera position and rotation
-                    //var cameraTrans = FirstPersonCamera.transform;
-                    var mirrorObject = Instantiate(MirrorPointPrefab, cameraTrans.position, cameraTrans.rotation);// hit.Pose.rotation);
 
-                    // Compensate for the hitPose rotation facing away from the raycast (i.e. camera).
-                    mirrorObject.transform.Rotate(0, k_ModelRotation, 0, Space.Self);
+                    if (GameObject.FindGameObjectsWithTag("Mirror").Length < 5)
+                    {
+                        placeMirrorSound.Play();
+                        //Let's the user place the mirror prefab anywhere on the screen, at the camera position and rotation
+                        //var cameraTrans = FirstPersonCamera.transform;
+                        var mirrorObject = Instantiate(MirrorPointPrefab, cameraTrans.position, cameraTrans.rotation);// hit.Pose.rotation);
 
-                    // Create an anchor to allow ARCore to track the hitpoint as understanding of the physical
-                    // world evolves.
-                    //var anchor = hit.Trackable.CreateAnchor(hit.Pose);
+                        // Compensate for the hitPose rotation facing away from the raycast (i.e. camera).
+                        mirrorObject.transform.Rotate(0, k_ModelRotation, 0, Space.Self);
 
-                    // Make Andy model a child of the anchor.
-                    //mirrorObject.transform.parent = anchor.transform;
-                    //mirrorObject.transform.parent = anchor.transform;
-           //     }
-           // }
+                        // Create an anchor to allow ARCore to track the hitpoint as understanding of the physical
+                        // world evolves.
+                        //var anchor = hit.Trackable.CreateAnchor(hit.Pose);
+
+                        // Make Andy model a child of the anchor.
+                        //mirrorObject.transform.parent = anchor.transform;
+                        //mirrorObject.transform.parent = anchor.transform;
+                    }
+
+
+
+            //     }
+            // }
         }
 
         /// <summary>

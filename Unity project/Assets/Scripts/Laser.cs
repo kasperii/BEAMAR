@@ -95,8 +95,8 @@ public class Laser : MonoBehaviour
             {
                 //Handheld.Vibrate();
 
-                //if (outHit.transform.gameObject.tag == mirrorTag) // || (outHit.transform.gameObject.tag == splitTag) || (outHit.transform.gameObject.tag == splitTag)) //(hit.transform.gameObject != Goal) &&
-                //{
+                if ((outHit.transform.gameObject.tag == mirrorTag) || (outHit.transform.gameObject.tag == splitTag)) //|| (outHit.transform.gameObject.tag == splitTag)) //(hit.transform.gameObject != Goal) &&
+                {
                   //  Handheld.Vibrate();
                     laserReflected++;
                     vertexCounter += 3;
@@ -109,8 +109,24 @@ public class Laser : MonoBehaviour
 
                     Vector3 prevDirection = laserDirection;
                     laserDirection = Vector3.Reflect(laserDirection, outHit.normal);
-                //}
-                if (outHit.transform.gameObject.tag == splitTag)
+
+                    if(outHit.transform.gameObject.tag == splitTag)
+                    {
+                        if (laserSplit >= maxSplit)
+                        {
+                            Debug.Log("Max split reached.");
+                        }
+                        else
+                        {
+                            //Debug.Log("Splitting...");
+                            laserSplit++;
+                            Object go = Instantiate(gameObject, outHit.point, Quaternion.LookRotation(prevDirection));
+                            go.name = spawnedBeam;
+                            ((GameObject)go).tag = spawnedBeam;
+                        }
+                    }
+                }
+                /*if (outHit.transform.gameObject.tag == splitTag)
                 {
                     /*Handheld.Vibrate();
                     laserReflected++;
@@ -124,7 +140,7 @@ public class Laser : MonoBehaviour
 
                     Vector3 prevDirection = laserDirection;
                     laserDirection = Vector3.Reflect(laserDirection, outHit.normal);
-                    */
+                    
                     //When using prisms, we also want to split the beam. 
 
                     //Debug.Log("Split");
@@ -143,13 +159,14 @@ public class Laser : MonoBehaviour
                     }
                     //loopActive = false;
 
-                }
+                }*/
 
 
 
 
                 else if (outHit.transform.gameObject.tag == detectedPlaneTag)
                 {
+                    Handheld.Vibrate();
                 /*TrackableHit trackHit;
                     TrackableHitFlags raycastFilter = TrackableHitFlags.PlaneWithinPolygon |
                     TrackableHitFlags.FeaturePointWithSurfaceNormal;
@@ -181,6 +198,7 @@ public class Laser : MonoBehaviour
                     Vector3 prevDirection = laserDirection;
                     laserDirection = Vector3.Reflect(laserDirection, outHit.normal);*/
 
+                    //Change color on goal when raycast hits
                     //goalSound.Play();
                     Handheld.Vibrate();
                     if (outHit.collider.GetComponent<ChangeColorOnGoal>() != null)
@@ -195,33 +213,7 @@ public class Laser : MonoBehaviour
                 }
             //}
 
-            //When hitting the goal
-            /*else if (outHit.transform.gameObject.tag == ObstacleTag)
-            {
-                laserReflected = maxBounce + 1;
-                vertexCounter += 3;
-                mLineRenderer.SetVertexCount(vertexCounter);
-                mLineRenderer.SetPosition(vertexCounter - 3, Vector3.MoveTowards(outHit.point, lastLaserPosition, 0.01f));
-                mLineRenderer.SetPosition(vertexCounter - 2, outHit.point);
-                mLineRenderer.SetPosition(vertexCounter - 1, outHit.point);
-                mLineRenderer.SetWidth(.01f, .01f);
-                lastLaserPosition = outHit.point;
-
-                Vector3 prevDirection = laserDirection;
-                laserDirection = Vector3.Reflect(laserDirection, outHit.normal);
-                
-                //goalSound.Play();
-                Handheld.Vibrate();
-                if (outHit.collider.GetComponent<ChangeColorOnGoal>() != null)
-                {
-                    outHit.collider.GetComponent<ChangeColorOnGoal>().materialChange(outHit.collider.GetComponent<Renderer>());
-                }
-                else
-                {
-                    Debug.Log("Need to attach a script ChangeColorOnGoal to object");
-                }
-                loopActive = false;
-            }*/
+            
 
 
             //When hitting a plane, do stuff
@@ -242,13 +234,8 @@ public class Laser : MonoBehaviour
                     loopActive = false;
                 }
 
-               /* else
-                {
-                    //Handheld.Vibrate();
-                    print("Do nothing I guess");
-                    loopActive = false;
-                }
-                */
+             
+            
             }
             else
             {
