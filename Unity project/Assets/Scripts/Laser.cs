@@ -93,11 +93,64 @@ public class Laser : MonoBehaviour
             //Debug.Log("Physics.Raycast(" + lastLaserPosition + ", " + laserDirection + ", out hit , " + laserDistance + ")");
             if (Physics.Raycast(lastLaserPosition, laserDirection, out outHit, laserDistance))// && ((hit.transform.gameObject.tag == detectedPlaneTag) || (hit.transform.gameObject.tag == splitTag) || (hit.transform.gameObject.tag == mirrorTag))) // || (hit.transform.gameObject.tag == ObstacleTag)))
             {
-               
+                //Handheld.Vibrate();
 
-                if (outHit.transform.gameObject.tag == detectedPlaneTag)
+                //if (outHit.transform.gameObject.tag == mirrorTag) // || (outHit.transform.gameObject.tag == splitTag) || (outHit.transform.gameObject.tag == splitTag)) //(hit.transform.gameObject != Goal) &&
+                //{
+                  //  Handheld.Vibrate();
+                    laserReflected++;
+                    vertexCounter += 3;
+                    mLineRenderer.SetVertexCount(vertexCounter);
+                    mLineRenderer.SetPosition(vertexCounter - 3, Vector3.MoveTowards(outHit.point, lastLaserPosition, 0.01f));
+                    mLineRenderer.SetPosition(vertexCounter - 2, outHit.point);
+                    mLineRenderer.SetPosition(vertexCounter - 1, outHit.point);
+                    mLineRenderer.SetWidth(.01f, .01f);
+                    lastLaserPosition = outHit.point;
+
+                    Vector3 prevDirection = laserDirection;
+                    laserDirection = Vector3.Reflect(laserDirection, outHit.normal);
+                //}
+                if (outHit.transform.gameObject.tag == splitTag)
                 {
-                /* TrackableHit trackHit;
+                    /*Handheld.Vibrate();
+                    laserReflected++;
+                    vertexCounter += 3;
+                    mLineRenderer.SetVertexCount(vertexCounter);
+                    mLineRenderer.SetPosition(vertexCounter - 3, Vector3.MoveTowards(outHit.point, lastLaserPosition, 0.01f));
+                    mLineRenderer.SetPosition(vertexCounter - 2, outHit.point);
+                    mLineRenderer.SetPosition(vertexCounter - 1, outHit.point);
+                    mLineRenderer.SetWidth(.01f, .01f);
+                    lastLaserPosition = outHit.point;
+
+                    Vector3 prevDirection = laserDirection;
+                    laserDirection = Vector3.Reflect(laserDirection, outHit.normal);
+                    */
+                    //When using prisms, we also want to split the beam. 
+
+                    //Debug.Log("Split");
+                    //Handheld.Vibrate();
+                    if (laserSplit >= maxSplit)
+                    {
+                        Debug.Log("Max split reached.");
+                    }
+                    else
+                    {
+                        //Debug.Log("Splitting...");
+                        laserSplit++;
+                        Object go = Instantiate(gameObject, outHit.point, Quaternion.LookRotation(prevDirection));
+                        go.name = spawnedBeam;
+                        ((GameObject)go).tag = spawnedBeam;
+                    }
+                    //loopActive = false;
+
+                }
+
+
+
+
+                else if (outHit.transform.gameObject.tag == detectedPlaneTag)
+                {
+                /*TrackableHit trackHit;
                     TrackableHitFlags raycastFilter = TrackableHitFlags.PlaneWithinPolygon |
                     TrackableHitFlags.FeaturePointWithSurfaceNormal;
                     if (Frame.Raycast(lastLaserPosition.x, lastLaserPosition.y, raycastFilter, out trackHit))
@@ -112,59 +165,11 @@ public class Laser : MonoBehaviour
 
                 //Debug.Log("Bounce");
                 //If the tag is a mirror, bounce it. 
-                if (outHit.transform.gameObject.tag == mirrorTag) // || (outHit.transform.gameObject.tag == splitTag) || (outHit.transform.gameObject.tag == splitTag)) //(hit.transform.gameObject != Goal) &&
-                {
-                    Handheld.Vibrate();
-                    laserReflected++;
-                    vertexCounter += 3;
-                    mLineRenderer.SetVertexCount(vertexCounter);
-                    mLineRenderer.SetPosition(vertexCounter - 3, Vector3.MoveTowards(outHit.point, lastLaserPosition, 0.01f));
-                    mLineRenderer.SetPosition(vertexCounter - 2, outHit.point);
-                    mLineRenderer.SetPosition(vertexCounter - 1, outHit.point);
-                    mLineRenderer.SetWidth(.01f, .01f);
-                    lastLaserPosition = outHit.point;
-
-                    Vector3 prevDirection = laserDirection;
-                    laserDirection = Vector3.Reflect(laserDirection, outHit.normal);
-                }
-                else if (outHit.transform.gameObject.tag == splitTag)
-                {
-                    Handheld.Vibrate();
-                    laserReflected++;
-                    vertexCounter += 3;
-                    mLineRenderer.SetVertexCount(vertexCounter);
-                    mLineRenderer.SetPosition(vertexCounter - 3, Vector3.MoveTowards(outHit.point, lastLaserPosition, 0.01f));
-                    mLineRenderer.SetPosition(vertexCounter - 2, outHit.point);
-                    mLineRenderer.SetPosition(vertexCounter - 1, outHit.point);
-                    mLineRenderer.SetWidth(.01f, .01f);
-                    lastLaserPosition = outHit.point;
-
-                    Vector3 prevDirection = laserDirection;
-                    laserDirection = Vector3.Reflect(laserDirection, outHit.normal);
-
-                    //When using prisms, we also want to split the beam. 
-
-                        //Debug.Log("Split");
-                        //Handheld.Vibrate();
-                        if (laserSplit >= maxSplit)
-                        {
-                            Debug.Log("Max split reached.");
-                        }
-                        else
-                        {
-                            //Debug.Log("Splitting...");
-                            laserSplit++;
-                            Object go = Instantiate(gameObject, outHit.point, Quaternion.LookRotation(prevDirection));
-                            go.name = spawnedBeam;
-                            ((GameObject)go).tag = spawnedBeam;
-                        }
-                    loopActive = false;
-
-                }
+               
 
                 else if(outHit.transform.gameObject.tag == ObstacleTag)
                 {
-                    laserReflected++;
+                    /*laserReflected++;
                     vertexCounter += 3;
                     mLineRenderer.SetVertexCount(vertexCounter);
                     mLineRenderer.SetPosition(vertexCounter - 3, Vector3.MoveTowards(outHit.point, lastLaserPosition, 0.01f));
@@ -174,7 +179,7 @@ public class Laser : MonoBehaviour
                     lastLaserPosition = outHit.point;
 
                     Vector3 prevDirection = laserDirection;
-                    laserDirection = Vector3.Reflect(laserDirection, outHit.normal);
+                    laserDirection = Vector3.Reflect(laserDirection, outHit.normal);*/
 
                     //goalSound.Play();
                     Handheld.Vibrate();
@@ -222,9 +227,18 @@ public class Laser : MonoBehaviour
             //When hitting a plane, do stuff
             else if (outHit.transform.gameObject.tag == detectedPlaneTag)
                 {
-                    Handheld.Vibrate();
-                    laserReflected = maxBounce + 1; //Ugly code, don't use 
-                    //TODO Burn hole animation
+                   /* Handheld.Vibrate();
+                    laserReflected++;
+                    vertexCounter += 3;
+                    mLineRenderer.SetVertexCount(vertexCounter);
+                    mLineRenderer.SetPosition(vertexCounter - 3, Vector3.MoveTowards(outHit.point, lastLaserPosition, 0.01f));
+                    mLineRenderer.SetPosition(vertexCounter - 2, outHit.point);
+                    mLineRenderer.SetPosition(vertexCounter - 1, outHit.point);
+                    mLineRenderer.SetWidth(.01f, .01f);
+                    lastLaserPosition = outHit.point;
+
+                    Vector3 prevDirection = laserDirection;
+                    laserDirection = Vector3.Reflect(laserDirection, outHit.normal);*/
                     loopActive = false;
                 }
 
