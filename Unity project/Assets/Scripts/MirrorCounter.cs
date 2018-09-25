@@ -30,7 +30,7 @@ public class MirrorCounter : MonoBehaviour {
     void Update () {
 
 
-        amountOfMirrors =  GameObject.FindGameObjectsWithTag(MirrorTag).Length;
+        amountOfMirrors =  GameObject.FindGameObjectsWithTag(MirrorTag).Length - 1;
         
 
         SetCountText();

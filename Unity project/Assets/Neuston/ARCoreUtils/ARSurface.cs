@@ -17,8 +17,9 @@ public class ARSurface : MonoBehaviour
 		m_meshCollider = gameObject.AddComponent<MeshCollider>();
 		m_meshFilter = gameObject.AddComponent<MeshFilter>();
 		m_meshRenderer = gameObject.AddComponent<MeshRenderer>();
+        m_meshRenderer.tag = "detectedPlane";
 
-		m_mesh = new Mesh();
+        m_mesh = new Mesh();
 		m_meshFilter.mesh = m_mesh;
 		m_meshCollider.sharedMesh = m_mesh;
 

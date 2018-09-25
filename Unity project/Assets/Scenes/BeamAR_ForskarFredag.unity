@@ -207,6 +207,10 @@ Prefab:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 3ecf48d278e58634991c065722b284b8, type: 2}
+    - target: {fileID: 1584829727098158, guid: 04e811e13c2aa8e4c92320197cb8fca8, type: 2}
+      propertyPath: m_Name
+      value: PlayerMirror
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 04e811e13c2aa8e4c92320197cb8fca8, type: 2}
   m_IsPrefabAsset: 0

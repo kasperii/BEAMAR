@@ -12,11 +12,14 @@ public class DestroyMirrors : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	public void ResetBtn () { 
-        var mirrors = GameObject.FindGameObjectsWithTag(MirrorTag);
+	public void ResetBtn () {
+        var mirrors = GameObject.FindGameObjectsWithTag(MirrorTag);//!GameObject.FindGameObjectsWithName("PlayerMirror");
         foreach (GameObject o in mirrors)
         {
-            Destroy(o);
+            if (o.name != "PlayerMirror")
+            {
+                Destroy(o);
+            }
         }
     }
 }

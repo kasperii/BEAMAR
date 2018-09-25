@@ -177,7 +177,7 @@ namespace GoogleARCore.Examples.HelloAR
                     // Instantiate Andy model at the hit pose.
                     //var mirrorObject = Instantiate(prefab, hit.Pose.position, hit.Pose.rotation);
 
-                    if (GameObject.FindGameObjectsWithTag("Mirror").Length < 5)
+                    if (GameObject.FindGameObjectsWithTag("Mirror").Length < 6)
                     {
                         placeMirrorSound.Play();
                         //Let's the user place the mirror prefab anywhere on the screen, at the camera position and rotation
