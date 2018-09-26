@@ -81,8 +81,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1808227196837734}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.077}
-  m_LocalScale: {x: 0.05, y: 0.05, z: 0.2}
+  m_LocalPosition: {x: 0, y: 0, z: -0.195}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.4}
   m_Children:
   - {fileID: 4680342342752228}
   - {fileID: 4248775257311406}
@@ -172,11 +172,12 @@ MonoBehaviour:
   mirrorTag: Mirror
   detectedPlaneTag: detectedPlane
   ObstacleTag: Obstacle
-  splitTag: 
+  splitTag: Prism
   spawnedBeam: spawnedBeam
   maxBounce: 5
   maxSplit: 0
   laserPoints: 
+  goalSound: {fileID: 0}
 --- !u!120 &120900278833446774
 LineRenderer:
   m_ObjectHideFlags: 1
@@ -217,13 +218,13 @@ LineRenderer:
   - {x: 0, y: 0, z: 10}
   m_Parameters:
     serializedVersion: 2
-    widthMultiplier: 1
+    widthMultiplier: 2.5
     widthCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0.0054626465
-        value: 0.013890803
+        time: 0.01884079
+        value: 0.021581233
         inSlope: 0
         outSlope: 0
         tangentMode: 0

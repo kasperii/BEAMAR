@@ -95,7 +95,7 @@ public class Laser : MonoBehaviour
             {
                 Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * outHit.distance, Color.yellow);
 
-                Handheld.Vibrate();
+                //Handheld.Vibrate();
                 laserReflected++;
                 vertexCounter += 3;
                 mLineRenderer.SetVertexCount(vertexCounter);

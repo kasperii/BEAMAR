@@ -84,6 +84,8 @@ namespace GoogleARCore.Examples.HelloAR
 
         public GameObject Goal;
 
+        public GameObject bigObstacle;
+
         private float transformOffset = 0.5f;
        
 
@@ -128,12 +130,17 @@ namespace GoogleARCore.Examples.HelloAR
             {
                 if (!GameObject.FindGameObjectWithTag("Obstacle"))// == null)
                 {
-                    var randomVector = new Vector3(Random.Range(-2.0f, 2.0f), Random.Range(0.0f, 1.0f), Random.Range(-2.0f, 2.0f));
+                    //var randomVector = new Vector3(Random.Range(-2.0f, 2.0f), Random.Range(0.0f, 1.0f), Random.Range(-2.0f, 2.0f));
+                    var firstGoalTrans = new Vector3(FirstPersonCamera.transform.position.x + 1, FirstPersonCamera.transform.position.y + 0.25f, FirstPersonCamera.transform.position.z + 3f);
+                    //Instantiate(Goal, randomVector, Quaternion.identity);
+                    Instantiate(Goal, firstGoalTrans, Quaternion.identity);
 
                     var laserBeamTrans = new Vector3(FirstPersonCamera.transform.position.x, FirstPersonCamera.transform.position.y, FirstPersonCamera.transform.position.z);
                     Instantiate(LightBeam, laserBeamTrans, Quaternion.identity);
 
-                    Instantiate(Goal, randomVector, Quaternion.identity);
+                    var bigObstacleTrans = new Vector3(FirstPersonCamera.transform.position.x, FirstPersonCamera.transform.position.y, FirstPersonCamera.transform.position.z + 2);
+                    Instantiate(bigObstacle, bigObstacleTrans, Quaternion.identity);
+                   
                 }
             }
 
