@@ -4,76 +4,95 @@ using UnityEngine;
 
 public class ClosestPointSoundScript : MonoBehaviour {
 
-	public Camera FirstPersonCamera;
+	//public GameObject scriptRunner;
 
-	public GameObject Cube;
-	public GameObject Sphere;
+	private Camera FirstPersonCamera;
+	public LineRenderer Line1;
 	public GameObject Cube2;
 
-	public LineRenderer Line1;
 
-	public float DistanceCamCube;
-	public float DistanceCamSphere;
-	public float DistanceCubeSphere;
+	public float LineIndex1;
+	int lastPositionCount;
+	private bool firstTimeFlag = true;
+	private Vector3[] LineIndex;
+	private Vector3[] LineIndexOld;
 
-	//public float VectorCamCube;
-	//public float VectorCubeSphere;
-
-	//public static Vector3 Project;
-	public float Projectx;
-	public float Projecty;
-	public float Projectz;
-
-	public float angleToSphere;
-	public float angleToCube;
-
-	public float LineRenderPositions;
-	public float LineRenderPositionsx;
-	public float LineRenderPositionsy;
-	public float LineRenderPositionsz;
+	public float angleToIndex1;
+	public float angleToIndex2;
 
 	// Use this for initialization
 	void Start () {
-		Line1 = gameObject.GetComponent<LineRenderer>();
+		lastPositionCount = Line1.positionCount;
+		FirstPersonCamera = gameObject.GetComponent<Camera>();
 	}
-
 	// Update is called once per frame
 	void Update () {
 
-	/*	DistanceCamCube = Vector3.Distance(FirstPersonCamera.transform.position,Cube.transform.position);
-		DistanceCamSphere = Vector3.Distance(FirstPersonCamera.transform.position,Sphere.transform.position);
-		DistanceCubeSphere = Vector3.Distance(Cube.transform.position,Sphere.transform.position);*/
+		//Only update array when the positionCount of line renderer change
+		if (Line1.positionCount != lastPositionCount || firstTimeFlag) // || LineIndex != LineIndexOld doesn't do the thing I want it to do
+		{
+			Debug.Log("index: " + Line1.positionCount + " last index: " + lastPositionCount);
+			LineIndex = new Vector3[Line1.positionCount]; //size of array depending on amount of indexes in line renderer
+			if (firstTimeFlag)
+			{
+				LineIndexOld = new Vector3[Line1.positionCount];
+			}
+			//Loop through every index and put x,y,z coordinates in array
+      for(var i = 0; i < Line1.positionCount; i++)
+      {
+				//Debug.Log("i: " + i);
+				LineIndex[i] = Line1.GetPosition(i);
+				//Debug.Log("X: " + LineIndex[i].x + " Y: " + LineIndex[i].y + " Z: " + LineIndex[i].z);
+      }
+			lastPositionCount = Line1.positionCount;
+			firstTimeFlag = false;
 
-	/*	LineRenderPositions = Line1.GetPosition;
-		LineRenderPositionsx = LineRenderPositions.x;
-		LineRenderPositionsy = LineRenderPositions.y;
-		LineRenderPositionsz = LineRenderPositions.z; */
+			for (var u = 1; u < Line1.positionCount; u++)
+			{
+				//soundScript.InstantiateSoundSource(u, LineIndex);
+				//(Object.Instantiate(Cube2) as GameObject).GetComponent<InstantiateSoundSourceScript>().InstantiateSoundSource(u, LineIndex);
+				//InstantiateSoundSource(u);
+				if (LineIndex!=LineIndexOld)
+				{
+						GameObject[] gos = GameObject.FindGameObjectsWithTag("test_cube");
+						foreach(GameObject go in gos)
+     				Destroy(go);
+				}
+					Debug.Log("u: " + u);
+					Debug.Log("X: " + LineIndex[u].x + " Y: " + LineIndex[u].y + " Z: " + LineIndex[u].z);
+					Debug.Log("XOld: " + LineIndexOld[u].x + " YOld: " + LineIndexOld[u].y + " ZOld: " + LineIndexOld[u].z);
+					GameObject SoundSource = Instantiate(Cube2, LineIndex[u], Quaternion.identity) as GameObject;
+					SoundSource.GetComponent<InstantiateSoundSourceScript>().InstantiateSoundSource(u, LineIndex);
+					LineIndexOld = LineIndex;
 
-		Vector3 VectorCamSphere = FirstPersonCamera.transform.position - Sphere.transform.position;
-		Vector3 VectorCamCube = FirstPersonCamera.transform.position - Cube.transform.position;
-		Vector3 VectorCubeSphere = Sphere.transform.position - Cube.transform.position;
+			}
 
-		Vector3 Project =	Vector3.Project(VectorCamCube,VectorCubeSphere);
-		Project = Project+Cube.transform.position;
+		}
 
-		Projectx = Project.x;
-		Projecty = Project.y;
-		Projectz = Project.z;
+	}
+/*
+	private void InstantiateSoundSource(int u)
+	{
+		Vector3 VectorIndex1 = FirstPersonCamera.transform.position - LineIndex[u-1];
+		Vector3 VectorIndex2 = FirstPersonCamera.transform.position - LineIndex[u];
+		Vector3 VectorIndextoIndex = LineIndex[u-1] - LineIndex[u]; //noteToSelf: jump over the first index in loop
 
-		angleToSphere = Vector3.Angle(VectorCamSphere, VectorCubeSphere);
-		angleToCube = Vector3.Angle(VectorCamCube, VectorCubeSphere);
+		Vector3 ProjectonLine =	Vector3.Project(VectorIndex2,VectorIndextoIndex);
+		ProjectonLine = ProjectonLine+LineIndex[u];
 
-		if (angleToSphere>90 && angleToCube<90){
+		angleToIndex1 = Vector3.Angle(VectorIndex1, VectorIndextoIndex);
+		angleToIndex2 = Vector3.Angle(VectorIndex2, VectorIndextoIndex);
+
+		if (angleToIndex1>90 && angleToIndex2<90){
 			if (!GameObject.FindGameObjectWithTag("test_cube")){
-				var test_object = Instantiate(Cube2, Project, Quaternion.identity);
+				var test_object = Instantiate(Cube2, ProjectonLine, Quaternion.identity);
 			}
 			else {
-					GameObject.FindGameObjectWithTag("test_cube").transform.position = Project;
+					GameObject.FindGameObjectWithTag("test_cube").transform.position = ProjectonLine;
 				//Destroy(GameObject.FindGameObjectWithTag("test_cube"));
 				//var test_object = Instantiate(Cube2, Project, Quaternion.identity);
 			}
 		}
+	}*/
 
-
-	}
 }

@@ -23,8 +23,9 @@ GameObject:
   - component: {fileID: 23431441887782558}
   - component: {fileID: 65825109366899722}
   - component: {fileID: 82851404062677754}
+  - component: {fileID: 114541201127273366}
   m_Layer: 0
-  m_Name: New Prefab
+  m_Name: SoundSoruce
   m_TagString: test_cube
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -228,3 +229,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &114541201127273366
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1902346925517686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42cd40f7571fc024f90227bb3aec22e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Cube2: {fileID: 0}
+  LineIndex1: 0
+  angleToIndex1: 0
+  angleToIndex2: 0
