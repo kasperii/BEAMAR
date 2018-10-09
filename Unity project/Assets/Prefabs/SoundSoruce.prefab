@@ -50,7 +50,7 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1902346925517686}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -59,7 +59,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 18a6037e7a5956f4e9a67a028e066583, type: 2}
+  - {fileID: 2100000, guid: 3881e5bce9451864f9af39b76b3ecdb1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -240,7 +240,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42cd40f7571fc024f90227bb3aec22e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Cube2: {fileID: 0}
-  LineIndex1: 0
   angleToIndex1: 0
   angleToIndex2: 0
