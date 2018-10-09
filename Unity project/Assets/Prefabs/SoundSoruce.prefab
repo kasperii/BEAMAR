@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 23431441887782558}
   - component: {fileID: 65825109366899722}
   - component: {fileID: 82851404062677754}
-  - component: {fileID: 114541201127273366}
+  - component: {fileID: 114414821949159250}
   m_Layer: 0
   m_Name: SoundSoruce
   m_TagString: test_cube
@@ -229,7 +229,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &114541201127273366
+--- !u!114 &114414821949159250
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -237,7 +237,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1902346925517686}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42cd40f7571fc024f90227bb3aec22e6, type: 3}
+  m_Script: {fileID: 11500000, guid: e109892d8545403448f68e246454bfaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   angleToIndex1: 0
