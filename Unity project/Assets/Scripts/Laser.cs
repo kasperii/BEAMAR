@@ -4,6 +4,7 @@ using GoogleARCore;
 using GoogleARCore.Examples.Common;
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 
 
@@ -15,9 +16,6 @@ public class Laser : MonoBehaviour
     [SerializeField] private string mirrorTag;
     [SerializeField] private string detectedPlaneTag;
     [SerializeField] private string ObstacleTag;
-
-    //[SerializeField] private GameObject Goal;
-
     public string splitTag;
     public string spawnedBeam;
     public int maxBounce;
@@ -26,17 +24,25 @@ public class Laser : MonoBehaviour
     private float timer = 0;
     private LineRenderer mLineRenderer;
 
-    public AudioSource goalSound;
+    //public AudioSource goalSound;
 
     private string GoalName = "Goal";
 
-    //ARController m_AllPlanes;
+    public GameObject WinText;
+    public ParticleSystem WinParticleSystem;
+    [SerializeField] private GameObject LaserMark;
+
+    private bool shitFlag = true;
+    //private float instantiateTimer;
+
 
     // Use this for initialization
     void Start()
     {
-        goalSound = GetComponent<AudioSource>();
-
+        //goalSound = GetComponent<AudioSource>();
+        //PSysObj.GetComponent<ParticleSystem>().Stop();
+        WinParticleSystem.Stop();
+       // WinText.gameObject.SetActive(false);
         timer = 0;
         mLineRenderer = gameObject.GetComponent<LineRenderer>();
         StartCoroutine(RedrawLaser());
@@ -63,6 +69,7 @@ public class Laser : MonoBehaviour
             mLineRenderer = gameObject.GetComponent<LineRenderer>();
             StartCoroutine(RedrawLaser());
         }
+        //instantiateTimer = Time.deltaTime;
     }
 
     public float GetDistance(Vector3 rayOrigin, Vector3 rayDir)
@@ -94,6 +101,7 @@ public class Laser : MonoBehaviour
             if (Physics.Raycast(lastLaserPosition, laserDirection, out outHit, laserDistance))// && ((hit.transform.gameObject.tag == detectedPlaneTag) || (hit.transform.gameObject.tag == splitTag) || (hit.transform.gameObject.tag == mirrorTag))) // || (hit.transform.gameObject.tag == ObstacleTag)))
             {
                 Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * outHit.distance, Color.yellow);
+                //Instantiate(LaserMark, outHit.point, Quaternion.identity);
 
                 //Handheld.Vibrate();
                 laserReflected++;
@@ -102,13 +110,13 @@ public class Laser : MonoBehaviour
                 mLineRenderer.SetPosition(vertexCounter - 3, Vector3.MoveTowards(outHit.point, lastLaserPosition, 0.01f));
                 mLineRenderer.SetPosition(vertexCounter - 2, outHit.point);
                 mLineRenderer.SetPosition(vertexCounter - 1, outHit.point);
-                mLineRenderer.SetWidth(.01f, .01f);
+                mLineRenderer.SetWidth(.02f, .02f);
                 lastLaserPosition = outHit.point;
 
                 Vector3 prevDirection = laserDirection;
                 laserDirection = Vector3.Reflect(laserDirection, outHit.normal);
 
-                if (outHit.transform.gameObject.tag == splitTag) //|| (outHit.transform.gameObject.tag == splitTag)) //(hit.transform.gameObject != Goal) &&
+                if (outHit.transform.tag == splitTag) //|| (outHit.transform.gameObject.tag == splitTag)) //(hit.transform.gameObject != Goal) &&
                 {
                     //Handheld.Vibrate();
                     if (laserSplit >= maxSplit)
@@ -124,100 +132,49 @@ public class Laser : MonoBehaviour
                         ((GameObject)go).tag = spawnedBeam;
                     }
                 }
-                    //loopActive = false;
-               
-                /*if (outHit.transform.gameObject.tag == splitTag)
+
+                //When beam hitting the floor, stop beam and create a mark
+                else if (outHit.transform.tag == detectedPlaneTag)
                 {
-                    /*Handheld.Vibrate();
-                    laserReflected++;
-                    vertexCounter += 3;
-                    mLineRenderer.SetVertexCount(vertexCounter);
-                    mLineRenderer.SetPosition(vertexCounter - 3, Vector3.MoveTowards(outHit.point, lastLaserPosition, 0.01f));
-                    mLineRenderer.SetPosition(vertexCounter - 2, outHit.point);
-                    mLineRenderer.SetPosition(vertexCounter - 1, outHit.point);
-                    mLineRenderer.SetWidth(.01f, .01f);
-                    lastLaserPosition = outHit.point;
+                    //if (instantiateTimer > 2.0f)
+                    //{
+                        Instantiate(LaserMark, outHit.point, Quaternion.identity);
+                       // instantiateTimer = 0.0f;
 
-                    Vector3 prevDirection = laserDirection;
-                    laserDirection = Vector3.Reflect(laserDirection, outHit.normal);
-                    
-                    //When using prisms, we also want to split the beam. 
-
-                    //Debug.Log("Split");
-                    //Handheld.Vibrate();
-                    if (laserSplit >= maxSplit)
-                    {
-                        Debug.Log("Max split reached.");
-                    }
-                    else
-                    {
-                        //Debug.Log("Splitting...");
-                        laserSplit++;
-                        Object go = Instantiate(gameObject, outHit.point, Quaternion.LookRotation(prevDirection));
-                        go.name = spawnedBeam;
-                        ((GameObject)go).tag = spawnedBeam;
-                    }
-                    //loopActive = false;
-
-                }*/
-
-
-
-
-                else if (outHit.transform.gameObject.tag == detectedPlaneTag)
-                {
-                    //Handheld.Vibrate();
-                /*TrackableHit trackHit;
-                    TrackableHitFlags raycastFilter = TrackableHitFlags.PlaneWithinPolygon |
-                    TrackableHitFlags.FeaturePointWithSurfaceNormal;
-                    if (Frame.Raycast(lastLaserPosition.x, lastLaserPosition.y, raycastFilter, out trackHit))
-                    {
-                    // if (trackHit.Trackable is DetectedPlane)
-                            loopActive = false;
-                        //}
-                    }*/
+                    //}
                     loopActive = false;
                 }
 
-
-                //Debug.Log("Bounce");
-                //If the tag is a mirror, bounce it. 
                
 
                 else if(outHit.transform.gameObject.tag == ObstacleTag)
                 {
-                    /*laserReflected++;
-                    vertexCounter += 3;
-                    mLineRenderer.SetVertexCount(vertexCounter);
-                    mLineRenderer.SetPosition(vertexCounter - 3, Vector3.MoveTowards(outHit.point, lastLaserPosition, 0.01f));
-                    mLineRenderer.SetPosition(vertexCounter - 2, outHit.point);
-                    mLineRenderer.SetPosition(vertexCounter - 1, outHit.point);
-                    mLineRenderer.SetWidth(.01f, .01f);
-                    lastLaserPosition = outHit.point;
-
-                    Vector3 prevDirection = laserDirection;
-                    laserDirection = Vector3.Reflect(laserDirection, outHit.normal);*/
-
                     //Change color on goal when raycast hits
-                    //goalSound.Play();
-                    //Handheld.Vibrate();
                     if (outHit.collider.GetComponent<ChangeColorOnGoal>() != null)
                     {
+                        //goalSound.Play();
+                        //WinText.GetComponent<WinTextScript>().UpdateText();
+                        //updateWinText.UpdateText();
+                        //WinText.gameObject.SetActive(true);  Instantiate(bigObstacle, bigObstacleTrans, Quaternion.identity);
+                        //Instantiate(WinText, FirstPersonCamera.transform.position, Quaternion.identity);
                         outHit.collider.GetComponent<ChangeColorOnGoal>().materialChange(outHit.collider.GetComponent<Renderer>());
                     }
+
+                    /*if(shitFlag)
+                    {
+                       // goalSound.Play();
+                        //Debug.Log("I hate my fucking life");
+                       //PSysObj.GetComponent<ParticleSystem>().Play();
+                        PSys.Play();
+                        WinText.GetComponent<WinTextScript>().UpdateText();
+
+                    }*/
                     else
                     {
                         Debug.Log("Need to attach a script ChangeColorOnGoal to object");
                     }
                     loopActive = false;
-                }
-            //}
-
-            
-
-
- 
-            
+                } 
             }
             else
             {

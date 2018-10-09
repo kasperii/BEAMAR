@@ -24,6 +24,8 @@ namespace GoogleARCore.Examples.HelloAR
     using GoogleARCore;
     using GoogleARCore.Examples.Common;
     using UnityEngine;
+    //using static Vibration;
+
 
 #if UNITY_EDITOR
     // Set up touch input propagation while using Instant Preview in the editor.
@@ -87,10 +89,21 @@ namespace GoogleARCore.Examples.HelloAR
         public GameObject bigObstacle;
 
         private float transformOffset = 0.5f;
-       
+
+        private float doubleTapTimer;
+        private int tapCount;
+
+        //public bool StartFlag { get; private set; }
+
+        //public Vibration vibration;
+
+        //public bool StartFlag;
 
         public void Start()
         {
+            GameObject ARSurfObj = GameObject.Find("ARSurfaceManager");
+            ARSurfaceManager surfScript = ARSurfObj.GetComponent<ARSurfaceManager>();
+            bool StartFlag = surfScript.StartFlag;
             /*
              * var cameraTrans = FirstPersonCamera.transform;
             //ar mirrorObject = Instantiate(prefab, cameraTrans.position, cameraTrans.rotation);// hit.Pose.rotation);
@@ -109,6 +122,7 @@ namespace GoogleARCore.Examples.HelloAR
         /// </summary>
         public void Update()
         {
+            //Debug.Log("flag: " + StartFlag);
             _UpdateApplicationLifecycle();
 
             // Hide snackbar when currently tracking at least one plane.
@@ -125,13 +139,17 @@ namespace GoogleARCore.Examples.HelloAR
 
             var cameraTrans = FirstPersonCamera.transform;
 
+            //THIS IS SHIT PLEASE CLOSE YOUR EYES
+            GameObject ARSurfObj = GameObject.Find("ARSurfaceManager");
+            ARSurfaceManager surfScript = ARSurfObj.GetComponent<ARSurfaceManager>();
+            bool StartFlag = surfScript.StartFlag;
             //Only show laser when we found a plane
-            if (showSearchingUI == false)
+            if (showSearchingUI == false && StartFlag == true)
             {
                 if (!GameObject.FindGameObjectWithTag("Obstacle"))// == null)
                 {
                     //var randomVector = new Vector3(Random.Range(-2.0f, 2.0f), Random.Range(0.0f, 1.0f), Random.Range(-2.0f, 2.0f));
-                    var firstGoalTrans = new Vector3(FirstPersonCamera.transform.position.x + 1, FirstPersonCamera.transform.position.y + 0.25f, FirstPersonCamera.transform.position.z + 3f);
+                    var firstGoalTrans = new Vector3(FirstPersonCamera.transform.position.x + 0, FirstPersonCamera.transform.position.y + 0.25f, FirstPersonCamera.transform.position.z + 3f);
                     //Instantiate(Goal, randomVector, Quaternion.identity);
                     Instantiate(Goal, firstGoalTrans, Quaternion.identity);
 
@@ -140,7 +158,6 @@ namespace GoogleARCore.Examples.HelloAR
 
                     var bigObstacleTrans = new Vector3(FirstPersonCamera.transform.position.x, FirstPersonCamera.transform.position.y, FirstPersonCamera.transform.position.z + 2);
                     Instantiate(bigObstacle, bigObstacleTrans, Quaternion.identity);
-                   
                 }
             }
 
@@ -148,9 +165,53 @@ namespace GoogleARCore.Examples.HelloAR
 
             // If the player has not touched the screen, we are done with this update.
             Touch touch;
-            if (Input.touchCount < 1 || (touch = Input.GetTouch(0)).phase != TouchPhase.Began)
+            /*if (Input.touchCount < 1 || (touch = Input.GetTouch(0)).phase != TouchPhase.Began)
             {
                 return;
+            }*/
+            if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began)
+            {
+                tapCount++;
+            }
+            if (tapCount > 0)
+            {
+                doubleTapTimer += Time.deltaTime;
+            }
+            if (tapCount >= 2)
+            {
+                if (GameObject.FindGameObjectsWithTag("Mirror").Length < 6)
+                {
+                    placeMirrorSound.Play();
+                    Handheld.Vibrate();
+                    //Vibration.CreateOneShot(50);
+                    //vibration.CreateOneShot(50);
+                    //transform.position + transform.forward*distance
+                    //Handheld.Vibrate();
+
+                    //Let's the user place the mirror prefab anywhere on the screen, at the camera position and rotation
+                    //var cameraTrans = FirstPersonCamera.transform;
+                    var mirrorObject = Instantiate(MirrorPointPrefab, cameraTrans.position + FirstPersonCamera.transform.forward * transformOffset, cameraTrans.rotation);// hit.Pose.rotation);
+
+                    // Compensate for the hitPose rotation facing away from the raycast (i.e. camera).
+                    mirrorObject.transform.Rotate(0, k_ModelRotation, 0, Space.Self);
+
+                    // Create an anchor to allow ARCore to track the hitpoint as understanding of the physical
+                    // world evolves.
+                    //var anchor = hit.Trackable.CreateAnchor(hit.Pose);
+
+                    // Make Andy model a child of the anchor.
+                    //mirrorObject.transform.parent = anchor.transform;
+                    //mirrorObject.transform.parent = anchor.transform;
+                }
+
+               doubleTapTimer = 0.0f;
+               tapCount = 0;
+             
+            }
+            if (doubleTapTimer > 0.3f)
+            {
+                doubleTapTimer = 0f;
+                tapCount = 0;
             }
 
             // Raycast against the location the player touched to search for planes.
@@ -182,29 +243,33 @@ namespace GoogleARCore.Examples.HelloAR
                         prefab = MirrorPlanePrefab;
                     }
                     */
-                    // Instantiate Andy model at the hit pose.
-                    //var mirrorObject = Instantiate(prefab, hit.Pose.position, hit.Pose.rotation);
+            // Instantiate Andy model at the hit pose.
+            //var mirrorObject = Instantiate(prefab, hit.Pose.position, hit.Pose.rotation);
 
-                if (GameObject.FindGameObjectsWithTag("Mirror").Length < 6)
-                {
-                    placeMirrorSound.Play();
-                //transform.position + transform.forward*distance
+           /* if (GameObject.FindGameObjectsWithTag("Mirror").Length < 6)
+            {
+                placeMirrorSound.Play();
                 Handheld.Vibrate();
-                    //Let's the user place the mirror prefab anywhere on the screen, at the camera position and rotation
-                    //var cameraTrans = FirstPersonCamera.transform;
-                    var mirrorObject = Instantiate(MirrorPointPrefab, cameraTrans.position + FirstPersonCamera.transform.forward * transformOffset, cameraTrans.rotation);// hit.Pose.rotation);
+                //Vibration.CreateOneShot(50);
+                //vibration.CreateOneShot(50);
+            //transform.position + transform.forward*distance
+            //Handheld.Vibrate();
 
-                    // Compensate for the hitPose rotation facing away from the raycast (i.e. camera).
-                    mirrorObject.transform.Rotate(0, k_ModelRotation, 0, Space.Self);
+            //Let's the user place the mirror prefab anywhere on the screen, at the camera position and rotation
+            //var cameraTrans = FirstPersonCamera.transform;
+            var mirrorObject = Instantiate(MirrorPointPrefab, cameraTrans.position + FirstPersonCamera.transform.forward * transformOffset, cameraTrans.rotation);// hit.Pose.rotation);
 
-                    // Create an anchor to allow ARCore to track the hitpoint as understanding of the physical
-                    // world evolves.
-                    //var anchor = hit.Trackable.CreateAnchor(hit.Pose);
+                // Compensate for the hitPose rotation facing away from the raycast (i.e. camera).
+                mirrorObject.transform.Rotate(0, k_ModelRotation, 0, Space.Self);
 
-                    // Make Andy model a child of the anchor.
-                    //mirrorObject.transform.parent = anchor.transform;
-                    //mirrorObject.transform.parent = anchor.transform;
-                }
+                // Create an anchor to allow ARCore to track the hitpoint as understanding of the physical
+                // world evolves.
+                //var anchor = hit.Trackable.CreateAnchor(hit.Pose);
+
+                // Make Andy model a child of the anchor.
+                //mirrorObject.transform.parent = anchor.transform;
+                //mirrorObject.transform.parent = anchor.transform;
+            }*/
 
 
 

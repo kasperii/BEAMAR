@@ -5,6 +5,7 @@ using UnityEngine;
 public class ChangeColorOnGoal : MonoBehaviour
 {
     public Material[] material;
+
     [HideInInspector] public Renderer rend;
 
     private int index = 0;
