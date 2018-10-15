@@ -5,6 +5,14 @@ TagManager:
   serializedVersion: 2
   tags:
   - Shootable
+  - Mirror
+  - detectedPlane
+  - Obstacle
+  - spawnedBeam
+  - Prism
+  - ObstacleRed
+  - ObstaclePurple
+  - Goal
   layers:
   - Default
   - TransparentFX

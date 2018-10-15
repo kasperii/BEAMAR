@@ -13,6 +13,13 @@ public class Laser : MonoBehaviour
 {
     public float updateFrequency = 0.1f;
     public int laserDistance;
+    [SerializeField] private Camera FirstPersonCamera;
+    [SerializeField] private GameObject LightBeam;
+    [SerializeField] private GameObject Goal;
+    [SerializeField] private GameObject GoalLit;
+    [SerializeField] private GameObject bigObstacle;
+   
+
     [SerializeField] private string mirrorTag;
     [SerializeField] private string detectedPlaneTag;
     [SerializeField] private string ObstacleTag;
@@ -27,12 +34,12 @@ public class Laser : MonoBehaviour
     //public AudioSource goalSound;
 
     private string GoalName = "Goal";
+    GameObject litGoal; //Goal with light to be instantiated
 
     public GameObject WinText;
-    public ParticleSystem WinParticleSystem;
+    //public ParticleSystem WinParticleSystem;
     [SerializeField] private GameObject LaserMark;
 
-    private bool shitFlag = true;
     //private float instantiateTimer;
 
 
@@ -41,11 +48,11 @@ public class Laser : MonoBehaviour
     {
         //goalSound = GetComponent<AudioSource>();
         //PSysObj.GetComponent<ParticleSystem>().Stop();
-        WinParticleSystem.Stop();
+        //WinParticleSystem.Stop();
        // WinText.gameObject.SetActive(false);
         timer = 0;
         mLineRenderer = gameObject.GetComponent<LineRenderer>();
-        StartCoroutine(RedrawLaser());
+        //StartCoroutine(RedrawLaser());
     }
 
     // Update is called once per frame
@@ -60,25 +67,65 @@ public class Laser : MonoBehaviour
                 foreach (GameObject laserSplit in GameObject.FindGameObjectsWithTag(spawnedBeam))
                     Destroy(laserSplit);
 
-                StartCoroutine(RedrawLaser());
+                Debug.Log(GameObject.FindGameObjectWithTag("Obstacle"));
+                if(GameObject.FindGameObjectWithTag("Obstacle") != null)
+                    StartCoroutine(RedrawLaser());
             }
             timer += Time.deltaTime;
         }
         else
         {
             mLineRenderer = gameObject.GetComponent<LineRenderer>();
-            StartCoroutine(RedrawLaser());
+            if (GameObject.FindGameObjectWithTag("Obstacle") != null)
+                StartCoroutine(RedrawLaser());
         }
         //instantiateTimer = Time.deltaTime;
+
+
+        //Trying to instantiate laser gameobject here instead of arController
+        var cameraTrans = FirstPersonCamera.transform;
+
+        //THIS IS SHIT PLEASE CLOSE YOUR EYES
+        GameObject ARSurfObj = GameObject.Find("ARSurfaceManager");     //Find object ARSurfaceManager
+        ARSurfaceManager surfScript = ARSurfObj.GetComponent<ARSurfaceManager>();   //Get script from manager
+        bool StartFlag = surfScript.StartFlag;                          // Fetch bool from script from manager
+                                                                        //Only show laser when we found a plane
+        if (StartFlag == true)              //StartFlag true when Startbutton is pressed
+        {
+            if (!GameObject.FindGameObjectWithTag("Goal"))// == null)
+            {
+                //var randomVector = new Vector3(Random.Range(-2.0f, 2.0f), Random.Range(0.0f, 1.0f), Random.Range(-2.0f, 2.0f));
+                //Instantiate(Goal, randomVector, Quaternion.identity);
+                var firstGoalTrans = new Vector3(FirstPersonCamera.transform.position.x + 0, FirstPersonCamera.transform.position.y + 0.25f, FirstPersonCamera.transform.position.z + 3f);
+                Instantiate(Goal, firstGoalTrans, Quaternion.identity);
+                litGoal = Instantiate(GoalLit, firstGoalTrans, Quaternion.identity);
+                litGoal.SetActive(false);
+
+                var laserBeamTrans = new Vector3(FirstPersonCamera.transform.position.x, FirstPersonCamera.transform.position.y-0.15f, FirstPersonCamera.transform.position.z-1.0f);
+                //Instantiate(LightBeam, laserBeamTrans, Quaternion.identity);
+
+                //Sets the laser active
+                this.transform.parent.gameObject.SetActive(true);
+                this.gameObject.SetActive(true);
+                this.transform.parent.position = laserBeamTrans;
+
+
+                var bigObstacleTrans = new Vector3(FirstPersonCamera.transform.position.x, FirstPersonCamera.transform.position.y, FirstPersonCamera.transform.position.z + 2);
+                Instantiate(bigObstacle, bigObstacleTrans, Quaternion.identity);
+            }
+        }
+
+
     }
 
-    public float GetDistance(Vector3 rayOrigin, Vector3 rayDir)
+    //Not used
+    /*public float GetDistance(Vector3 rayOrigin, Vector3 rayDir)
     {
         Vector3 point = GameObject.FindGameObjectWithTag("FirstPersonCamera").transform.position;
         float distance = Vector3.Distance(rayOrigin, point);
         float angle = Vector3.Angle(rayDir, point - rayOrigin);
         return (distance * Mathf.Sin(angle * Mathf.Deg2Rad));
-    }
+    }*/
 
     IEnumerator RedrawLaser()
     {
@@ -138,19 +185,33 @@ public class Laser : MonoBehaviour
                 {
                     //if (instantiateTimer > 2.0f)
                     //{
-                        Instantiate(LaserMark, outHit.point, Quaternion.identity);
-                       // instantiateTimer = 0.0f;
+                    Instantiate(LaserMark, outHit.point, Quaternion.identity);
+                    // instantiateTimer = 0.0f;
 
                     //}
                     loopActive = false;
                 }
 
-               
-
-                else if(outHit.transform.gameObject.tag == ObstacleTag)
+                else if (outHit.transform.gameObject.tag == "Goal")
                 {
+                    outHit.transform.gameObject.SetActive(false);
+                    litGoal.SetActive(true);
+                   //Instantiate(GoalLit, firstGoalTrans, Quaternion.identity);
+                   //Goal.SetActive(false);
+                   //GoalLit.SetActive(true);
+                   loopActive = false;
+                }
+
+
+
+                else if (outHit.transform.gameObject.tag == ObstacleTag)
+                {
+
+                    //outHit.transform.gameObject.SetActive(false);
+                    //Goal.SetActive(false);
+                    //GoalLit.SetActive(true);
                     //Change color on goal when raycast hits
-                    if (outHit.collider.GetComponent<ChangeColorOnGoal>() != null)
+                    /*if (outHit.collider.GetComponent<ChangeColorOnGoal>() != null)
                     {
                         //goalSound.Play();
                         //WinText.GetComponent<WinTextScript>().UpdateText();
@@ -168,11 +229,11 @@ public class Laser : MonoBehaviour
                         PSys.Play();
                         WinText.GetComponent<WinTextScript>().UpdateText();
 
-                    }*/
+                    }
                     else
                     {
                         Debug.Log("Need to attach a script ChangeColorOnGoal to object");
-                    }
+                    }*/
                     loopActive = false;
                 } 
             }
