@@ -5,6 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - Shootable
+  - detectedPlane
+  - Mirror
+  - Obstacle
+  - spawnedBeam
+  - Prism
+  - test_cube
   layers:
   - Default
   - TransparentFX

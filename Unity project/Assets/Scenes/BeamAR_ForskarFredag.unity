@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.43667555, g: 0.48427182, b: 0.5645241, a: 1}
+  m_IndirectSpecularColor: {r: 0.43667564, g: 0.48427147, b: 0.56452364, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -740,11 +740,11 @@ GameObject:
   m_Component:
   - component: {fileID: 627916102}
   - component: {fileID: 627916103}
-  - component: {fileID: 627916105}
   - component: {fileID: 627916104}
   - component: {fileID: 627916108}
   - component: {fileID: 627916106}
   - component: {fileID: 627916107}
+  - component: {fileID: 627916109}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -884,13 +884,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!81 &627916105
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 627916101}
-  m_Enabled: 1
 --- !u!114 &627916106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1011,6 +1004,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &627916109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 627916101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12768ff4f820c8846aa51636b24efea2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Line1: {fileID: 120687336979874650, guid: 884fb3c52c522a9419aaa11e2721aceb, type: 2}
+  Cube2: {fileID: 1061176349405812, guid: a310324e31ac5664995bb3effac60b27, type: 2}
+  LineIndex1: 0
 --- !u!4 &639245643
 Transform:
   m_ObjectHideFlags: 0
@@ -2669,6 +2676,7 @@ GameObject:
   - component: {fileID: 896679035}
   - component: {fileID: 1825018640}
   - component: {fileID: 1825018639}
+  - component: {fileID: 1825018641}
   m_Layer: 0
   m_Name: First Person Camera
   m_TagString: MainCamera
@@ -2712,6 +2720,13 @@ MonoBehaviour:
   m_TrackingType: 0
   m_UpdateType: 2
   m_UseRelativeTransform: 1
+--- !u!81 &1825018641
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1825018637}
+  m_Enabled: 1
 --- !u!1001 &1876591065
 Prefab:
   m_ObjectHideFlags: 0
