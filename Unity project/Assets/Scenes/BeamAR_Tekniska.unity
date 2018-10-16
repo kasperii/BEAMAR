@@ -180,6 +180,23 @@ Transform:
   m_Father: {fileID: 1059972510}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!120 &135854392 stripped
+LineRenderer:
+  m_CorrespondingSourceObject: {fileID: 120246336254499684, guid: 53ec9417812447a4581a6cebeb45ddf7,
+    type: 2}
+  m_PrefabInternal: {fileID: 1581697203}
+--- !u!1 &175115665 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1597398820530644, guid: 766b7850e2f66d04faff007885e01174,
+    type: 2}
+  m_PrefabInternal: {fileID: 1297208657}
+--- !u!81 &175115666
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 175115665}
+  m_Enabled: 1
 --- !u!4 &246568771 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4548867429256868, guid: 70576f485708187468741c753465bab4,
@@ -728,11 +745,11 @@ GameObject:
   m_Component:
   - component: {fileID: 627916102}
   - component: {fileID: 627916103}
-  - component: {fileID: 627916105}
   - component: {fileID: 627916104}
   - component: {fileID: 627916108}
   - component: {fileID: 627916106}
   - component: {fileID: 627916107}
+  - component: {fileID: 627916109}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -872,13 +889,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!81 &627916105
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 627916101}
-  m_Enabled: 1
 --- !u!114 &627916106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -999,6 +1009,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &627916109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 627916101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12768ff4f820c8846aa51636b24efea2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Line1: {fileID: 135854392}
+  Cube2: {fileID: 1061176349405812, guid: a310324e31ac5664995bb3effac60b27, type: 2}
 --- !u!4 &639245643 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4344980274418044, guid: 766b7850e2f66d04faff007885e01174,

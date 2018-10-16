@@ -20,7 +20,6 @@ public class SoundSource : MonoBehaviour {
 	}
 	// Update is called once per frame
 	void Update () {
-
 		//Debug.Log("Uu: " + u);
 		//Debug.Log("Xx: " + LineIndex[u-1].x + " Yy: " + LineIndex[u-1].y + " Zz: " + LineIndex[u-1].z);
 		Vector3 VectorIndex1 = FirstPersonCamera.transform.position - LineIndex[u-1];

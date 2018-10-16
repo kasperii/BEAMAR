@@ -23,9 +23,9 @@ public class SoundController : MonoBehaviour {
 	void Update () {
 
 		//Only update array when the positionCount of line renderer change
-		if (Line1.positionCount != lastPositionCount || firstTimeFlag || LineIndex != LineIndexOld) // || LineIndex != LineIndexOld doesn't do the thing I want it to do
+		if (Line1.positionCount != lastPositionCount || firstTimeFlag) // || LineIndex != LineIndexOld doesn't do the thing I want it to do
 		{
-			Handheld.Vibrate();
+			//Handheld.Vibrate();
 			//Debug.Log("index: " + Line1.positionCount + " last index: " + lastPositionCount);
 			LineIndex = new Vector3[Line1.positionCount]; //size of array depending on amount of indexes in line renderer
 			if (firstTimeFlag) //First time - creat a empty LineIndexOld that can be used later for comparison
