@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: mtl_lava_distort
-  m_Shader: {fileID: 4800000, guid: 6a151f652f5ba03458e9a7cd03ae88e8, type: 3}
+  m_Shader: {fileID: 4800000, guid: 036402a4b0d5f4342bbf1b572714f64e, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
   m_EnableInstancingVariants: 0
@@ -25,11 +25,15 @@ Material:
     - _LavaTex:
         m_Texture: {fileID: 2800000, guid: 93a726948508cc14eab67fb1abe2daa8, type: 3}
         m_Scale: {x: 1, y: 1}
+<<<<<<< HEAD
         m_Offset: {x: 1.1666071, y: 0}
+=======
+        m_Offset: {x: 0.76923776, y: 0}
+>>>>>>> 3363638150d77fcba157fa313f98755ff4323679
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: 348fa4d278c53ad4dacd07df1e63a248, type: 3}
         m_Scale: {x: 1.25, y: 1}
-        m_Offset: {x: 0, y: 0}
+        m_Offset: {x: 0.86362886, y: 0}
     - _MainTex2:
         m_Texture: {fileID: 2800000, guid: bef54341b6d21864c82d47f3bed4c7db, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -40,7 +44,7 @@ Material:
         m_Offset: {x: 1.5691679, y: 0}
     m_Floats:
     - _Displacement: 0.0375
-    - _DistortX: 1.0714285
+    - _DistortX: 1.28
     - _DistortY: 0
     - _RefractTexTiling: 1
     m_Colors:

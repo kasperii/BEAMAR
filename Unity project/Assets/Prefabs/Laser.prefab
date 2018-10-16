@@ -140,19 +140,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   updateFrequency: 0.1
   laserDistance: 10
+  FirstPersonCamera: {fileID: 20079260427749554, guid: 766b7850e2f66d04faff007885e01174,
+    type: 2}
+  LightBeam: {fileID: 1808227196837734}
+  Goal: {fileID: 1511486642558036, guid: 134ccc087582fba4c9885fc4564cf14b, type: 2}
+  GoalLit: {fileID: 1552480904020828, guid: 70576f485708187468741c753465bab4, type: 2}
+  bigObstacle: {fileID: 1769946315340658, guid: ec1d2957bdddd754db3f21031a03796d,
+    type: 2}
   mirrorTag: Mirror
   detectedPlaneTag: detectedPlane
   ObstacleTag: Obstacle
-  test: {fileID: 1620808786365914, guid: 2cb14dd479266e7418ad21204897b274, type: 2}
-  testText: {fileID: 114940107137705556, guid: 2cb14dd479266e7418ad21204897b274, type: 2}
   splitTag: Prism
   spawnedBeam: spawnedBeam
   maxBounce: 6
   maxSplit: 0
   laserPoints: 
   WinText: {fileID: 1497528764182508, guid: d61ae2fc8c2cc4e41a68e3527dd20dd2, type: 2}
-  PSys: {fileID: 198570262009995918, guid: c87ddee307c46384698ff243bd235289, type: 2}
-  LaserMark: {fileID: 1396104305747578, guid: ef4de615d7bddfa4c8007d639ee6be26, type: 2}
+  LaserMark: {fileID: 1109414951655644, guid: 7ad04808357784548b4c280123f49572, type: 2}
 --- !u!120 &120246336254499684
 LineRenderer:
   m_ObjectHideFlags: 1

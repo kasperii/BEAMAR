@@ -140,26 +140,28 @@ namespace GoogleARCore.Examples.HelloAR
             var cameraTrans = FirstPersonCamera.transform;
 
             //THIS IS SHIT PLEASE CLOSE YOUR EYES
-            GameObject ARSurfObj = GameObject.Find("ARSurfaceManager");
-            ARSurfaceManager surfScript = ARSurfObj.GetComponent<ARSurfaceManager>();
-            bool StartFlag = surfScript.StartFlag;
+            /*GameObject ARSurfObj = GameObject.Find("ARSurfaceManager");     //Find object ARSurfaceManager
+            ARSurfaceManager surfScript = ARSurfObj.GetComponent<ARSurfaceManager>();   //Get script from manager
+            bool StartFlag = surfScript.StartFlag;                          // Fetch bool from script from manager
             //Only show laser when we found a plane
-            if (showSearchingUI == false && StartFlag == true)
+            if (showSearchingUI == false && StartFlag == true)              //StartFlag true when Startbutton is pressed
             {
                 if (!GameObject.FindGameObjectWithTag("Obstacle"))// == null)
                 {
                     //var randomVector = new Vector3(Random.Range(-2.0f, 2.0f), Random.Range(0.0f, 1.0f), Random.Range(-2.0f, 2.0f));
-                    var firstGoalTrans = new Vector3(FirstPersonCamera.transform.position.x + 0, FirstPersonCamera.transform.position.y + 0.25f, FirstPersonCamera.transform.position.z + 3f);
                     //Instantiate(Goal, randomVector, Quaternion.identity);
+                    var firstGoalTrans = new Vector3(FirstPersonCamera.transform.position.x + 0, FirstPersonCamera.transform.position.y + 0.25f, FirstPersonCamera.transform.position.z + 3f);
                     Instantiate(Goal, firstGoalTrans, Quaternion.identity);
 
+
+                    //Get position from laser script here
                     var laserBeamTrans = new Vector3(FirstPersonCamera.transform.position.x, FirstPersonCamera.transform.position.y, FirstPersonCamera.transform.position.z);
                     Instantiate(LightBeam, laserBeamTrans, Quaternion.identity);
 
                     var bigObstacleTrans = new Vector3(FirstPersonCamera.transform.position.x, FirstPersonCamera.transform.position.y, FirstPersonCamera.transform.position.z + 2);
                     Instantiate(bigObstacle, bigObstacleTrans, Quaternion.identity);
                 }
-            }
+            }*/
 
             SearchingForPlaneUI.SetActive(showSearchingUI);
 
