@@ -27,6 +27,8 @@ namespace GoogleARCore.Examples.CloudAnchors
     using UnityEngine;
     using UnityEngine.UI;
 
+    using BeamAR.MultiplayerScripts;
+
 #if UNITY_EDITOR
     // Set up touch input propagation while using Instant Preview in the editor.
     using Input = InstantPreviewInput;
@@ -48,8 +50,15 @@ namespace GoogleARCore.Examples.CloudAnchors
         /// </summary>
         public CloudAnchorUIController UIController;
 
-        /// Prefab of the light beam
-        public GameObject LightBeam;
+        /// <summary>
+        /// A controller for setting up Photon server.
+        /// </summary>
+        public PhotonServerController PhotonController;
+
+        /// <summary>
+        /// A controller for managing the game logic.
+        /// </summary>
+        public GameManager GameManager;
 
         [Header("ARCore")]
 
@@ -67,7 +76,7 @@ namespace GoogleARCore.Examples.CloudAnchors
         /// An Andy Android model to visually represent anchors in the scene; this uses ARCore
         /// lighting estimation shaders.
         /// </summary>
-        public GameObject ARCoreMirrorPrefab;
+        public GameObject ARCoreAnchorPrefab;
 
         [Header("ARKit")]
 
@@ -137,8 +146,6 @@ namespace GoogleARCore.Examples.CloudAnchors
             Resolving,
         }
 
-        /// Boolean to check if game world has been instatiated
-        private bool worldIsInstatiated = false;
 
         /// <summary>
         /// The Unity Start() method.
@@ -173,17 +180,6 @@ namespace GoogleARCore.Examples.CloudAnchors
                 return;
             }
 
-            // Instatiates the game world if you are hosting
-            // Runs only once
-            // if (!worldIsInstatiated)
-            // {
-            //     var laserBeamTrans = new Vector3(FirstPersonCamera.transform.position.x, FirstPersonCamera.transform.position.y, FirstPersonCamera.transform.position.z);
-            //     Instantiate(LightBeam, laserBeamTrans, FirstPersonCamera.transform.rotation);
-            //     worldIsInstatiated = true;
-            //     Handheld.Vibrate();
-            //     UIController.Debugger("I have entered the if!");
-            // }
-
             // If the player has not touched the screen then the update is complete.
             Touch touch;
             if (Input.touchCount < 1 || (touch = Input.GetTouch(0)).phase != TouchPhase.Began)
@@ -198,7 +194,7 @@ namespace GoogleARCore.Examples.CloudAnchors
                 if (Frame.Raycast(touch.position.x, touch.position.y,
                         TrackableHitFlags.PlaneWithinPolygon, out hit))
                 {
-                    m_LastPlacedAnchor = hit.Trackable.CreateAnchor(Frame.Pose);
+                    m_LastPlacedAnchor = hit.Trackable.CreateAnchor(hit.Pose);
                 }
             }
             else
@@ -212,8 +208,6 @@ namespace GoogleARCore.Examples.CloudAnchors
 
             if (m_LastPlacedAnchor != null)
             {
-                //float dist = Vector3.Distance(m_LastPlacedAnchor.transform.position, FirstPersonCamera.transform.position);
-
                 // Instantiate mirror model at the hit pose.
                 var mirrorObject = Instantiate(_GetMirrorPrefab(), m_LastPlacedAnchor.transform.position,
                     m_LastPlacedAnchor.transform.rotation);
@@ -224,9 +218,16 @@ namespace GoogleARCore.Examples.CloudAnchors
                 // Make mirror model a child of the anchor.
                 mirrorObject.transform.parent = m_LastPlacedAnchor.transform;
 
+                // GameManager.setAnchor(m_LastPlacedAnchor);
+
                 // Save cloud anchor.
                 _HostLastPlacedAnchor();
             }
+        }
+
+        public Component getAnchor()
+        {
+          return m_LastPlacedAnchor;
         }
 
         /// <summary>
@@ -321,6 +322,10 @@ namespace GoogleARCore.Examples.CloudAnchors
 
                 RoomSharingServer.SaveCloudAnchorToRoom(m_CurrentRoom, result.Anchor);
                 UIController.ShowHostingModeBegin("Cloud anchor was created and saved.");
+
+                // Connecting to server and giving a reference to cloud anchor
+                PhotonController.Connect();
+                GameManager.setAnchor(m_LastPlacedAnchor);
             });
 #endif
         }
@@ -342,6 +347,8 @@ namespace GoogleARCore.Examples.CloudAnchors
                 m_LastResolvedAnchor = result.Anchor;
                 Instantiate(_GetMirrorPrefab(), result.Anchor.transform);
                 UIController.ShowResolvingModeSuccess();
+
+                PhotonController.Connect();
             }));
         }
 
@@ -374,7 +381,7 @@ namespace GoogleARCore.Examples.CloudAnchors
         private GameObject _GetMirrorPrefab()
         {
             return Application.platform != RuntimePlatform.IPhonePlayer ?
-                ARCoreMirrorPrefab : ARKitAndyAndroidPrefab;
+                ARCoreAnchorPrefab : ARKitAndyAndroidPrefab;
         }
 
         /// <summary>
