@@ -16,6 +16,7 @@ public class ARSurfaceManager : MonoBehaviour
     Material m_Material;
 
     private int floorInt = 0;
+    [SerializeField] private GameObject[] UIGameObjects;
 
     void Start()
     {
@@ -28,6 +29,12 @@ public class ARSurfaceManager : MonoBehaviour
 
     public void PressedStartBtn()
     {
+        //UIGameObjects = GameObject.FindGameObjectsWithTag("UI");
+        foreach(var i in UIGameObjects)
+        {
+            i.SetActive(true);
+        }
+        //GameObject.FindGameObjectWithTag("UI").SetActive(true);
         //floorInt = 1;
         StartFlag = true;
         PlayerMirror.SetActive(true);

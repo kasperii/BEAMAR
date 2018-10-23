@@ -23,6 +23,9 @@ public class Laser : MonoBehaviour
     [SerializeField] private string mirrorTag;
     [SerializeField] private string detectedPlaneTag;
     [SerializeField] private string ObstacleTag;
+
+    [SerializeField] private int maxBurnmarkCount = 50;
+    List<GameObject> BurnmarkList = new List<GameObject>();
     public string splitTag;
     public string spawnedBeam;
     public int maxBounce;
@@ -39,6 +42,8 @@ public class Laser : MonoBehaviour
     public GameObject WinText;
     //public ParticleSystem WinParticleSystem;
     [SerializeField] private GameObject LaserMark;
+
+    private float goalTimer = 0.0f; //Start timer when raycast hits goal
 
     //private float instantiateTimer;
 
@@ -82,15 +87,15 @@ public class Laser : MonoBehaviour
         //instantiateTimer = Time.deltaTime;
 
 
-        //Trying to instantiate laser gameobject here instead of arController
+        //Instantiate gameworld in Laser Script instead of ARController script
         var cameraTrans = FirstPersonCamera.transform;
 
         //THIS IS SHIT PLEASE CLOSE YOUR EYES
-        GameObject ARSurfObj = GameObject.Find("ARSurfaceManager");     //Find object ARSurfaceManager
-        ARSurfaceManager surfScript = ARSurfObj.GetComponent<ARSurfaceManager>();   //Get script from manager
-        bool StartFlag = surfScript.StartFlag;                          // Fetch bool from script from manager
-                                                                        //Only show laser when we found a plane
-        if (StartFlag == true)              //StartFlag true when Startbutton is pressed
+        GameObject ARSurfObj = GameObject.Find("ARSurfaceManager");                 // Find object ARSurfaceManager
+        ARSurfaceManager surfScript = ARSurfObj.GetComponent<ARSurfaceManager>();   // Get script from manager
+        bool StartFlag = surfScript.StartFlag;                                      // Fetch bool from script from manager
+                                                                                    // Only show laser when we found a plane
+        if (StartFlag == true)                                                      // StartFlag true when Startbutton is pressed
         {
             if (!GameObject.FindGameObjectWithTag("Goal"))// == null)
             {
@@ -105,9 +110,9 @@ public class Laser : MonoBehaviour
                 //Instantiate(LightBeam, laserBeamTrans, Quaternion.identity);
 
                 //Sets the laser active
-                this.transform.parent.gameObject.SetActive(true);
-                this.gameObject.SetActive(true);
-                this.transform.parent.position = laserBeamTrans;
+                //this.transform.parent.gameObject.SetActive(true);
+                //this.gameObject.SetActive(true);
+                this.transform.parent.position = laserBeamTrans;    //Move the laser to the right position
 
 
                 var bigObstacleTrans = new Vector3(FirstPersonCamera.transform.position.x, FirstPersonCamera.transform.position.y, FirstPersonCamera.transform.position.z + 2);
@@ -183,33 +188,34 @@ public class Laser : MonoBehaviour
                 //When beam hitting the floor, stop beam and create a mark
                 else if (outHit.transform.tag == detectedPlaneTag)
                 {
-                    //if (instantiateTimer > 2.0f)
-                    //{
-                    Instantiate(LaserMark, outHit.point, Quaternion.identity);
-                    // instantiateTimer = 0.0f;
+                    goalTimer = 0.0f;
 
-                    //}
+                    GameObject Burnmark = Instantiate(LaserMark, outHit.point, Quaternion.identity);
+                    BurnmarkList.Add(Burnmark);
+                    while (BurnmarkList.Count > maxBurnmarkCount)
+                    {
+                        if (BurnmarkList[0] != null)
+                            Destroy(BurnmarkList[0].gameObject);
+                        BurnmarkList.RemoveAt(0);
+                    }
                     loopActive = false;
                 }
 
                 else if (outHit.transform.gameObject.tag == "Goal")
                 {
-                    outHit.transform.gameObject.SetActive(false);
-                    litGoal.SetActive(true);
-                   //Instantiate(GoalLit, firstGoalTrans, Quaternion.identity);
-                   //Goal.SetActive(false);
-                   //GoalLit.SetActive(true);
+                    goalTimer += Time.deltaTime;
+                    if (goalTimer >= 0.5 && !litGoal.activeSelf)
+                    {
+                        outHit.transform.gameObject.SetActive(false);
+                        litGoal.SetActive(true);
+                        goalTimer = 0.0f;
+                    }
                    loopActive = false;
                 }
 
-
-
                 else if (outHit.transform.gameObject.tag == ObstacleTag)
                 {
-
-                    //outHit.transform.gameObject.SetActive(false);
-                    //Goal.SetActive(false);
-                    //GoalLit.SetActive(true);
+                    goalTimer = 0.0f;
                     //Change color on goal when raycast hits
                     /*if (outHit.collider.GetComponent<ChangeColorOnGoal>() != null)
                     {
@@ -220,16 +226,6 @@ public class Laser : MonoBehaviour
                         //Instantiate(WinText, FirstPersonCamera.transform.position, Quaternion.identity);
                         outHit.collider.GetComponent<ChangeColorOnGoal>().materialChange(outHit.collider.GetComponent<Renderer>());
                     }
-
-                    /*if(shitFlag)
-                    {
-                       // goalSound.Play();
-                        //Debug.Log("I hate my fucking life");
-                       //PSysObj.GetComponent<ParticleSystem>().Play();
-                        PSys.Play();
-                        WinText.GetComponent<WinTextScript>().UpdateText();
-
-                    }
                     else
                     {
                         Debug.Log("Need to attach a script ChangeColorOnGoal to object");
@@ -239,6 +235,7 @@ public class Laser : MonoBehaviour
             }
             else
             {
+                goalTimer = 0.0f;
                 //Debug.Log("No Bounce");
                 laserReflected++;
                 vertexCounter++;
