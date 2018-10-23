@@ -32,8 +32,8 @@ public class SoundSource : MonoBehaviour {
 		angleToIndex1 = Vector3.Angle(VectorIndex1, VectorIndextoIndex);
 		angleToIndex2 = Vector3.Angle(VectorIndex2, VectorIndextoIndex);
 
-		if (angleToIndex1>90 && angleToIndex2<90){
-
+		if (angleToIndex1>90 && angleToIndex2<90)
+		{
 					cube2Trans.position = ProjectonLine;
 		}
 	}

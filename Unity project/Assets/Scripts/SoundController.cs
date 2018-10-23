@@ -22,8 +22,9 @@ public class SoundController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+
 		//Only update array when the positionCount of line renderer change
-		if (Line1.positionCount != lastPositionCount || firstTimeFlag) // || LineIndex != LineIndexOld doesn't do the thing I want it to do
+		if (Line1.positionCount != lastPositionCount || firstTimeFlag || LineIndex != LineIndexOld) // || LineIndex != LineIndexOld doesn't do the thing I want it to do
 		{
 			//Handheld.Vibrate();
 			//Debug.Log("index: " + Line1.positionCount + " last index: " + lastPositionCount);
