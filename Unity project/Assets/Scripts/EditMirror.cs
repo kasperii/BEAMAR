@@ -84,7 +84,7 @@ public class EditMirror : MonoBehaviour
                 }
                 else
                 {
-                    outHit.collider.gameObject.GetComponent<Outline>().enabled = false;
+                    //outHit.collider.gameObject.GetComponent<Outline>().enabled = false;
                     //hitMirror.transform.parent = null;
                     loopActive = false;
                 }

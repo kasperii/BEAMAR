@@ -63,6 +63,8 @@ namespace GoogleARCore.Examples.HelloAR
         /// </summary>
         public GameObject SearchingForPlaneUI;
 
+        public GameObject StartBtn;
+
         public AudioSource placeMirrorSound;
 
         /// <summary>
@@ -92,6 +94,8 @@ namespace GoogleARCore.Examples.HelloAR
 
         private float doubleTapTimer;
         private int tapCount;
+
+        private bool StartBtnFlag = true;
 
         //public bool StartFlag { get; private set; }
 
@@ -164,6 +168,14 @@ namespace GoogleARCore.Examples.HelloAR
             }*/
 
             SearchingForPlaneUI.SetActive(showSearchingUI);
+            /*if(StartBtn.activeSelf && StartBtnFlag)
+            {
+                Handheld.Vibrate();
+                StartBtn.SetActive(!showSearchingUI);
+                StartBtnFlag = false;
+            }*/
+            
+
 
             // If the player has not touched the screen, we are done with this update.
             Touch touch;

@@ -12,11 +12,14 @@ public class ARSurfaceManager : MonoBehaviour
 
     [SerializeField] private GameObject PlayerMirror;
     [SerializeField] private GameObject StartBtn;
+    [SerializeField] private GameObject SearchingForPlaneUI;
 
     Material m_Material;
 
     private int floorInt = 0;
     [SerializeField] private GameObject[] UIGameObjects;
+
+    private bool StartBtnFlag = true;
 
     void Start()
     {
@@ -25,6 +28,7 @@ public class ARSurfaceManager : MonoBehaviour
         rend.enabled = true;
         //rend.material = material[index];
         PlayerMirror.SetActive(false);
+        StartBtn.SetActive(false);
     }
 
     public void PressedStartBtn()
@@ -43,8 +47,13 @@ public class ARSurfaceManager : MonoBehaviour
 
     void Update()
 	{
-        m_Material = m_surfaceMaterial[floorInt];
+        if(StartBtnFlag && !SearchingForPlaneUI.activeSelf)
+        {
+            StartBtn.SetActive(true);
+            StartBtnFlag = false;
+        }
 
+        m_Material = m_surfaceMaterial[floorInt];
 
         if (Session.Status != SessionStatus.Tracking)
 		{

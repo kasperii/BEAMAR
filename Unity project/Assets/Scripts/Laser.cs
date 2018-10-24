@@ -97,7 +97,7 @@ public class Laser : MonoBehaviour
 
 
         //Instantiate gameworld in Laser Script instead of ARController script
-        var cameraTrans = FirstPersonCamera.transform;
+        //var cameraTrans = FirstPersonCamera.transform;
 
         //THIS IS SHIT PLEASE CLOSE YOUR EYES
         GameObject ARSurfObj = GameObject.Find("ARSurfaceManager");                 // Find object ARSurfaceManager
