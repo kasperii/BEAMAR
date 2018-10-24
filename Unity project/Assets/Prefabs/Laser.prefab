@@ -143,20 +143,22 @@ MonoBehaviour:
   FirstPersonCamera: {fileID: 20079260427749554, guid: 766b7850e2f66d04faff007885e01174,
     type: 2}
   LightBeam: {fileID: 1808227196837734}
-  Goal: {fileID: 1511486642558036, guid: 134ccc087582fba4c9885fc4564cf14b, type: 2}
+  Goal: {fileID: 1244670256827130, guid: 92344b86c2905e149b96e21395435f28, type: 2}
   GoalLit: {fileID: 1552480904020828, guid: 70576f485708187468741c753465bab4, type: 2}
-  bigObstacle: {fileID: 1769946315340658, guid: ec1d2957bdddd754db3f21031a03796d,
+  bigObstacle: {fileID: 1599884341829390, guid: b2bbb3c8769c9bc4291f5dfa8e1ad9ce,
     type: 2}
   mirrorTag: Mirror
   detectedPlaneTag: detectedPlane
   ObstacleTag: Obstacle
+  maxBurnmarkCount: 50
   splitTag: Prism
   spawnedBeam: spawnedBeam
   maxBounce: 6
   maxSplit: 0
   laserPoints: 
   WinText: {fileID: 1497528764182508, guid: d61ae2fc8c2cc4e41a68e3527dd20dd2, type: 2}
-  LaserMark: {fileID: 1109414951655644, guid: 7ad04808357784548b4c280123f49572, type: 2}
+  LaserMark: {fileID: 1109414951655644, guid: 14c6f80d80d638f429133e65475a5507, type: 2}
+  GoalColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!120 &120246336254499684
 LineRenderer:
   m_ObjectHideFlags: 1

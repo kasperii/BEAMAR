@@ -29,6 +29,8 @@ public class MirrorCounter : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         amountOfMirrors =  GameObject.FindGameObjectsWithTag(MirrorTag).Length - 1;
+        if (amountOfMirrors < 0)
+            amountOfMirrors = 1;
         SetCountText();
     }
 }

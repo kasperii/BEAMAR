@@ -34,6 +34,7 @@ public class Laser : MonoBehaviour
     private float timer = 0;
     private LineRenderer mLineRenderer;
 
+
     //public AudioSource goalSound;
 
     private string GoalName = "Goal";
@@ -45,16 +46,24 @@ public class Laser : MonoBehaviour
 
     private float goalTimer = 0.0f; //Start timer when raycast hits goal
 
+    public Color GoalColor = Color.yellow;
+    private float colorModifier = -5f;
+
     //private float instantiateTimer;
 
 
     // Use this for initialization
     void Start()
     {
+        //Color baseColor = Color.yellow;
+        Material GoalMat = Goal.GetComponent<MeshRenderer>().sharedMaterial;
+        Color GoalMatEmColor = Goal.GetComponent<MeshRenderer>().sharedMaterial.GetColor("_EmissionColor");
+        GoalMat.SetVector("_EmissionColor", GoalColor * Mathf.LinearToGammaSpace(-5f));
+        
         //goalSound = GetComponent<AudioSource>();
         //PSysObj.GetComponent<ParticleSystem>().Stop();
         //WinParticleSystem.Stop();
-       // WinText.gameObject.SetActive(false);
+        // WinText.gameObject.SetActive(false);
         timer = 0;
         mLineRenderer = gameObject.GetComponent<LineRenderer>();
         //StartCoroutine(RedrawLaser());
@@ -101,12 +110,12 @@ public class Laser : MonoBehaviour
             {
                 //var randomVector = new Vector3(Random.Range(-2.0f, 2.0f), Random.Range(0.0f, 1.0f), Random.Range(-2.0f, 2.0f));
                 //Instantiate(Goal, randomVector, Quaternion.identity);
-                var firstGoalTrans = new Vector3(FirstPersonCamera.transform.position.x + 0, FirstPersonCamera.transform.position.y + 0.25f, FirstPersonCamera.transform.position.z + 3f);
+                var firstGoalTrans = new Vector3(FirstPersonCamera.transform.position.x + 0, FirstPersonCamera.transform.position.y + 0f, FirstPersonCamera.transform.position.z + 4f);
                 Instantiate(Goal, firstGoalTrans, Quaternion.identity);
-                litGoal = Instantiate(GoalLit, firstGoalTrans, Quaternion.identity);
-                litGoal.SetActive(false);
+                //litGoal = Instantiate(GoalLit, firstGoalTrans, Quaternion.identity);
+                //litGoal.SetActive(false);
 
-                var laserBeamTrans = new Vector3(FirstPersonCamera.transform.position.x, FirstPersonCamera.transform.position.y-0.15f, FirstPersonCamera.transform.position.z-1.0f);
+                var laserBeamTrans = new Vector3(FirstPersonCamera.transform.position.x, FirstPersonCamera.transform.position.y + 0.0f, FirstPersonCamera.transform.position.z + 0.0f);
                 //Instantiate(LightBeam, laserBeamTrans, Quaternion.identity);
 
                 //Sets the laser active
@@ -115,7 +124,7 @@ public class Laser : MonoBehaviour
                 this.transform.parent.position = laserBeamTrans;    //Move the laser to the right position
 
 
-                var bigObstacleTrans = new Vector3(FirstPersonCamera.transform.position.x, FirstPersonCamera.transform.position.y, FirstPersonCamera.transform.position.z + 2);
+                var bigObstacleTrans = new Vector3(FirstPersonCamera.transform.position.x, FirstPersonCamera.transform.position.y, FirstPersonCamera.transform.position.z + 3);
                 Instantiate(bigObstacle, bigObstacleTrans, Quaternion.identity);
             }
         }
@@ -203,11 +212,18 @@ public class Laser : MonoBehaviour
 
                 else if (outHit.transform.gameObject.tag == "Goal")
                 {
+                    Debug.Log("Goal");
                     goalTimer += Time.deltaTime;
-                    if (goalTimer >= 0.5 && !litGoal.activeSelf)
+                    if (goalTimer >= 0.3)
                     {
-                        outHit.transform.gameObject.SetActive(false);
-                        litGoal.SetActive(true);
+
+                        colorModifier += Time.deltaTime * 10;
+                        Material GoalMat = Goal.GetComponent<MeshRenderer>().sharedMaterial;
+                        Color GoalMatEmColor = Goal.GetComponent<MeshRenderer>().sharedMaterial.GetColor("_EmissionColor");
+                        GoalMat.SetVector("_EmissionColor", GoalColor * Mathf.LinearToGammaSpace(colorModifier));
+
+                        /*outHit.transform.gameObject.SetActive(false);
+                        litGoal.SetActive(true);*/
                         goalTimer = 0.0f;
                     }
                    loopActive = false;
@@ -215,6 +231,7 @@ public class Laser : MonoBehaviour
 
                 else if (outHit.transform.gameObject.tag == ObstacleTag)
                 {
+                    //Debug.Log("Obstacle");
                     goalTimer = 0.0f;
                     //Change color on goal when raycast hits
                     /*if (outHit.collider.GetComponent<ChangeColorOnGoal>() != null)

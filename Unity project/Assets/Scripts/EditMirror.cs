@@ -5,18 +5,26 @@ using UnityEngine;
 public class EditMirror : MonoBehaviour
 {
     [SerializeField] private int RaycastDist = 10;
-    
-   /* [SerializeField] private Shader Standard;
-    [SerializeField] private Shader Outline;
-    [SerializeField] private Renderer rend;
-    */
+    [SerializeField] private GameObject playerCamera;
+    private GameObject hitMirror;
+
+    private GameObject GameObjectWithOutlineScript;
+    public Outline outline;
+
+    /* [SerializeField] private Shader Standard;
+     [SerializeField] private Shader Outline;
+     [SerializeField] private Renderer rend;
+     */
 
     private bool touchFlag = false;
     void Start()
     {
-       // rend = GetComponent<Renderer>();
+       
+        // rend = GetComponent<Renderer>();
         //Standard = Shader.Find("Standard");
         //Outline = Shader.Find("Custom/Outline");
+
+
 
     }
 
@@ -29,45 +37,55 @@ public class EditMirror : MonoBehaviour
         //Vector3 laserDirection = transform.forward; //direction of the next laser
         //Vector3 lastLaserPosition = transform.localPosition; //origin of the next laser
         Ray ForwardRay = new Ray(transform.position, Vector3.forward); //this.transform.forward
+       
 
         RaycastHit outHit;
 
         while (loopActive)
         {
-            //Debug.Log("Physics.Raycast(" + lastLaserPosition + ", " + laserDirection + ", out hit , " + RaycastDist + ")");
-            //if (Physics.Raycast(lastLaserPosition, laserDirection, out outHit, RaycastDist))// && ((hit.transform.gameObject.tag == detectedPlaneTag) || (hit.transform.gameObject.tag == splitTag) || (hit.transform.gameObject.tag == mirrorTag))) // || (hit.transform.gameObject.tag == ObstacleTag)))
             if(Physics.Raycast(ForwardRay, out outHit, RaycastDist))
             {
                 Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * outHit.distance, Color.red);
 
                 if (outHit.transform.tag == "Mirror")
                 {
-                    Touch touch;
+                    hitMirror = outHit.transform.gameObject;
 
-                    if (Input.GetTouch(0).phase == TouchPhase.Began || Input.GetTouch(0).phase != TouchPhase.Ended)
+                    if (Input.touchCount > 0)
                     {
-                        touchFlag = true;
-                    }
+                        Touch touch = Input.GetTouch(0);
 
-                    if (Input.GetTouch(0).phase != TouchPhase.Ended && Input.GetTouch(0).phase != TouchPhase.Canceled)
-                    {
-                        touchFlag = true;
-                    }
-
-                    if (Input.GetTouch(0).phase == TouchPhase.Stationary)
-                    {
-                        touchFlag = true;
+                        if (touch.phase == TouchPhase.Began)
+                        {
+                            touchFlag = true;
+                        }
+                        else if (touch.phase == TouchPhase.Ended)
+                        {
+                            touchFlag = false;
+                        }
                     }
 
                     if (touchFlag)
                     {
-                        outHit.transform.gameObject.GetComponent<Outline>().enabled = true;
+                        outHit.collider.gameObject.GetComponent<Outline>().enabled = true;
+                        Handheld.Vibrate();
+
+                        hitMirror.transform.parent = playerCamera.transform;
+                        //touchFlag = false;
                         loopActive = false;
+                    }
+
+                    else if (!touchFlag)
+                    {
+                        outHit.collider.gameObject.GetComponent<Outline>().enabled = false;
+                        hitMirror.transform.parent = null;
+                        loopActive = false;   
                     }
                 }
                 else
                 {
-                    outHit.transform.gameObject.GetComponent<Outline>().enabled = false;
+                    outHit.collider.gameObject.GetComponent<Outline>().enabled = false;
+                    //hitMirror.transform.parent = null;
                     loopActive = false;
                 }
             }
