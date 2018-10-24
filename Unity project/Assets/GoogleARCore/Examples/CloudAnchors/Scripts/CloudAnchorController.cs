@@ -392,6 +392,7 @@ namespace GoogleARCore.Examples.CloudAnchors
             // Exit the app when the 'back' button is pressed.
             if (Input.GetKey(KeyCode.Escape))
             {
+                PhotonController.Quit();
                 Application.Quit();
             }
 

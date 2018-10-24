@@ -42,7 +42,7 @@ public class PhotonServerController : MonoBehaviourPunCallbacks
 	/// <summary>
 	/// This client's version number. Users are separated from each other by gameVersion (which allows you to make breaking changes).
 	/// </summary>
-	string gameVersion = "1";
+	string gameVersion = "2";
 
 	/// <summary>
 	/// Keep track of the current process. Since connection is asynchronous and is based on several callbacks from Photon,
@@ -50,6 +50,8 @@ public class PhotonServerController : MonoBehaviourPunCallbacks
 	/// Typically this is used for the OnConnectedToMaster() callback.
 	/// </summary>
 	bool isConnecting;
+
+	string roomName = "BeamAR";
 
 	#endregion
 
@@ -71,6 +73,7 @@ public class PhotonServerController : MonoBehaviourPunCallbacks
 
 			// we check if we are connected or not, we join if we are , else we initiate the connection to the server.
 			if (PhotonNetwork.IsConnected) {
+					UIController.Debugger("Joining room...");
 					// #Critical we need at this point to attempt joining a Random Room. If it fails, we'll get notified in OnJoinRandomFailed() and we'll create one.
 					PhotonNetwork.JoinRandomRoom();
 			}
@@ -80,8 +83,12 @@ public class PhotonServerController : MonoBehaviourPunCallbacks
 					UIController.Debugger("Connecting to Photon...");
 	        PhotonNetwork.GameVersion = gameVersion;
 	        PhotonNetwork.ConnectUsingSettings();
-					UIController.Debugger("Started Photon server!");
 	    }
+	}
+
+	public void Quit()
+	{
+		PhotonNetwork.Disconnect();
 	}
 
 	#endregion
@@ -116,25 +123,23 @@ public class PhotonServerController : MonoBehaviourPunCallbacks
 	public override void OnConnectedToMaster()
 	{
 			UIController.Debugger("Connected to Photon!");
-	    Debug.Log("PUN Basics Tutorial/Launcher: OnConnectedToMaster() was called by PUN");
 
 			// we don't want to do anything if we are not attempting to join a room.
 			// this case where isConnecting is false is typically when you lost or quit the game, when this level is loaded, OnConnectedToMaster will be called, in that case
 			// we don't want to do anything.
 			if (isConnecting)
 			{
-					// #Critical: The first we try to do is to join a potential existing room. If there is, good, else, we'll be called back with OnJoinRandomFailed()
+					UIController.Debugger("Entering Lobby...");
 					PhotonNetwork.JoinRandomRoom();
 			}
 	}
 
 	public override void OnJoinRandomFailed(short returnCode, string message)
 	{
-			UIController.Debugger("Create room...");
-	    Debug.Log("PUN Basics Tutorial/Launcher:OnJoinRandomFailed() was called by PUN. No random room available, so we create one.\nCalling: PhotonNetwork.CreateRoom");
+			UIController.Debugger("No room! Create room...");
 
 			// #Critical: we failed to join a random room, maybe none exists or they are all full. No worries, we create a new room.
-			PhotonNetwork.CreateRoom("BeamAR", new RoomOptions { MaxPlayers = maxPlayersPerRoom });
+			PhotonNetwork.CreateRoom(roomName, new RoomOptions { MaxPlayers = maxPlayersPerRoom });
 	}
 
 	public override void OnJoinedRoom()
@@ -142,16 +147,12 @@ public class PhotonServerController : MonoBehaviourPunCallbacks
 			// #Critical: We only load if we are the first player, else we rely on `PhotonNetwork.AutomaticallySyncScene` to sync our instance scene.
 			if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
 			{
-				Debug.Log("We load the game room");
-
-
 				// #Critical
 				// Load the Room Level.
 				// PhotonNetwork.LoadLevel("BeamAR_Host-Join");
 			}
 
-			UIController.Debugger("Joined room: " + PhotonNetwork.CurrentRoom + "! Ready to play!");
-	    Debug.Log("PUN Basics Tutorial/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room.");
+			UIController.Debugger("Room joined & ready to play! ");
 	}
 
 	public override void OnDisconnected(DisconnectCause cause)

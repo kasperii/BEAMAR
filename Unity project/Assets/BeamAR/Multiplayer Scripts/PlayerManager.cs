@@ -2,17 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using GoogleARCore.Examples.CloudAnchors;
 // using Photon.Realtime;
 
 namespace BeamAR.MultiplayerScripts
 {
 	public class PlayerManager : MonoBehaviourPunCallbacks {
 
-		[Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
-		public static GameObject LocalPlayerInstance;
+		// [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
+		// public static GameObject LocalPlayerInstance;
 
 		[SerializeField]
 		private GameObject m_mirrorPrefab;
+		[SerializeField]
+		public CloudAnchorUIController UIController;
 
 		// Max amount of mirrors to place
 		int maxMirrors = 3;
@@ -29,10 +32,10 @@ namespace BeamAR.MultiplayerScripts
 		void Start () {
 			// #Important
 			// used in GameManager.cs: we keep track of the localPlayer instance to prevent instanciation when levels are synchronized
-			if (photonView.IsMine)
-			{
-					LocalPlayerInstance = gameObject;
-			}
+			// if (photonView.IsMine)
+			// {
+			// 		LocalPlayerInstance = gameObject;
+			// }
 		}
 
 		// Update is called once per frame
@@ -59,9 +62,10 @@ namespace BeamAR.MultiplayerScripts
 			}
 			if (tapCount >= 2)
 			{
+
 				Handheld.Vibrate();
 				var mirror = PhotonNetwork.Instantiate(m_mirrorPrefab.name, gameObject.transform.position,
-																gameObject.transform.rotation);
+																							gameObject.transform.rotation);
 				// Anchor the mirror with the cloud anchor object (plane)
 				mirror.transform.parent = m_cloudAnchor.transform;
 
