@@ -14,9 +14,9 @@ public class Laser : MonoBehaviour
     public float updateFrequency = 0.1f;
     public int laserDistance;
     [SerializeField] private Camera FirstPersonCamera;
-    [SerializeField] private GameObject LightBeam;
+    [SerializeField] private readonly GameObject LightBeam; //Remove readonly if not working
     [SerializeField] private GameObject Goal;
-    [SerializeField] private GameObject GoalLit;
+    //[SerializeField] private GameObject GoalLit;
     [SerializeField] private GameObject bigObstacle;
    
 
@@ -116,6 +116,7 @@ public class Laser : MonoBehaviour
                 //litGoal.SetActive(false);
 
                 var laserBeamTrans = new Vector3(FirstPersonCamera.transform.position.x, FirstPersonCamera.transform.position.y + 0.0f, FirstPersonCamera.transform.position.z + 0.0f);
+                //var laserBeamTrans2 = new Vector3(FirstPersonCamera.transform.position.x, FirstPersonCamera.transform.position.y + 0.0f, FirstPersonCamera.transform.position.z + 10.0f);
                 //Instantiate(LightBeam, laserBeamTrans, Quaternion.identity);
 
                 //Sets the laser active
@@ -123,9 +124,12 @@ public class Laser : MonoBehaviour
                 //this.gameObject.SetActive(true);
                 this.transform.parent.position = laserBeamTrans;    //Move the laser to the right position
 
-
                 var bigObstacleTrans = new Vector3(FirstPersonCamera.transform.position.x, FirstPersonCamera.transform.position.y, FirstPersonCamera.transform.position.z + 3);
                 Instantiate(bigObstacle, bigObstacleTrans, Quaternion.identity);
+
+                //mLineRenderer.SetPosition(0, laserBeamTrans);   //Set the start position of linerenderer
+                //mLineRenderer.SetPosition(1, laserBeamTrans2);
+
             }
         }
 

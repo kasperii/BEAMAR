@@ -51,7 +51,7 @@ namespace GoogleARCore.Examples.HelloAR
         /// <summary>
         /// A model to place when a raycast from a user touch hits a plane.
         /// </summary>
-        public GameObject MirrorPlanePrefab;
+        //public GameObject MirrorPlanePrefab;
 
         /// <summary>
         /// A model to place when a raycast from a user touch hits a feature point.
@@ -63,7 +63,7 @@ namespace GoogleARCore.Examples.HelloAR
         /// </summary>
         public GameObject SearchingForPlaneUI;
 
-        public GameObject StartBtn;
+        //public GameObject StartBtn;
 
         public AudioSource placeMirrorSound;
 
@@ -84,24 +84,26 @@ namespace GoogleARCore.Examples.HelloAR
         /// </summary>
         private bool m_IsQuitting = false;
 
-        public GameObject LightBeam;
+        //public GameObject LightBeam;
 
-        public GameObject Goal;
+        //public GameObject Goal;
 
-        public GameObject bigObstacle;
+        //public GameObject bigObstacle;
 
         private float transformOffset = 0.5f;
 
         private float doubleTapTimer;
         private int tapCount;
 
-        private bool StartBtnFlag = true;
+        //private bool StartBtnFlag = true;
 
         //public bool StartFlag { get; private set; }
 
         //public Vibration vibration;
 
         //public bool StartFlag;
+
+        public SoundController soundControllerScript; 
 
         public void Start()
         {
@@ -205,7 +207,7 @@ namespace GoogleARCore.Examples.HelloAR
                     //Let's the user place the mirror prefab anywhere on the screen, at the camera position and rotation
                     //var cameraTrans = FirstPersonCamera.transform;
                     var mirrorObject = Instantiate(MirrorPointPrefab, cameraTrans.position + FirstPersonCamera.transform.forward * transformOffset, cameraTrans.rotation);// hit.Pose.rotation);
-
+                    soundControllerScript.doTheCode();
                     // Compensate for the hitPose rotation facing away from the raycast (i.e. camera).
                     mirrorObject.transform.Rotate(0, k_ModelRotation, 0, Space.Self);
 
