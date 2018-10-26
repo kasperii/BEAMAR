@@ -18,7 +18,7 @@ public class Laser : MonoBehaviour
     [SerializeField] private GameObject Goal;
     [SerializeField] private GameObject GoalLit;
     [SerializeField] private GameObject bigObstacle;
-   
+
 
     [SerializeField] private string mirrorTag;
     [SerializeField] private string detectedPlaneTag;
@@ -33,6 +33,7 @@ public class Laser : MonoBehaviour
     public int[] laserPoints;
     private float timer = 0;
     private LineRenderer mLineRenderer;
+    private bool cloudAnchorSpawned = false;
 
 
     //public AudioSource goalSound;
@@ -59,7 +60,7 @@ public class Laser : MonoBehaviour
         Material GoalMat = Goal.GetComponent<MeshRenderer>().sharedMaterial;
         Color GoalMatEmColor = Goal.GetComponent<MeshRenderer>().sharedMaterial.GetColor("_EmissionColor");
         GoalMat.SetVector("_EmissionColor", GoalColor * Mathf.LinearToGammaSpace(-5f));
-        
+
         //goalSound = GetComponent<AudioSource>();
         //PSysObj.GetComponent<ParticleSystem>().Stop();
         //WinParticleSystem.Stop();
@@ -96,40 +97,49 @@ public class Laser : MonoBehaviour
         //instantiateTimer = Time.deltaTime;
 
 
-        //Instantiate gameworld in Laser Script instead of ARController script
-        var cameraTrans = FirstPersonCamera.transform;
-
-        //THIS IS SHIT PLEASE CLOSE YOUR EYES
-        GameObject ARSurfObj = GameObject.Find("ARSurfaceManager");                 // Find object ARSurfaceManager
-        ARSurfaceManager surfScript = ARSurfObj.GetComponent<ARSurfaceManager>();   // Get script from manager
-        bool StartFlag = surfScript.StartFlag;                                      // Fetch bool from script from manager
-                                                                                    // Only show laser when we found a plane
-        if (StartFlag == true)                                                      // StartFlag true when Startbutton is pressed
+        if(cloudAnchorSpawned)
         {
-            if (!GameObject.FindGameObjectWithTag("Goal"))// == null)
-            {
-                //var randomVector = new Vector3(Random.Range(-2.0f, 2.0f), Random.Range(0.0f, 1.0f), Random.Range(-2.0f, 2.0f));
-                //Instantiate(Goal, randomVector, Quaternion.identity);
-                var firstGoalTrans = new Vector3(FirstPersonCamera.transform.position.x + 0, FirstPersonCamera.transform.position.y + 0f, FirstPersonCamera.transform.position.z + 4f);
-                Instantiate(Goal, firstGoalTrans, Quaternion.identity);
-                //litGoal = Instantiate(GoalLit, firstGoalTrans, Quaternion.identity);
-                //litGoal.SetActive(false);
+          //Instantiate gameworld in Laser Script instead of ARController script
+          var cameraTrans = FirstPersonCamera.transform;
 
-                var laserBeamTrans = new Vector3(FirstPersonCamera.transform.position.x, FirstPersonCamera.transform.position.y + 0.0f, FirstPersonCamera.transform.position.z + 0.0f);
-                //Instantiate(LightBeam, laserBeamTrans, Quaternion.identity);
+          //THIS IS SHIT PLEASE CLOSE YOUR EYES
+          GameObject ARSurfObj = GameObject.Find("ARSurfaceManager");                 // Find object ARSurfaceManager
+          ARSurfaceManager surfScript = ARSurfObj.GetComponent<ARSurfaceManager>();   // Get script from manager
+          bool StartFlag = surfScript.StartFlag;                                      // Fetch bool from script from manager
+                                                                                      // Only show laser when we found a plane
+          if (StartFlag == true)                                                      // StartFlag true when Startbutton is pressed
+          {
+              if (!GameObject.FindGameObjectWithTag("Goal"))// == null)
+              {
+                  //var randomVector = new Vector3(Random.Range(-2.0f, 2.0f), Random.Range(0.0f, 1.0f), Random.Range(-2.0f, 2.0f));
+                  //Instantiate(Goal, randomVector, Quaternion.identity);
+                  // var firstGoalTrans = new Vector3(FirstPersonCamera.transform.position.x + 0, FirstPersonCamera.transform.position.y + 0f, FirstPersonCamera.transform.position.z + 4f);
+                  // Instantiate(Goal, firstGoalTrans, Quaternion.identity);
+                  //litGoal = Instantiate(GoalLit, firstGoalTrans, Quaternion.identity);
+                  //litGoal.SetActive(false);
 
-                //Sets the laser active
-                //this.transform.parent.gameObject.SetActive(true);
-                //this.gameObject.SetActive(true);
-                this.transform.parent.position = laserBeamTrans;    //Move the laser to the right position
+                  var laserBeamTrans = new Vector3(FirstPersonCamera.transform.position.x, FirstPersonCamera.transform.position.y + 0.0f, FirstPersonCamera.transform.position.z + 0.0f);
+                  //Instantiate(LightBeam, laserBeamTrans, Quaternion.identity);
+
+                  //Sets the laser active
+                  //this.transform.parent.gameObject.SetActive(true);
+                  //this.gameObject.SetActive(true);
+                  this.transform.parent.position = laserBeamTrans;    //Move the laser to the right position
 
 
-                var bigObstacleTrans = new Vector3(FirstPersonCamera.transform.position.x, FirstPersonCamera.transform.position.y, FirstPersonCamera.transform.position.z + 3);
-                Instantiate(bigObstacle, bigObstacleTrans, Quaternion.identity);
-            }
+                  // var bigObstacleTrans = new Vector3(FirstPersonCamera.transform.position.x, FirstPersonCamera.transform.position.y, FirstPersonCamera.transform.position.z + 3);
+                  // Instantiate(bigObstacle, bigObstacleTrans, Quaternion.identity);
+              }
+          }
         }
 
 
+    }
+
+    public void cloudAnchorIsSpawned(Component anchor)
+    {
+       cloudAnchorSpawned = true;
+       this.transform.parent.parent = anchor.transform;
     }
 
     //Not used
@@ -248,7 +258,7 @@ public class Laser : MonoBehaviour
                         Debug.Log("Need to attach a script ChangeColorOnGoal to object");
                     }*/
                     loopActive = false;
-                } 
+                }
             }
             else
             {

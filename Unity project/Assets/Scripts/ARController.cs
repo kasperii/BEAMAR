@@ -49,11 +49,6 @@ namespace GoogleARCore.Examples.HelloAR
         public GameObject DetectedPlanePrefab;
 
         /// <summary>
-        /// A model to place when a raycast from a user touch hits a plane.
-        /// </summary>
-        public GameObject MirrorPlanePrefab;
-
-        /// <summary>
         /// A model to place when a raycast from a user touch hits a feature point.
         /// </summary>
         public GameObject MirrorPointPrefab;
@@ -82,12 +77,6 @@ namespace GoogleARCore.Examples.HelloAR
         /// </summary>
         private bool m_IsQuitting = false;
 
-        public GameObject LightBeam;
-
-        public GameObject Goal;
-
-        public GameObject bigObstacle;
-
         private float transformOffset = 0.5f;
 
         private float doubleTapTimer;
@@ -104,17 +93,6 @@ namespace GoogleARCore.Examples.HelloAR
             GameObject ARSurfObj = GameObject.Find("ARSurfaceManager");
             ARSurfaceManager surfScript = ARSurfObj.GetComponent<ARSurfaceManager>();
             bool StartFlag = surfScript.StartFlag;
-            /*
-             * var cameraTrans = FirstPersonCamera.transform;
-            //ar mirrorObject = Instantiate(prefab, cameraTrans.position, cameraTrans.rotation);// hit.Pose.rotation);
-
-            var randomVector = new Vector3(Random.Range(-2.0f, 2.0f), Random.Range(0.0f, 1.0f), Random.Range(-2.0f, 2.0f));
-
-            var laserBeamTrans = new Vector3(FirstPersonCamera.transform.position.x, FirstPersonCamera.transform.position.y, FirstPersonCamera.transform.position.z);
-            Instantiate(LightBeam, laserBeamTrans, cameraTrans.transform.rotation);
-
-            Instantiate(Goal, randomVector, cameraTrans.transform.rotation);
-            */
         }
 
         /// <summary>
@@ -139,38 +117,11 @@ namespace GoogleARCore.Examples.HelloAR
 
             var cameraTrans = FirstPersonCamera.transform;
 
-            //THIS IS SHIT PLEASE CLOSE YOUR EYES
-            /*GameObject ARSurfObj = GameObject.Find("ARSurfaceManager");     //Find object ARSurfaceManager
-            ARSurfaceManager surfScript = ARSurfObj.GetComponent<ARSurfaceManager>();   //Get script from manager
-            bool StartFlag = surfScript.StartFlag;                          // Fetch bool from script from manager
-            //Only show laser when we found a plane
-            if (showSearchingUI == false && StartFlag == true)              //StartFlag true when Startbutton is pressed
-            {
-                if (!GameObject.FindGameObjectWithTag("Obstacle"))// == null)
-                {
-                    //var randomVector = new Vector3(Random.Range(-2.0f, 2.0f), Random.Range(0.0f, 1.0f), Random.Range(-2.0f, 2.0f));
-                    //Instantiate(Goal, randomVector, Quaternion.identity);
-                    var firstGoalTrans = new Vector3(FirstPersonCamera.transform.position.x + 0, FirstPersonCamera.transform.position.y + 0.25f, FirstPersonCamera.transform.position.z + 3f);
-                    Instantiate(Goal, firstGoalTrans, Quaternion.identity);
-
-
-                    //Get position from laser script here
-                    var laserBeamTrans = new Vector3(FirstPersonCamera.transform.position.x, FirstPersonCamera.transform.position.y, FirstPersonCamera.transform.position.z);
-                    Instantiate(LightBeam, laserBeamTrans, Quaternion.identity);
-
-                    var bigObstacleTrans = new Vector3(FirstPersonCamera.transform.position.x, FirstPersonCamera.transform.position.y, FirstPersonCamera.transform.position.z + 2);
-                    Instantiate(bigObstacle, bigObstacleTrans, Quaternion.identity);
-                }
-            }*/
-
             SearchingForPlaneUI.SetActive(showSearchingUI);
 
             // If the player has not touched the screen, we are done with this update.
             Touch touch;
-            /*if (Input.touchCount < 1 || (touch = Input.GetTouch(0)).phase != TouchPhase.Began)
-            {
-                return;
-            }*/
+
             if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began)
             {
                 tapCount++;
@@ -208,75 +159,13 @@ namespace GoogleARCore.Examples.HelloAR
 
                doubleTapTimer = 0.0f;
                tapCount = 0;
-             
+
             }
             if (doubleTapTimer > 0.3f)
             {
                 doubleTapTimer = 0f;
                 tapCount = 0;
             }
-
-            // Raycast against the location the player touched to search for planes.
-
-            /*TrackableHit hit;
-            TrackableHitFlags raycastFilter = TrackableHitFlags.PlaneWithinPolygon |
-                TrackableHitFlags.FeaturePointWithSurfaceNormal;
-
-            if (Frame.Raycast(touch.position.x, touch.position.y, raycastFilter, out hit))
-            {
-                // Use hit pose and camera pose to check if hittest is from the
-                // back of the plane, if it is, no need to create the anchor.
-                if ((hit.Trackable is DetectedPlane) &&
-                    Vector3.Dot(FirstPersonCamera.transform.position - hit.Pose.position,
-                        hit.Pose.rotation * Vector3.up) < 0)
-                {
-                    Debug.Log("Hit at back of the current DetectedPlane");
-                }
-                else
-                {
-                    // Choose the Andy model for the Trackable that got hit.
-                    GameObject prefab;
-                    if (hit.Trackable is FeaturePoint)
-                    {
-                        prefab = MirrorPointPrefab;
-                    }
-                    else
-                    {
-                        prefab = MirrorPlanePrefab;
-                    }
-                    */
-            // Instantiate Andy model at the hit pose.
-            //var mirrorObject = Instantiate(prefab, hit.Pose.position, hit.Pose.rotation);
-
-           /* if (GameObject.FindGameObjectsWithTag("Mirror").Length < 6)
-            {
-                placeMirrorSound.Play();
-                Handheld.Vibrate();
-                //Vibration.CreateOneShot(50);
-                //vibration.CreateOneShot(50);
-            //transform.position + transform.forward*distance
-            //Handheld.Vibrate();
-
-            //Let's the user place the mirror prefab anywhere on the screen, at the camera position and rotation
-            //var cameraTrans = FirstPersonCamera.transform;
-            var mirrorObject = Instantiate(MirrorPointPrefab, cameraTrans.position + FirstPersonCamera.transform.forward * transformOffset, cameraTrans.rotation);// hit.Pose.rotation);
-
-                // Compensate for the hitPose rotation facing away from the raycast (i.e. camera).
-                mirrorObject.transform.Rotate(0, k_ModelRotation, 0, Space.Self);
-
-                // Create an anchor to allow ARCore to track the hitpoint as understanding of the physical
-                // world evolves.
-                //var anchor = hit.Trackable.CreateAnchor(hit.Pose);
-
-                // Make Andy model a child of the anchor.
-                //mirrorObject.transform.parent = anchor.transform;
-                //mirrorObject.transform.parent = anchor.transform;
-            }*/
-
-
-
-            //     }
-            // }
         }
 
         /// <summary>
