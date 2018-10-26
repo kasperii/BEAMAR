@@ -18,7 +18,7 @@ public class Laser : MonoBehaviour
     [SerializeField] private GameObject Goal;
     //[SerializeField] private GameObject GoalLit;
     [SerializeField] private GameObject bigObstacle;
-   
+    [SerializeField] private GameObject GoalEffect;   
 
     [SerializeField] private string mirrorTag;
     [SerializeField] private string detectedPlaneTag;
@@ -48,6 +48,8 @@ public class Laser : MonoBehaviour
 
     public Color GoalColor = Color.yellow;
     private float colorModifier = -5f;
+
+    internal Vector3 firstGoalTrans;
 
     //private float instantiateTimer;
 
@@ -110,7 +112,7 @@ public class Laser : MonoBehaviour
             {
                 //var randomVector = new Vector3(Random.Range(-2.0f, 2.0f), Random.Range(0.0f, 1.0f), Random.Range(-2.0f, 2.0f));
                 //Instantiate(Goal, randomVector, Quaternion.identity);
-                var firstGoalTrans = new Vector3(FirstPersonCamera.transform.position.x + 0, FirstPersonCamera.transform.position.y + 0f, FirstPersonCamera.transform.position.z + 4f);
+                firstGoalTrans = new Vector3(FirstPersonCamera.transform.position.x + 0, FirstPersonCamera.transform.position.y + 0f, FirstPersonCamera.transform.position.z + 4f);
                 Instantiate(Goal, firstGoalTrans, Quaternion.identity);
                 //litGoal = Instantiate(GoalLit, firstGoalTrans, Quaternion.identity);
                 //litGoal.SetActive(false);
@@ -226,6 +228,10 @@ public class Laser : MonoBehaviour
                         Color GoalMatEmColor = Goal.GetComponent<MeshRenderer>().sharedMaterial.GetColor("_EmissionColor");
                         GoalMat.SetVector("_EmissionColor", GoalColor * Mathf.LinearToGammaSpace(colorModifier));
 
+                        if (GameObject.Find("GoalEffect"))
+                        {
+                            Instantiate(GoalEffect, firstGoalTrans, Quaternion.identity);
+                        }
                         /*outHit.transform.gameObject.SetActive(false);
                         litGoal.SetActive(true);*/
                         goalTimer = 0.0f;
