@@ -138,7 +138,7 @@ namespace Photon.Realtime
                 this.isVisible = value;
             }
         }
-        
+
         /// <summary>
         /// Sets a limit of players to this room. This property is synced and shown in lobby, too.
         /// If the room is full (players count == maxplayers), joining this room will fail.

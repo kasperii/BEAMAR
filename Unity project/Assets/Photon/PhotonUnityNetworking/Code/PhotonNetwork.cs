@@ -64,7 +64,7 @@ namespace Photon.Pun
     public static partial class PhotonNetwork
     {
         /// <summary>Version number of PUN. Used in the AppVersion, which separates your playerbase in matchmaking.</summary>
-        public const string PunVersion = "2.2";
+        public const string PunVersion = "2.3";
 
         /// <summary>Version number of your game. Setting this updates the AppVersion, which separates your playerbase in matchmaking.</summary>
         /// <remarks>
@@ -1979,12 +1979,15 @@ namespace Photon.Pun
 
         /// <summary>Fetches a custom list of games from the server, matching a SQL-like "where" clause, then triggers OnRoomListUpdate callback.</summary>
         /// <remarks>
-        /// Operation is only available for lobbies of type SqlLobby. Note: You don't have to join that lobby.
+        /// Operation is only available for lobbies of type SqlLobby.
         /// This is an async request.
         ///
-        /// When done, OnRoomListUpdate gets called. Use GetRoomList() to access it.
+        /// Note: You don't have to join a lobby to query it. Rooms need to be "attached" to a lobby, which can be done
+        /// via the typedLobby parameter in CreateRoom, JoinOrCreateRoom, etc..
+        ///
+        /// When done, OnRoomListUpdate gets called.
         /// </remarks>
-        /// <see cref="https://doc.photonengine.com/en-us/pun/v2/lobby-and-matchmaking/matchmaking-and-lobby\#sql_lobby_type"/>
+        /// <see cref="https://doc.photonengine.com/en-us/pun/v2/lobby-and-matchmaking/matchmaking-and-lobby/#sql_lobby_type"/>
         /// <param name="typedLobby">The lobby to query. Has to be of type SqlLobby.</param>
         /// <param name="sqlLobbyFilter">The sql query statement.</param>
         /// <returns>If the operation could be sent (has to be connected).</returns>
@@ -2346,6 +2349,12 @@ namespace Photon.Pun
             photonViews = go.GetPhotonViewsInChildren();
 
 
+            if (photonViews.Length == 0)
+            {
+                Debug.LogError("PhotonNetwork.Instantiate() can only instantiate objects with a PhotonView component. This prefab does not have one: " + parameters.prefabName);
+                return null;
+            }
+
             bool localInstantiate = LocalPlayer.Equals(parameters.creator);
             if (localInstantiate)
             {
@@ -2374,6 +2383,12 @@ namespace Photon.Pun
                 photonViews[i].ViewID = parameters.viewIDs[i];    // with didAwake true and viewID == 0, this will also register the view
             }
 
+            if (localInstantiate)
+            {
+                // send instantiate network event
+                SendInstantiate(parameters, sceneObject);
+            }
+
             go.SetActive(true);
 
             // if IPunInstantiateMagicCallback is implemented on any script of the instantiated GO, let's call it directly:
@@ -2392,13 +2407,6 @@ namespace Photon.Pun
                 {
                     PrefabsWithoutMagicCallback.Add(parameters.prefabName);
                 }
-            }
-
-
-            if (localInstantiate)
-            {
-                // send instantiate network event
-                SendInstantiate(parameters, sceneObject);
             }
 
             return go;

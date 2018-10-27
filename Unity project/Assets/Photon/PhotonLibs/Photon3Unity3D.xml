@@ -182,13 +182,19 @@
             <summary>Disconnection due to a timeout (client did no longer receive ACKs from server).</summary>
         </member>
         <member name="F:ExitGames.Client.Photon.StatusCode.DisconnectByServer">
-            <summary>Disconnect by server due to timeout (received a disconnect command, cause server misses ACKs of client).</summary>
+            <summary>Timeout disconnect by server. The server didn't receive necessary ACKs in time.</summary>
+        </member>
+        <member name="F:ExitGames.Client.Photon.StatusCode.DisconnectByServerTimeout">
+            <summary>Timeout disconnect by server. The server didn't receive necessary ACKs in time.</summary>
         </member>
         <member name="F:ExitGames.Client.Photon.StatusCode.DisconnectByServerUserLimit">
             <summary>Disconnect by server due to concurrent user limit reached (received a disconnect command).</summary>
         </member>
         <member name="F:ExitGames.Client.Photon.StatusCode.DisconnectByServerLogic">
-            <summary>Disconnect by server due to server's logic (received a disconnect command).</summary>
+            <summary>Disconnect by server due to server's logic.</summary>
+        </member>
+        <member name="F:ExitGames.Client.Photon.StatusCode.DisconnectByServerReasonUnknown">
+            <summary>Disconnect by server due to unspecified reason.</summary>
         </member>
         <member name="F:ExitGames.Client.Photon.StatusCode.EncryptionEstablished">
             <summary>(1048) Value for OnStatusChanged()-call, when the encryption-setup for secure communication finished successfully.</summary>
@@ -247,7 +253,7 @@
         </member>
         <member name="M:ExitGames.Client.Photon.IPhotonPeerListener.OnStatusChanged(ExitGames.Client.Photon.StatusCode)">
              <summary>
-             OnStatusChanged is called to let the game know when asyncronous actions finished or when errors happen.
+             OnStatusChanged is called to let the game know when asynchronous actions finished or when errors happen.
              </summary>
              <remarks>
              Not all of the many StatusCode values will apply to your game. Example: If you don't use encryption,
@@ -578,10 +584,7 @@
             Count of all commands currently queued as outgoing, including all channels and reliable, unreliable.
             </summary>
         </member>
-        <member name="M:ExitGames.Client.Photon.PhotonPeer.MessageBufferPoolGet">
-            <summary>Debug method to access the MessageBufferPool used for pooling command-content.</summary>
-            <returns>The actual List of StreamBuffers used for pooling command-content. Careful!</returns>
-        </member>
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:ExitGames.Client.Photon.PhotonPeer.MessageBufferPoolTrim(System.Int32)" ignoriert -->
         <member name="F:ExitGames.Client.Photon.PhotonPeer.ChannelCount">
             <summary>
             Gets / sets the number of channels available in UDP connections with Photon.
@@ -1985,6 +1988,12 @@
         </member>
         <member name="M:ExitGames.Client.Photon.SocketUdp.ReceiveLoop">
             <summary>Endless loop, run in Receive Thread.</summary>
+        </member>
+        <member name="T:ExitGames.Client.Photon.SocketUdpAsync">
+            <summary> Internal class to encapsulate the network i/o functionality for the realtime libary.</summary>
+        </member>
+        <member name="M:ExitGames.Client.Photon.SocketUdpAsync.Send(System.Byte[],System.Int32)">
+            <summary>used by PhotonPeer*</summary>
         </member>
         <member name="T:ExitGames.Client.Photon.SocketTcp">
             <summary>

@@ -63,7 +63,7 @@ namespace Photon.Pun
             this.UpdateInterval = 1000 / PhotonNetwork.SendRate;
             this.UpdateIntervalOnSerialize = 1000 / PhotonNetwork.SerializationRate;
 
-            //PhotonHandler.StartFallbackSendAckThread();
+            this.StartFallbackSendAckThread();
         }
 
         public virtual void OnEnable()

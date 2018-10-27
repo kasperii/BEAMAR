@@ -8,10 +8,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using UnityEngine;
-
-using System.Collections;
-
-using Photon.Pun;
 using Photon.Realtime;
 
 namespace Photon.Pun.UtilityScripts

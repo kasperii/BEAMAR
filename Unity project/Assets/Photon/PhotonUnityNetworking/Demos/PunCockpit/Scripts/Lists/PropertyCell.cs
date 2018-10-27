@@ -29,7 +29,7 @@ namespace Photon.Pun.Demo.Cockpit
             bool _pingUpdate = string.Equals(this.ValueText.text, value);
             this.ValueText.text = value;
 
-            if (this.isActiveAndEnabled && _pingUpdate)
+			if (this!=null && this.isActiveAndEnabled && _pingUpdate)
             {
                 StartCoroutine(UpdateUIPing());
             }

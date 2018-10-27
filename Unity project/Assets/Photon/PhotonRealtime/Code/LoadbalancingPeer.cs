@@ -116,6 +116,14 @@ namespace Photon.Realtime
                 this.SocketImplementationConfig[ConnectionProtocol.WebSocket] = websocketType;
                 this.SocketImplementationConfig[ConnectionProtocol.WebSocketSecure] = websocketType;
             }
+
+            #if NET_4_6 && (UNITY_EDITOR || !ENABLE_IL2CPP)
+            if (this.DebugOut >= DebugLevel.INFO)
+            {
+                Debug.Log("Using: SocketUdpAsync");
+            }
+            this.SocketImplementationConfig[ConnectionProtocol.Udp] = typeof(SocketUdpAsync);
+            #endif
         }
 
 

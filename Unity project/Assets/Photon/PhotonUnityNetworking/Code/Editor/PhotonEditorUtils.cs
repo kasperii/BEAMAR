@@ -38,7 +38,7 @@ namespace Photon.Pun
         {
             HasVoice = Type.GetType("Photon.Voice.VoiceClient, Assembly-CSharp") != null || Type.GetType("Photon.Voice.VoiceClient, Assembly-CSharp-firstpass") != null || Type.GetType("Photon.Voice.VoiceClient, PhotonVoice.API") != null;
             HasChat = Type.GetType("Photon.Chat.ChatClient, Assembly-CSharp") != null || Type.GetType("Photon.Chat.ChatClient, Assembly-CSharp-firstpass") != null || Type.GetType("Photon.Chat.ChatClient, PhotonChat") != null;
-            HasPun = Type.GetType("Photon.Pun.PhotonNetworking, Assembly-CSharp") != null || Type.GetType("Photon.Pun.PhotonNetworking, Assembly-CSharp-firstpass") != null || Type.GetType("Photon.Pun.PhotonNetworking, PhotonUnityNetworking") != null;
+            HasPun = Type.GetType("Photon.Pun.PhotonNetwork, Assembly-CSharp") != null || Type.GetType("Photon.Pun.PhotonNetwork, Assembly-CSharp-firstpass") != null || Type.GetType("Photon.Pun.PhotonNetwork, PhotonUnityNetworking") != null;
             PhotonEditorUtils.HasCheckedProducts = true;
 
             if (HasPun)
@@ -165,7 +165,7 @@ namespace Photon.Pun
     }
 
 
-    public class CleanUpDefinesOnPunDelete : AssetModificationProcessor
+    public class CleanUpDefinesOnPunDelete : UnityEditor.AssetModificationProcessor
     {
         public static AssetDeleteResult OnWillDeleteAsset(string assetPath, RemoveAssetOptions rao)
         {

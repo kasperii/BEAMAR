@@ -168,18 +168,44 @@ namespace Photon.Pun.Demo.Cockpit
             ConnectAsDropDown.ClearOptions();
             ConnectAsDropDown.AddOptions(FriendsList.Select(x => x.NickName).ToList());
 
-            this.SwitchToSimpleConnection();
 
-            if (!Embedded)
-            {
-                MinimizeButton.SetActive(false);
-                SwitchtoMaximalPanel();
-            }
-            else
-            {
-                this.Title.text = EmbeddedGameTitle;
-                SwitchtoMinimalPanel();
-            }
+			// check the current network status
+
+			if (PhotonNetwork.IsConnected)
+			{
+				if (PhotonNetwork.Server == ServerConnection.GameServer)
+				{
+					this.OnJoinedRoom ();
+
+				}
+				else if (PhotonNetwork.Server == ServerConnection.MasterServer || PhotonNetwork.Server == ServerConnection.NameServer)
+				{
+			
+					if (PhotonNetwork.InLobby)
+					{
+						this.OnJoinedLobby ();
+					}
+					else
+					{
+						this.OnConnectedToMaster ();
+					}
+
+				}
+			}else
+			{
+	            this.SwitchToSimpleConnection();
+
+	            if (!Embedded)
+	            {
+	                MinimizeButton.SetActive(false);
+	                SwitchtoMaximalPanel();
+	            }
+	            else
+	            {
+	                this.Title.text = EmbeddedGameTitle;
+	                SwitchtoMinimalPanel();
+	            }
+			}
         }
 
         public void SwitchtoMinimalPanel()
@@ -393,6 +419,12 @@ namespace Photon.Pun.Demo.Cockpit
 			this.ModalWindow.gameObject.SetActive (false);
 		}
 
+		public void LoadLevel(string level)
+		{
+			if (debug) Debug.Log("PunCockpit:LoadLevel(" +level+")");
+			PhotonNetwork.LoadLevel(level);
+		}
+
         public void SetRoomCustomProperty(string value)
         {
 			if (debug) Debug.Log("PunCockpit:SetRoomCustomProperty() c0 = " + value);
@@ -456,9 +488,9 @@ namespace Photon.Pun.Demo.Cockpit
             this.ConnectingLabel.SetActive(true);
 
             PhotonNetwork.ConnectUsingSettings();
-			if (GameVersionOverride != string.Empty) {
-				PhotonNetwork.GameVersion = GameVersionOverride;
-			}
+			//if (GameVersionOverride != string.Empty) {
+		//		PhotonNetwork.GameVersion = "28"; // GameVersionOverride;
+		//	}
         }
 
         public void ReConnect()
@@ -630,6 +662,7 @@ namespace Photon.Pun.Demo.Cockpit
             this.ConnectionPanel.gameObject.SetActive(true);
 
         }
+
         public override void OnConnectedToMaster()
         {
 			if (debug)  Debug.Log("PunCockpit:OnConnectedToMaster()");

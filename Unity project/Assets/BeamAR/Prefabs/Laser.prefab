@@ -11,37 +11,19 @@ Prefab:
   m_SourcePrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1808227196837734}
   m_IsPrefabAsset: 1
---- !u!1 &1666128644395048
+--- !u!1 &1209875586650280
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4680342342752228}
-  - component: {fileID: 120900278833446774}
-  - component: {fileID: 114988663054348840}
+  - component: {fileID: 4475052874846328}
+  - component: {fileID: 120246336254499684}
+  - component: {fileID: 114490259423409550}
   m_Layer: 0
-  m_Name: LightBeam
+  m_Name: Laser
   m_TagString: spawnedBeam
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &1671052922802080
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4248775257311406}
-  - component: {fileID: 33733388897373308}
-  - component: {fileID: 23295626137537548}
-  - component: {fileID: 65791143575180198}
-  m_Layer: 0
-  m_Name: Laserpointer
-  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -54,6 +36,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4582507499039502}
+  - component: {fileID: 33397321576966360}
+  - component: {fileID: 23413035230708840}
+  - component: {fileID: 65299654582717722}
   m_Layer: 0
   m_Name: Laser
   m_TagString: Untagged
@@ -61,18 +46,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4248775257311406
+--- !u!4 &4475052874846328
 Transform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1671052922802080}
+  m_GameObject: {fileID: 1209875586650280}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.102499984}
+  m_LocalScale: {x: 10, y: 10, z: 2.5}
   m_Children: []
   m_Father: {fileID: 4582507499039502}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4582507499039502
 Transform:
@@ -80,34 +65,20 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1808227196837734}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.077}
-  m_LocalScale: {x: 0.05, y: 0.05, z: 0.2}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.154}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.4}
   m_Children:
-  - {fileID: 4680342342752228}
-  - {fileID: 4248775257311406}
+  - {fileID: 4475052874846328}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4680342342752228
-Transform:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1666128644395048}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.385}
-  m_LocalScale: {x: 20, y: 20, z: 5}
-  m_Children: []
-  m_Father: {fileID: 4582507499039502}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &23295626137537548
+--- !u!23 &23413035230708840
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1671052922802080}
+  m_GameObject: {fileID: 1808227196837734}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -137,31 +108,31 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!33 &33733388897373308
+--- !u!33 &33397321576966360
 MeshFilter:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1671052922802080}
+  m_GameObject: {fileID: 1808227196837734}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!65 &65791143575180198
+--- !u!65 &65299654582717722
 BoxCollider:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1671052922802080}
+  m_GameObject: {fileID: 1808227196837734}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114988663054348840
+--- !u!114 &114490259423409550
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1666128644395048}
+  m_GameObject: {fileID: 1209875586650280}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3b8c91cdbbd263b47bd74c6295b1aadf, type: 3}
@@ -169,20 +140,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   updateFrequency: 0.1
   laserDistance: 10
+  FirstPersonCamera: {fileID: 20079260427749554, guid: 766b7850e2f66d04faff007885e01174,
+    type: 2}
+  LightBeam: {fileID: 1808227196837734}
+  Goal: {fileID: 1244670256827130, guid: 92344b86c2905e149b96e21395435f28, type: 2}
+  GoalLit: {fileID: 1552480904020828, guid: 70576f485708187468741c753465bab4, type: 2}
+  bigObstacle: {fileID: 1599884341829390, guid: b2bbb3c8769c9bc4291f5dfa8e1ad9ce,
+    type: 2}
   mirrorTag: Mirror
   detectedPlaneTag: detectedPlane
   ObstacleTag: Obstacle
-  splitTag: 
+  maxBurnmarkCount: 50
+  splitTag: Prism
   spawnedBeam: spawnedBeam
-  maxBounce: 5
+  maxBounce: 6
   maxSplit: 0
   laserPoints: 
---- !u!120 &120900278833446774
+  WinText: {fileID: 1497528764182508, guid: d61ae2fc8c2cc4e41a68e3527dd20dd2, type: 2}
+  LaserMark: {fileID: 1109414951655644, guid: 14c6f80d80d638f429133e65475a5507, type: 2}
+  GoalColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+--- !u!120 &120246336254499684
 LineRenderer:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1666128644395048}
+  m_GameObject: {fileID: 1209875586650280}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -222,8 +204,8 @@ LineRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0.0054626465
-        value: 0.013890803
+        time: 0.01884079
+        value: 0.036962092
         inSlope: 0
         outSlope: 0
         tangentMode: 0

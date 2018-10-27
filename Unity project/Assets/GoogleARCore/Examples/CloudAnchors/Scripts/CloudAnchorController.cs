@@ -27,8 +27,6 @@ namespace GoogleARCore.Examples.CloudAnchors
     using UnityEngine;
     using UnityEngine.UI;
 
-    using BeamAR.MultiplayerScripts;
-
 #if UNITY_EDITOR
     // Set up touch input propagation while using Instant Preview in the editor.
     using Input = InstantPreviewInput;
@@ -50,16 +48,6 @@ namespace GoogleARCore.Examples.CloudAnchors
         /// </summary>
         public CloudAnchorUIController UIController;
 
-        /// <summary>
-        /// A controller for setting up Photon server.
-        /// </summary>
-        public PhotonServerController PhotonController;
-
-        /// <summary>
-        /// A controller for managing the game logic.
-        /// </summary>
-        public GameManager GameManager;
-
         [Header("ARCore")]
 
         /// <summary>
@@ -68,15 +56,10 @@ namespace GoogleARCore.Examples.CloudAnchors
         public GameObject ARCoreRoot;
 
         /// <summary>
-        /// The first-person camera being used to render the passthrough camera image (i.e. AR background).
-        /// </summary>
-        public Camera FirstPersonCamera;
-
-        /// <summary>
         /// An Andy Android model to visually represent anchors in the scene; this uses ARCore
         /// lighting estimation shaders.
         /// </summary>
-        public GameObject ARCoreAnchorPrefab;
+        public GameObject ARCoreAndyAndroidPrefab;
 
         [Header("ARKit")]
 
@@ -146,7 +129,6 @@ namespace GoogleARCore.Examples.CloudAnchors
             Resolving,
         }
 
-
         /// <summary>
         /// The Unity Start() method.
         /// </summary>
@@ -173,7 +155,7 @@ namespace GoogleARCore.Examples.CloudAnchors
         {
             _UpdateApplicationLifecycle();
 
-            // If we are not in resolving (joining) or hosting mode then the update
+            // If we are not in hosting mode or the user has already placed an anchor then the update
             // is complete.
             if (m_CurrentMode != ApplicationMode.Hosting || m_LastPlacedAnchor != null)
             {
@@ -208,26 +190,19 @@ namespace GoogleARCore.Examples.CloudAnchors
 
             if (m_LastPlacedAnchor != null)
             {
-                // Instantiate mirror model at the hit pose.
-                var mirrorObject = Instantiate(_GetMirrorPrefab(), m_LastPlacedAnchor.transform.position,
+                // Instantiate Andy model at the hit pose.
+                var andyObject = Instantiate(_GetAndyPrefab(), m_LastPlacedAnchor.transform.position,
                     m_LastPlacedAnchor.transform.rotation);
 
                 // Compensate for the hitPose rotation facing away from the raycast (i.e. camera).
-                mirrorObject.transform.Rotate(0, k_ModelRotation, 0, Space.Self);
+                andyObject.transform.Rotate(0, k_ModelRotation, 0, Space.Self);
 
-                // Make mirror model a child of the anchor.
-                mirrorObject.transform.parent = m_LastPlacedAnchor.transform;
-
-                // GameManager.setAnchor(m_LastPlacedAnchor);
+                // Make Andy model a child of the anchor.
+                andyObject.transform.parent = m_LastPlacedAnchor.transform;
 
                 // Save cloud anchor.
                 _HostLastPlacedAnchor();
             }
-        }
-
-        public Component getAnchor()
-        {
-          return m_LastPlacedAnchor;
         }
 
         /// <summary>
@@ -322,16 +297,12 @@ namespace GoogleARCore.Examples.CloudAnchors
 
                 RoomSharingServer.SaveCloudAnchorToRoom(m_CurrentRoom, result.Anchor);
                 UIController.ShowHostingModeBegin("Cloud anchor was created and saved.");
-
-                // Connecting to server and giving a reference to cloud anchor
-                PhotonController.Connect();
-                GameManager.setAnchor(m_LastPlacedAnchor);
             });
 #endif
         }
 
         /// <summary>
-        /// Resolves an anchor id and instantiates an mirror prefab on it.
+        /// Resolves an anchor id and instantiates an Andy prefab on it.
         /// </summary>
         /// <param name="cloudAnchorId">Cloud anchor id to be resolved.</param>
         private void _ResolveAnchorFromId(string cloudAnchorId)
@@ -345,10 +316,8 @@ namespace GoogleARCore.Examples.CloudAnchors
                 }
 
                 m_LastResolvedAnchor = result.Anchor;
-                Instantiate(_GetMirrorPrefab(), result.Anchor.transform);
+                Instantiate(_GetAndyPrefab(), result.Anchor.transform);
                 UIController.ShowResolvingModeSuccess();
-
-                PhotonController.Connect();
             }));
         }
 
@@ -378,10 +347,10 @@ namespace GoogleARCore.Examples.CloudAnchors
         /// Gets the platform-specific Andy the android prefab.
         /// </summary>
         /// <returns>The platform-specific Andy the android prefab.</returns>
-        private GameObject _GetMirrorPrefab()
+        private GameObject _GetAndyPrefab()
         {
             return Application.platform != RuntimePlatform.IPhonePlayer ?
-                ARCoreAnchorPrefab : ARKitAndyAndroidPrefab;
+                ARCoreAndyAndroidPrefab : ARKitAndyAndroidPrefab;
         }
 
         /// <summary>
@@ -392,7 +361,6 @@ namespace GoogleARCore.Examples.CloudAnchors
             // Exit the app when the 'back' button is pressed.
             if (Input.GetKey(KeyCode.Escape))
             {
-                PhotonController.Quit();
                 Application.Quit();
             }
 
