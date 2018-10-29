@@ -21,7 +21,7 @@ Material:
     - _BumpMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0.5258307, y: 0.5258307}
+        m_Offset: {x: 2.6944969, y: 2.6944969}
     - _EmissionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -29,7 +29,7 @@ Material:
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: e2ebb9dd7a97c424b8684ae5f29339f5, type: 3}
         m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0.5258307, y: 0.5258307}
+        m_Offset: {x: 2.6944969, y: 2.6944969}
     m_Floats:
     - _BumpAmt: 10
     m_Colors:

@@ -8,6 +8,10 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 
+/***
+ * This script handles most of the game mechanics related to the laser.
+ * I have not had time to comment on this monstrosity of a script. If you have any questions, ask me Erik Lindström for clarifications. 
+ * */
 
 [RequireComponent(typeof(LineRenderer))]
 public class Laser : MonoBehaviour
@@ -17,7 +21,6 @@ public class Laser : MonoBehaviour
     [SerializeField] private Camera FirstPersonCamera;
     [SerializeField] private readonly GameObject LightBeam; //Remove readonly if not working
     [SerializeField] private GameObject Goal;
-    //[SerializeField] private GameObject GoalLit;
     [SerializeField] private GameObject bigObstacle;
     [SerializeField] private GameObject GoalEffect;
     [SerializeField] private Animator TransitionAnim;
@@ -31,9 +34,6 @@ public class Laser : MonoBehaviour
     [SerializeField] private string ObstacleTag;
 
     [SerializeField] private int maxBurnmarkCount = 50;
-
-    //[SerializeField] private GameObject[] LevelOneObjects;
-    //[SerializeField] private List<GameObject> LevelOneList;
     [SerializeField] private GameObject[] LevelTwoObjects;
     List<GameObject> BurnmarkList = new List<GameObject>();
     public string splitTag;
@@ -61,29 +61,19 @@ public class Laser : MonoBehaviour
 
     private float goalTimer = 0.0f; //Start timer when raycast hits goal
 
-    public Color BaseGoalColor = Color.black;
-    public Color GoalColor = Color.yellow;
+    public Color BaseGoalColor = Color.black;   
+    public Color GoalColor = Color.yellow;  //Color to interpolate to when raycast hits goal
     private float colorModifier = -5f;
     internal Vector3 firstGoalTrans;
 
     DestroyMirrors DestroyMirrors;
-    internal bool levelTwoFlag = false;
+    internal bool levelTwoFlag = false;     //Flag to start 'level 2'
 
-    //private float instantiateTimer;
-
-
-    // Use this for initialization
     void Start()
     {
-        //Color baseColor = Color.yellow;
-        Material GoalMat = Goal.GetComponent<MeshRenderer>().sharedMaterial;
-        Color GoalMatEmColor = Goal.GetComponent<MeshRenderer>().sharedMaterial.GetColor("_EmissionColor");
-        GoalMat.SetVector("_EmissionColor", GoalColor * Mathf.LinearToGammaSpace(-5f));
-
-        //goalSound = GetComponent<AudioSource>();
-        //PSysObj.GetComponent<ParticleSystem>().Stop();
-        //WinParticleSystem.Stop();
-        // WinText.gameObject.SetActive(false);
+        Material GoalMat = Goal.GetComponent<MeshRenderer>().sharedMaterial;        
+        Color GoalMatEmColor = Goal.GetComponent<MeshRenderer>().sharedMaterial.GetColor("_EmissionColor");     //Fetch material and emission-variable of shader of goal
+        GoalMat.SetVector("_EmissionColor", GoalColor * Mathf.LinearToGammaSpace(-5f));                         //gradially change color of emission
         timer = 0;
         mLineRenderer = gameObject.GetComponent<LineRenderer>();
         //StartCoroutine(RedrawLaser());
@@ -97,11 +87,8 @@ public class Laser : MonoBehaviour
             if (timer >= updateFrequency)
             {
                 timer = 0;
-                //Debug.Log("Redrawing laser");
                 foreach (GameObject laserSplit in GameObject.FindGameObjectsWithTag(spawnedBeam))
                     Destroy(laserSplit);
-
-                //Debug.Log(GameObject.FindGameObjectWithTag("Obstacle"));
                 if (GameObject.FindGameObjectWithTag("Obstacle") != null)
                     StartCoroutine(RedrawLaser());
             }
@@ -122,7 +109,7 @@ public class Laser : MonoBehaviour
         ARSurfaceManager surfScript = ARSurfObj.GetComponent<ARSurfaceManager>();   // Get script from manager
         bool StartFlag = surfScript.StartFlag;                                      // Fetch bool from script from manager
                                                                                     // Only show laser when we found a plane
-        if (StartFlag == true && levelTwoFlag == false)                                                      // StartFlag true when Startbutton is pressed
+        if (StartFlag == true && levelTwoFlag == false)                             // StartFlag true when Startbutton is pressed. levelTwoFlag is true when the first goal has been hit. only want to instantiate once
         {
             if (!GameObject.FindGameObjectWithTag("Goal"))// == null)
             {
@@ -132,7 +119,7 @@ public class Laser : MonoBehaviour
                 var laserBeamTrans = new Vector3(FirstPersonCamera.transform.position.x, FirstPersonCamera.transform.position.y + 0.0f, FirstPersonCamera.transform.position.z + 0.0f);
                 transform.parent.position = transform.localPosition;//laserBeamTrans;    //Move the laser to the right position
                 //transform.localPosition = laserBeamTrans;
-                transform.position = transform.localPosition;
+                transform.position = transform.localPosition;                           //move the linerenderer with the laser housing object
 
                 var bigObstacleTrans = new Vector3(FirstPersonCamera.transform.position.x, FirstPersonCamera.transform.position.y - 0.25f, FirstPersonCamera.transform.position.z + 3);
                 instantiatedObstacle = Instantiate(bigObstacle, bigObstacleTrans, Quaternion.identity);
@@ -205,6 +192,7 @@ public class Laser : MonoBehaviour
                     loopActive = false;
                 }
 
+                //When beam hits the goal, change color, start new coroutine playgoaleffect
                 else if (outHit.transform.gameObject.tag == "Goal")
                 {
                     goalTimer += Time.deltaTime;
@@ -228,6 +216,7 @@ public class Laser : MonoBehaviour
                     loopActive = false;
                 }
 
+                //When beam hits the second goal, play ending effect
                 else if (outHit.transform.gameObject.tag == "Goal2")
                 {
                     goalTimer += Time.deltaTime;
@@ -243,11 +232,18 @@ public class Laser : MonoBehaviour
                         for(int i=0; i < movingObstacles.Length; i++)
                         {
                             Rigidbody gameObjectsRigidBody = movingObstacles[i].AddComponent<Rigidbody>();
-                            Destroy(movingObstacles[i], 2);
+                            gameObjectsRigidBody.drag = 10;
+
+                            Destroy(movingObstacles[i], 4);
                         }
                         yield return new WaitForSeconds(2.0f);
                         winText.SetActive(true);
                         GameObject.FindGameObjectWithTag("Mirror").SetActive(false);
+                        GameObject[] PlayerObstacle = GameObject.FindGameObjectsWithTag("Player");
+                        for(int i=0; i<PlayerObstacle.Length; i++)
+                        {
+                            PlayerObstacle[i].SetActive(false);
+                        }
                     }
                     loopActive = false;
                 }
@@ -283,7 +279,7 @@ public class Laser : MonoBehaviour
         levelTwoFlag = true;
         yield return new WaitForSeconds(0.5f);
         instantiatedGoalEffect = Instantiate(GoalEffect, firstGoalTrans, Quaternion.identity);
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(4.0f);
         Panel.SetActive(true);
         yield return new WaitForSeconds(1.5f);
         Panel.SetActive(false);
@@ -295,7 +291,7 @@ public class Laser : MonoBehaviour
         Destroy(instantiatedGoal);
         Destroy(instantiatedGoalEffect);
 
-        var secondGoalTrans = new Vector3(FirstPersonCamera.transform.position.x, FirstPersonCamera.transform.position.y - 0.5f, FirstPersonCamera.transform.position.z - 3f);
+        var secondGoalTrans = new Vector3(FirstPersonCamera.transform.position.x, FirstPersonCamera.transform.position.y - 0.5f, FirstPersonCamera.transform.position.z + 4.5f);
         Instantiate(LevelTwoObjects[0], secondGoalTrans, Quaternion.identity);
 
         //Destroy mirrors again...
