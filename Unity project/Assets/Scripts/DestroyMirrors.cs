@@ -18,6 +18,7 @@ public class DestroyMirrors : MonoBehaviour {
         {
             if (o.name != "PlayerMirror")
             {
+                Debug.Log("Destroying");
                 Destroy(o);
             }
         }

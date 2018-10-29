@@ -15,6 +15,9 @@ TagManager:
   - Goal
   - test_cube
   - UI
+  - Goal2
+  - Row1
+  - movingObstacles
   layers:
   - Default
   - TransparentFX
