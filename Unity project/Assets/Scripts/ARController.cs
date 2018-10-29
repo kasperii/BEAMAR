@@ -195,7 +195,7 @@ namespace GoogleARCore.Examples.HelloAR
             }
             if (tapCount >= 2)
             {
-                if (GameObject.FindGameObjectsWithTag("Mirror").Length < 6)
+                if (GameObject.FindGameObjectsWithTag("Mirror").Length < 5)
                 {
                     placeMirrorSound.Play();
                     Handheld.Vibrate();

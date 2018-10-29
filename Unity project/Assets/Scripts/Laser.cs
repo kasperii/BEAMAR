@@ -24,6 +24,7 @@ public class Laser : MonoBehaviour
     [SerializeField] private string SceneName;
     [SerializeField] private GameObject Panel;
     [SerializeField] private GameObject movingObject;
+    [SerializeField] private GameObject winText;
 
     [SerializeField] private string mirrorTag;
     [SerializeField] private string detectedPlaneTag;
@@ -66,6 +67,7 @@ public class Laser : MonoBehaviour
     internal Vector3 firstGoalTrans;
 
     DestroyMirrors DestroyMirrors;
+    internal bool levelTwoFlag = false;
 
     //private float instantiateTimer;
 
@@ -86,14 +88,6 @@ public class Laser : MonoBehaviour
         mLineRenderer = gameObject.GetComponent<LineRenderer>();
         //StartCoroutine(RedrawLaser());
     }
-
-    /*public void Test()
-    {
-        //'public void OnMouseClick(){ Application.LoadLevel("Here put the name of the scene"); }'
-        Debug.Log("test");
-        SceneManager.LoadScene(SceneName);
-        //StartCoroutine(PlayGoalEffect());
-    }*/
 
     // Update is called once per frame
     void Update()
@@ -122,54 +116,30 @@ public class Laser : MonoBehaviour
             }
                 
         }
-        //instantiateTimer = Time.deltaTime;
-
-
-        //Instantiate gameworld in Laser Script instead of ARController script
-        //var cameraTrans = FirstPersonCamera.transform;
 
         //THIS IS SHIT PLEASE CLOSE YOUR EYES
         GameObject ARSurfObj = GameObject.Find("ARSurfaceManager");                 // Find object ARSurfaceManager
         ARSurfaceManager surfScript = ARSurfObj.GetComponent<ARSurfaceManager>();   // Get script from manager
         bool StartFlag = surfScript.StartFlag;                                      // Fetch bool from script from manager
                                                                                     // Only show laser when we found a plane
-        if (StartFlag == true)                                                      // StartFlag true when Startbutton is pressed
+        if (StartFlag == true && levelTwoFlag == false)                                                      // StartFlag true when Startbutton is pressed
         {
             if (!GameObject.FindGameObjectWithTag("Goal"))// == null)
             {
-                //var randomVector = new Vector3(Random.Range(-2.0f, 2.0f), Random.Range(0.0f, 1.0f), Random.Range(-2.0f, 2.0f));
-                //Instantiate(Goal, randomVector, Quaternion.identity);
                 firstGoalTrans = new Vector3(FirstPersonCamera.transform.position.x + 0, FirstPersonCamera.transform.position.y - 0.5f, FirstPersonCamera.transform.position.z + 4.5f);
                 instantiatedGoal = Instantiate(Goal, firstGoalTrans, Quaternion.identity);
-                //firstGoal.add
-
-                //litGoal = Instantiate(GoalLit, firstGoalTrans, Quaternion.identity);
-                //litGoal.SetActive(false);
 
                 var laserBeamTrans = new Vector3(FirstPersonCamera.transform.position.x, FirstPersonCamera.transform.position.y + 0.0f, FirstPersonCamera.transform.position.z + 0.0f);
-                //var laserBeamTrans2 = new Vector3(FirstPersonCamera.transform.position.x, FirstPersonCamera.transform.position.y + 0.0f, FirstPersonCamera.transform.position.z + 10.0f);
-                //Instantiate(LightBeam, laserBeamTrans, Quaternion.identity);
-
-                //Sets the laser active
-                //this.transform.parent.gameObject.SetActive(true);
-                //this.gameObject.SetActive(true);
                 this.transform.parent.position = laserBeamTrans;    //Move the laser to the right position
 
                 var bigObstacleTrans = new Vector3(FirstPersonCamera.transform.position.x, FirstPersonCamera.transform.position.y - 0.25f, FirstPersonCamera.transform.position.z + 3);
                 instantiatedObstacle = Instantiate(bigObstacle, bigObstacleTrans, Quaternion.identity);
-
-                //mLineRenderer.SetPosition(0, laserBeamTrans);   //Set the start position of linerenderer
-                //mLineRenderer.SetPosition(1, laserBeamTrans2);
-
             }
         }
-
-
     }
 
     IEnumerator RedrawLaser()
     {
-        //Debug.Log("Running");
         int laserSplit = 1; //How many times it got split
         int laserReflected = 1; //How many times it got reflected
         int vertexCounter = 1; //How many line segments are there
@@ -188,9 +158,6 @@ public class Laser : MonoBehaviour
             if (Physics.Raycast(lastLaserPosition, laserDirection, out outHit, laserDistance))// && ((hit.transform.gameObject.tag == detectedPlaneTag) || (hit.transform.gameObject.tag == splitTag) || (hit.transform.gameObject.tag == mirrorTag))) // || (hit.transform.gameObject.tag == ObstacleTag)))
             {
                 Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * outHit.distance, Color.yellow);
-                //Instantiate(LaserMark, outHit.point, Quaternion.identity);
-
-                //Handheld.Vibrate();
                 laserReflected++;
                 vertexCounter += 3;
                 mLineRenderer.SetVertexCount(vertexCounter);
@@ -248,13 +215,10 @@ public class Laser : MonoBehaviour
                         GoalMat.SetVector("_EmissionColor", GoalColor * Mathf.LinearToGammaSpace(colorModifier));
 
                         yield return new WaitForSeconds(0.5f);
-                        //Instantiate(GoalEffect, firstGoalTrans, Quaternion.identity);
-                        // yield return new WaitForSeconds(0.5f);
-                        //SceneManager.LoadScene(SceneName);
                         if (ChangeLevelFlag)
                         {
                             StartCoroutine(PlayGoalEffect());
-                            GoalMat.SetVector("_EmissionColor", BaseGoalColor * Mathf.LinearToGammaSpace(colorModifier));
+                            GoalMat.SetVector("_EmissionColor", BaseGoalColor);
                             ChangeLevelFlag = false;
                         }
                         goalTimer = 0.0f;
@@ -264,7 +228,6 @@ public class Laser : MonoBehaviour
 
                 else if (outHit.transform.gameObject.tag == "Goal2")
                 {
-                    Debug.Log("Goal");
                     goalTimer += Time.deltaTime;
                     if (goalTimer >= 0.3)
                     {
@@ -278,16 +241,17 @@ public class Laser : MonoBehaviour
                         for(int i=0; i < movingObstacles.Length; i++)
                         {
                             Rigidbody gameObjectsRigidBody = movingObstacles[i].AddComponent<Rigidbody>();
+                            Destroy(movingObstacles[i], 2);
                         }
-                        //Rigidbody gameObjectsRigidBody = movingObstacles.AddComponent<Rigidbody>();
-
+                        yield return new WaitForSeconds(2.0f);
+                        winText.SetActive(true);
+                        GameObject.FindGameObjectWithTag("Mirror").SetActive(false);
                     }
                     loopActive = false;
                 }
 
                 else if (outHit.transform.gameObject.tag == ObstacleTag)
                 {
-                    //Debug.Log("Obstacle");
                     goalTimer = 0.0f;
                     loopActive = false;
                 }
@@ -314,6 +278,7 @@ public class Laser : MonoBehaviour
 
     private IEnumerator PlayGoalEffect()
     {
+        levelTwoFlag = true;
         yield return new WaitForSeconds(0.5f);
         instantiatedGoalEffect = Instantiate(GoalEffect, firstGoalTrans, Quaternion.identity);
         yield return new WaitForSeconds(3f);
@@ -321,17 +286,17 @@ public class Laser : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         Panel.SetActive(false);
 
-        instantiatedObstacle.SetActive(false);
-        instantiatedGoal.SetActive(false);
-        instantiatedGoalEffect.SetActive(false);
+        //instantiatedObstacle.SetActive(false);
+        //instantiatedGoal.SetActive(false);
+        //instantiatedGoalEffect.SetActive(false);
+        Destroy(instantiatedObstacle);
+        Destroy(instantiatedGoal);
         Destroy(instantiatedGoalEffect);
 
         var secondGoalTrans = new Vector3(FirstPersonCamera.transform.position.x, FirstPersonCamera.transform.position.y - 0.5f, FirstPersonCamera.transform.position.z - 3f);
-        for (int i = 0; i < LevelTwoObjects.Length; i++)
-        {
-            Instantiate(LevelTwoObjects[i], secondGoalTrans, Quaternion.identity);
-        }
+        Instantiate(LevelTwoObjects[0], secondGoalTrans, Quaternion.identity);
 
+        //Destroy mirrors again...
         var mirrors = GameObject.FindGameObjectsWithTag("Mirror");//!GameObject.FindGameObjectsWithName("PlayerMirror");
         foreach (GameObject o in mirrors)
         {
