@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 198049017652814152}
   - component: {fileID: 199388825987958652}
   m_Layer: 0
-  m_Name: Explode_cold
+  m_Name: LaserBurn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -125,7 +125,7 @@ GameObject:
   - component: {fileID: 64792066117983462}
   m_Layer: 0
   m_Name: LaserMark
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

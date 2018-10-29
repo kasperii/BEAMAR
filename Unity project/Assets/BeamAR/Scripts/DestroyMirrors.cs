@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class DestroyMirrors : MonoBehaviour {
 
@@ -8,17 +9,17 @@ public class DestroyMirrors : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+
 	}
-	
+
 	// Update is called once per frame
 	public void ResetBtn () {
-        var mirrors = GameObject.FindGameObjectsWithTag(MirrorTag);//!GameObject.FindGameObjectsWithName("PlayerMirror");
+        var mirrors = GameObject.FindGameObjectsWithTag(MirrorTag);
         foreach (GameObject o in mirrors)
         {
             if (o.name != "PlayerMirror")
             {
-                Destroy(o);
+                PhotonNetwork.Destroy(o);
             }
         }
     }

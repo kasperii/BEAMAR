@@ -197,7 +197,8 @@ namespace GoogleARCore.Examples.CloudAnchors
             }
 
             m_CurrentMode = ApplicationMode.Hosting;
-            m_CurrentRoom = Random.Range(1, 9999);
+            // m_CurrentRoom = Random.Range(1, 9999);
+            m_CurrentRoom = 1337;
             UIController.SetRoomTextValue(m_CurrentRoom);
             UIController.ShowHostingModeBegin();
         }
@@ -224,7 +225,8 @@ namespace GoogleARCore.Examples.CloudAnchors
         /// </summary>
         public void OnResolveRoomClick()
         {
-            var roomToResolve = UIController.GetRoomInputValue();
+            // var roomToResolve = UIController.GetRoomInputValue();
+            var roomToResolve = 1337;
             if (roomToResolve == 0)
             {
                 UIController.ShowResolvingModeBegin("Anchor resolve failed due to invalid room code.");

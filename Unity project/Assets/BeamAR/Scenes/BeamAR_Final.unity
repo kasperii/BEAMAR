@@ -816,7 +816,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &408503498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -890,7 +890,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 50, y: 200}
+  m_AnchoredPosition: {x: 50, y: 144.1}
   m_SizeDelta: {x: 700, y: 100}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!1 &418585493
@@ -1451,7 +1451,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 50, y: -100}
+  m_AnchoredPosition: {x: 50, y: 53.1}
   m_SizeDelta: {x: 750, y: 150}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &598858579
@@ -1737,7 +1737,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 653, y: 434}
-  m_SizeDelta: {x: 900, y: 800}
+  m_SizeDelta: {x: 900, y: 559.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &658625922
 MonoBehaviour:
@@ -2161,7 +2161,7 @@ MonoBehaviour:
   placeMirrorSound: {fileID: 942472893}
   UIController: {fileID: 1988339050}
   maxMirrors: 3
-  transformOffset: 0.5
+  transformOffset: 0
 --- !u!82 &942472893
 AudioSource:
   m_ObjectHideFlags: 0
@@ -7506,7 +7506,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -200, y: 100}
+  m_AnchoredPosition: {x: -200, y: 116.2}
   m_SizeDelta: {x: 300, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1360878743
@@ -7612,7 +7612,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1385050021
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9079,7 +9079,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4062186227437498, guid: 0af01822d6e433142bbbc9dd452d1d71, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4062186227437498, guid: 0af01822d6e433142bbbc9dd452d1d71, type: 2}
       propertyPath: m_LocalRotation.x
@@ -9142,6 +9142,11 @@ Prefab:
         type: 2}
       propertyPath: InstantiationId
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114871337983855418, guid: 0af01822d6e433142bbbc9dd452d1d71,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
@@ -9270,7 +9275,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 50, y: 300}
+  m_AnchoredPosition: {x: 50, y: 188.4}
   m_SizeDelta: {x: 600, y: 100}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &2135428601
