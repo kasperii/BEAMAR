@@ -130,7 +130,9 @@ public class Laser : MonoBehaviour
                 instantiatedGoal = Instantiate(Goal, firstGoalTrans, Quaternion.identity);
 
                 var laserBeamTrans = new Vector3(FirstPersonCamera.transform.position.x, FirstPersonCamera.transform.position.y + 0.0f, FirstPersonCamera.transform.position.z + 0.0f);
-                this.transform.parent.position = laserBeamTrans;    //Move the laser to the right position
+                transform.parent.position = transform.localPosition;//laserBeamTrans;    //Move the laser to the right position
+                //transform.localPosition = laserBeamTrans;
+                transform.position = transform.localPosition;
 
                 var bigObstacleTrans = new Vector3(FirstPersonCamera.transform.position.x, FirstPersonCamera.transform.position.y - 0.25f, FirstPersonCamera.transform.position.z + 3);
                 instantiatedObstacle = Instantiate(bigObstacle, bigObstacleTrans, Quaternion.identity);
@@ -149,7 +151,7 @@ public class Laser : MonoBehaviour
         Vector3 lastLaserPosition = transform.localPosition; //origin of the next laser
 
         mLineRenderer.SetVertexCount(1);
-        mLineRenderer.SetPosition(0, transform.position);
+        mLineRenderer.SetPosition(0, transform.localPosition);
         RaycastHit outHit;
 
         while (loopActive)
