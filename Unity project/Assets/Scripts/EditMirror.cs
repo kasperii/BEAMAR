@@ -7,6 +7,7 @@ using UnityEngine;
  * EditMirror sends a raycast from the GameObject Crosshair, if the outHit of the ray hits an object
  * with tag "Mirror", Activate an outline of the mirror, and make it a child of the camera object.
  * This results in the mirror moving and rotating with the camera. 
+ * This script is buggy and the raycast does not always work as expected.
  * */
 public class EditMirror : MonoBehaviour
 {

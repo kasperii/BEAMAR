@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/**
+ * Counts how many mirrors are placed and updates the UI text.
+ * */
 public class MirrorCounter : MonoBehaviour {
     [SerializeField] private string MirrorTag;
     [SerializeField] private Text countText;

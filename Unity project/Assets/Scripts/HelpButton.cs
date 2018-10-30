@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/**
+ * Handles what happens when the help button is pressed. When help panel is activated, hide all other UI as well as the player mirror. 
+ * */
 public class HelpButton : MonoBehaviour
 {
 
