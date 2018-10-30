@@ -367,7 +367,6 @@ GameObject:
   - component: {fileID: 175115667}
   - component: {fileID: 175115666}
   - component: {fileID: 175115669}
-  - component: {fileID: 175115670}
   m_Layer: 0
   m_Name: First Person Camera
   m_TagString: MainCamera
@@ -440,18 +439,6 @@ MonoBehaviour:
   blurIterations: 4
   glowIntensityInner: 1
   samples: 4
---- !u!114 &175115670
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 175115665}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff26db721962cdf4a8edcdfa9a767d2a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  profile: {fileID: 11400000, guid: 132c68aa5f3c69845a47914661ad32f4, type: 2}
 --- !u!1 &256914133
 GameObject:
   m_ObjectHideFlags: 0
@@ -1438,7 +1425,6 @@ GameObject:
   - component: {fileID: 627916105}
   - component: {fileID: 627916110}
   - component: {fileID: 627916111}
-  - component: {fileID: 627916112}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -1586,8 +1572,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerMirror: {fileID: 127081964}
   Crosshair: {fileID: 676280338}
-  PlayerMirrorRend: {fileID: 926768535}
-  CrosshairRend: {fileID: 676280341}
   EditBtnSprite: {fileID: 21300000, guid: bf50c9c16c7b10a4da3cf46f74955b5f, type: 3}
   ExitEditBtnSprite: {fileID: 21300000, guid: 0390745abf6fdc24c833b98d5689566a, type: 3}
   ImageComponent: {fileID: 48598326}
@@ -1754,46 +1738,6 @@ MonoBehaviour:
   Line1: {fileID: 135854392}
   Cube2: {fileID: 1696746397138370, guid: 6e3b20d07995fae48b78437ca7236995, type: 2}
   LineIndex1: 0
---- !u!20 &627916112
-Camera:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 627916101}
-  m_Enabled: 1
-  serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
-  m_projectionMatrixMode: 1
-  m_SensorSize: {x: 36, y: 24}
-  m_LensShift: {x: 0, y: 0}
-  m_FocalLength: 50
-  m_NormalizedViewPortRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
-  field of view: 60
-  orthographic: 0
-  orthographic size: 5
-  m_Depth: 0
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_RenderingPath: -1
-  m_TargetTexture: {fileID: 0}
-  m_TargetDisplay: 0
-  m_TargetEye: 3
-  m_HDR: 1
-  m_AllowMSAA: 1
-  m_AllowDynamicResolution: 0
-  m_ForceIntoRT: 0
-  m_OcclusionCulling: 1
-  m_StereoConvergence: 10
-  m_StereoSeparation: 0.022
 --- !u!4 &639245643
 Transform:
   m_ObjectHideFlags: 0
@@ -2263,11 +2207,6 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
---- !u!23 &926768535 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 23917236532802104, guid: 0af01822d6e433142bbbc9dd452d1d71,
-    type: 2}
-  m_PrefabInternal: {fileID: 609911873}
 --- !u!64 &926768537
 MeshCollider:
   m_ObjectHideFlags: 0
