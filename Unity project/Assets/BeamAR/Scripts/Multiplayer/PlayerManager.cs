@@ -18,6 +18,8 @@ namespace Scripts.Multiplayer
 		private AudioSource placeMirrorSound;
 		[SerializeField]
 		private UIController UIController;
+		[SerializeField]
+		private SoundController soundControllerScript;
 		// Max amount of mirrors to place
 		[SerializeField]
 		private int maxMirrors = 3;
@@ -73,6 +75,7 @@ namespace Scripts.Multiplayer
 				var mirror = PhotonNetwork.Instantiate(m_mirrorPrefab.name,
 																							gameObject.transform.position + gameObject.transform.forward * transformOffset,
 																							gameObject.transform.rotation);
+				soundControllerScript.doTheCode();
 				// Anchor the mirror with the cloud anchor object (plane)
 				mirror.transform.parent = m_cloudAnchor.transform;
 

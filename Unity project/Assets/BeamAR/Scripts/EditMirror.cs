@@ -4,40 +4,17 @@ using UnityEngine;
 
 public class EditMirror : MonoBehaviour
 {
-    [SerializeField] private int RaycastDist = 10;
-    [SerializeField] private GameObject playerCamera;
-    private GameObject hitMirror;
+    [SerializeField] private int RaycastDist = 10;  //How far the raycast is drawn
+    [SerializeField] private GameObject playerCamera; //defined to use as parent of edited mirror
 
-    private GameObject GameObjectWithOutlineScript;
-    public Outline outline;
-
-    /* [SerializeField] private Shader Standard;
-     [SerializeField] private Shader Outline;
-     [SerializeField] private Renderer rend;
-     */
-
-    private bool touchFlag = false;
-    void Start()
-    {
-       
-        // rend = GetComponent<Renderer>();
-        //Standard = Shader.Find("Standard");
-        //Outline = Shader.Find("Custom/Outline");
-
-
-
-    }
+    private GameObject hitMirror; //Mirror that is edited, define to save in a variable
+    private bool touchFlag = false; // If the player is touching the screen
 
     // Update is called once per frame
     void Update()
     {
-
-        bool loopActive = true; //Is the reflecting loop active?
-
-        //Vector3 laserDirection = transform.forward; //direction of the next laser
-        //Vector3 lastLaserPosition = transform.localPosition; //origin of the next laser
+        bool loopActive = true; // Is the raycast loop active
         Ray ForwardRay = new Ray(transform.position, Vector3.forward); //this.transform.forward
-       
 
         RaycastHit outHit;
 
@@ -45,52 +22,45 @@ public class EditMirror : MonoBehaviour
         {
             if(Physics.Raycast(ForwardRay, out outHit, RaycastDist))
             {
-                Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * outHit.distance, Color.red);
-
-                if (outHit.transform.tag == "Mirror")
+                if (outHit.transform.tag == "Mirror")           // Only edit mirror objects
                 {
-                    hitMirror = outHit.transform.gameObject;
+                    hitMirror = outHit.transform.gameObject;    // Save the raycasted object to variable
 
                     if (Input.touchCount > 0)
                     {
                         Touch touch = Input.GetTouch(0);
 
-                        if (touch.phase == TouchPhase.Began)
+                        if (touch.phase == TouchPhase.Began)        // If touching
                         {
                             touchFlag = true;
                         }
-                        else if (touch.phase == TouchPhase.Ended)
+                        else if (touch.phase == TouchPhase.Ended)   // If not touching
                         {
                             touchFlag = false;
                         }
                     }
 
-                    if (touchFlag)
+                    if (touchFlag)    // When touching screen, enable outline, vibrate phone, make hitMirror child of camera to move it
                     {
-                        outHit.collider.gameObject.GetComponent<Outline>().enabled = true;
                         Handheld.Vibrate();
-
+                        outHit.collider.gameObject.GetComponent<Outline>().enabled = true;
                         hitMirror.transform.parent = playerCamera.transform;
-                        //touchFlag = false;
                         loopActive = false;
                     }
 
-                    else if (!touchFlag)
+                    else if (!touchFlag)    //Stop moving hitMirror when not touching the screen, remove outline
                     {
                         outHit.collider.gameObject.GetComponent<Outline>().enabled = false;
                         hitMirror.transform.parent = null;
-                        loopActive = false;   
+                        loopActive = false;
                     }
                 }
-                else
+                else      //Needed?
                 {
-                    outHit.collider.gameObject.GetComponent<Outline>().enabled = false;
-                    //hitMirror.transform.parent = null;
                     loopActive = false;
                 }
             }
-            else
-            {
+            else {      //If the raycast doesn't hit
                 touchFlag = false;
                 loopActive = false;
             }

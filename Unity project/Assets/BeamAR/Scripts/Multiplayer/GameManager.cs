@@ -54,7 +54,7 @@ namespace Scripts.Multiplayer
 				UIController.ButtonToGameView();
 
 				var level = Instantiate(level1,
-																m_cloudAnchor.transform.position + new Vector3(0,offSetFromAnchorInY,0),
+																m_cloudAnchor.transform.position + new Vector3(0,offSetFromAnchorInY,1),
 																m_cloudAnchor.transform.rotation);
 				// Anchor the level objects to the cloud anchor
 				level.transform.parent = m_cloudAnchor.transform;
