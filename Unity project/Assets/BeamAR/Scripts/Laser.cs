@@ -62,8 +62,6 @@ public class Laser : MonoBehaviour
     private float colorModifier = -5f;
     internal Vector3 firstGoalTrans;
 
-    DestroyMirrors DestroyMirrors;
-
 
     // Use this for initialization
     void Start()

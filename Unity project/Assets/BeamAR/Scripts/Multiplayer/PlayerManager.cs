@@ -20,6 +20,8 @@ namespace Scripts.Multiplayer
 		private UIController UIController;
 		[SerializeField]
 		private SoundController soundControllerScript;
+		[SerializeField]
+		private MirrorController mirrorController;
 		// Max amount of mirrors to place
 		[SerializeField]
 		private int maxMirrors = 3;
@@ -78,6 +80,7 @@ namespace Scripts.Multiplayer
 				soundControllerScript.doTheCode();
 				// Anchor the mirror with the cloud anchor object (plane)
 				mirror.transform.parent = m_cloudAnchor.transform;
+				mirrorController.addMirror();
 
 				//Reset
 				doubleTapTimer = 0.0f;

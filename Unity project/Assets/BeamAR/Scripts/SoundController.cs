@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SoundController : MonoBehaviour {
 
-	private Camera FirstPersonCamera;
+	public Camera FirstPersonCamera;
 	public LineRenderer Line1;
 	public GameObject Cube2;
 
@@ -17,7 +17,7 @@ public class SoundController : MonoBehaviour {
 	void Start () {
 		lastPositionCount = Line1.positionCount;
 		//FirstPersonCamera = gameObject.GetComponent<Camera>();
-		FirstPersonCamera = GameObject.Find("First Person Camera").GetComponent<Camera>();
+		//FirstPersonCamera = GameObject.Find("First Person Camera").GetComponent<Camera>();
 	}
 	// Update is called once per frame
 	void Update () {
@@ -31,7 +31,7 @@ public class SoundController : MonoBehaviour {
 
     public void doTheCode()
         {
-            
+
                 //Handheld.Vibrate();
                 //Debug.Log("index: " + Line1.positionCount + " last index: " + lastPositionCount);
                 LineIndex = new Vector3[Line1.positionCount]; //size of array depending on amount of indexes in line renderer

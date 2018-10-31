@@ -273,7 +273,6 @@ GameObject:
   - component: {fileID: 221867284}
   - component: {fileID: 221867283}
   - component: {fileID: 221867285}
-  - component: {fileID: 221867286}
   - component: {fileID: 221867287}
   - component: {fileID: 221867288}
   - component: {fileID: 221867289}
@@ -321,23 +320,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 221867282}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95ce9ff8207cbf748b5d846e67da565f, type: 3}
+  m_Script: {fileID: 11500000, guid: 059d911ef8842d348ae182297db7c56d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   MirrorTag: Mirror
---- !u!114 &221867286
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 221867282}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f3e87aeae3eca54eb5e78ba6992a3ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MirrorTag: Mirror
+  maxMirrors: 3
   countText: {fileID: 2056075440}
+  playerManager: {fileID: 942472892}
 --- !u!114 &221867287
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -349,6 +338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12768ff4f820c8846aa51636b24efea2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FirstPersonCamera: {fileID: 942472897}
   Line1: {fileID: 2012603320}
   Cube2: {fileID: 1061176349405812, guid: a310324e31ac5664995bb3effac60b27, type: 2}
 --- !u!114 &221867288
@@ -2229,6 +2219,7 @@ MonoBehaviour:
   placeMirrorSound: {fileID: 942472893}
   UIController: {fileID: 1988339050}
   soundControllerScript: {fileID: 221867287}
+  mirrorController: {fileID: 221867285}
   maxMirrors: 3
   transformOffset: 0
 --- !u!82 &942472893
@@ -9700,11 +9691,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1286138118383612, guid: 0af01822d6e433142bbbc9dd452d1d71, type: 2}
       propertyPath: m_TagString
-      value: Player
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 1740354269200126, guid: 0af01822d6e433142bbbc9dd452d1d71, type: 2}
       propertyPath: m_TagString
-      value: Player
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 1902173444661762, guid: 0af01822d6e433142bbbc9dd452d1d71, type: 2}
       propertyPath: m_TagString

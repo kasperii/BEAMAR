@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 114751922925489158}
   m_Layer: 0
   m_Name: Housing
-  m_TagString: Mirror
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 114085457064274994}
   m_Layer: 0
   m_Name: Gem
-  m_TagString: Mirror
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
